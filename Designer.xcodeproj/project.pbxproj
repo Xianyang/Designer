@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A0A820F0EF44203BB1F82FB /* libPods-Designer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BAAD530CBD43A19AE0023F /* libPods-Designer.a */; };
 		80D157DB1A27520500DF56F5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D157DA1A27520500DF56F5 /* main.m */; };
 		80D157DE1A27520500DF56F5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D157DD1A27520500DF56F5 /* AppDelegate.m */; };
 		80D157E11A27520500DF56F5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D157E01A27520500DF56F5 /* ViewController.m */; };
@@ -14,6 +15,13 @@
 		80D157E61A27520500DF56F5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80D157E51A27520500DF56F5 /* Images.xcassets */; };
 		80D157E91A27520500DF56F5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 80D157E71A27520500DF56F5 /* LaunchScreen.xib */; };
 		80D157F51A27520500DF56F5 /* DesignerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D157F41A27520500DF56F5 /* DesignerTests.m */; };
+		80D158C21A27655100DF56F5 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D158C11A27655100DF56F5 /* RootViewController.m */; };
+		80D158C51A27656000DF56F5 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D158C41A27656000DF56F5 /* FirstViewController.m */; };
+		80D158C81A27656B00DF56F5 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D158C71A27656B00DF56F5 /* SecondViewController.m */; };
+		80D158CB1A27690500DF56F5 /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D158CA1A27690500DF56F5 /* LeftViewController.m */; };
+		80D158D01A277E5200DF56F5 /* ArticleImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D158CF1A277E5200DF56F5 /* ArticleImageCell.m */; };
+		80D158D31A2780F500DF56F5 /* GetArticleData.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D158D21A2780F500DF56F5 /* GetArticleData.m */; };
+		80D158DB1A27844800DF56F5 /* ArticleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D158DA1A27844800DF56F5 /* ArticleModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +48,22 @@
 		80D157EE1A27520500DF56F5 /* DesignerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		80D157F31A27520500DF56F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80D157F41A27520500DF56F5 /* DesignerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DesignerTests.m; sourceTree = "<group>"; };
+		80D158C01A27655100DF56F5 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = Controllers/RootViewController.h; sourceTree = "<group>"; };
+		80D158C11A27655100DF56F5 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = Controllers/RootViewController.m; sourceTree = "<group>"; };
+		80D158C31A27656000DF56F5 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirstViewController.h; path = Controllers/FirstViewController.h; sourceTree = "<group>"; };
+		80D158C41A27656000DF56F5 /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FirstViewController.m; path = Controllers/FirstViewController.m; sourceTree = "<group>"; };
+		80D158C61A27656B00DF56F5 /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SecondViewController.h; path = Controllers/SecondViewController.h; sourceTree = "<group>"; };
+		80D158C71A27656B00DF56F5 /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SecondViewController.m; path = Controllers/SecondViewController.m; sourceTree = "<group>"; };
+		80D158C91A27690500DF56F5 /* LeftViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LeftViewController.h; path = Controllers/LeftViewController.h; sourceTree = "<group>"; };
+		80D158CA1A27690500DF56F5 /* LeftViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LeftViewController.m; path = Controllers/LeftViewController.m; sourceTree = "<group>"; };
+		80D158CE1A277E5200DF56F5 /* ArticleImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArticleImageCell.h; path = Common/ArticleImageCell.h; sourceTree = "<group>"; };
+		80D158CF1A277E5200DF56F5 /* ArticleImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArticleImageCell.m; path = Common/ArticleImageCell.m; sourceTree = "<group>"; };
+		80D158D11A2780F500DF56F5 /* GetArticleData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetArticleData.h; sourceTree = "<group>"; };
+		80D158D21A2780F500DF56F5 /* GetArticleData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetArticleData.m; sourceTree = "<group>"; };
+		80D158D91A27844800DF56F5 /* ArticleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArticleModel.h; path = Model/ArticleModel.h; sourceTree = "<group>"; };
+		80D158DA1A27844800DF56F5 /* ArticleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArticleModel.m; path = Model/ArticleModel.m; sourceTree = "<group>"; };
+		ADEFFE5ED59049088FF33ABE /* Pods-Designer.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Designer.xcconfig"; path = "Pods/Pods-Designer.xcconfig"; sourceTree = "<group>"; };
+		D0BAAD530CBD43A19AE0023F /* libPods-Designer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Designer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A0A820F0EF44203BB1F82FB /* libPods-Designer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,12 +85,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		59F7081AE7844EA0B8DF2D03 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D0BAAD530CBD43A19AE0023F /* libPods-Designer.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		80D157CC1A27520500DF56F5 = {
 			isa = PBXGroup;
 			children = (
 				80D157D71A27520500DF56F5 /* Designer */,
 				80D157F11A27520500DF56F5 /* DesignerTests */,
 				80D157D61A27520500DF56F5 /* Products */,
+				ADEFFE5ED59049088FF33ABE /* Pods-Designer.xcconfig */,
+				59F7081AE7844EA0B8DF2D03 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,6 +120,9 @@
 				80D157DD1A27520500DF56F5 /* AppDelegate.m */,
 				80D157DF1A27520500DF56F5 /* ViewController.h */,
 				80D157E01A27520500DF56F5 /* ViewController.m */,
+				80D158D81A27839600DF56F5 /* Model */,
+				80D158CD1A276B3900DF56F5 /* Controllers */,
+				80D158D41A27810600DF56F5 /* Data */,
 				80D157E21A27520500DF56F5 /* Main.storyboard */,
 				80D157E51A27520500DF56F5 /* Images.xcassets */,
 				80D157E71A27520500DF56F5 /* LaunchScreen.xib */,
@@ -119,6 +157,41 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		80D158CD1A276B3900DF56F5 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				80D158C01A27655100DF56F5 /* RootViewController.h */,
+				80D158C11A27655100DF56F5 /* RootViewController.m */,
+				80D158C31A27656000DF56F5 /* FirstViewController.h */,
+				80D158C41A27656000DF56F5 /* FirstViewController.m */,
+				80D158C61A27656B00DF56F5 /* SecondViewController.h */,
+				80D158C71A27656B00DF56F5 /* SecondViewController.m */,
+				80D158C91A27690500DF56F5 /* LeftViewController.h */,
+				80D158CA1A27690500DF56F5 /* LeftViewController.m */,
+				80D158CE1A277E5200DF56F5 /* ArticleImageCell.h */,
+				80D158CF1A277E5200DF56F5 /* ArticleImageCell.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		80D158D41A27810600DF56F5 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				80D158D11A2780F500DF56F5 /* GetArticleData.h */,
+				80D158D21A2780F500DF56F5 /* GetArticleData.m */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		80D158D81A27839600DF56F5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				80D158D91A27844800DF56F5 /* ArticleModel.h */,
+				80D158DA1A27844800DF56F5 /* ArticleModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,9 +199,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 80D157F81A27520500DF56F5 /* Build configuration list for PBXNativeTarget "Designer" */;
 			buildPhases = (
+				B9FC55AA10A84C98B603D204 /* Check Pods Manifest.lock */,
 				80D157D11A27520500DF56F5 /* Sources */,
 				80D157D21A27520500DF56F5 /* Frameworks */,
 				80D157D31A27520500DF56F5 /* Resources */,
+				5E50A79D94384E6292490C3A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -214,13 +289,53 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5E50A79D94384E6292490C3A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-Designer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B9FC55AA10A84C98B603D204 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		80D157D11A27520500DF56F5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80D158D31A2780F500DF56F5 /* GetArticleData.m in Sources */,
+				80D158C81A27656B00DF56F5 /* SecondViewController.m in Sources */,
 				80D157E11A27520500DF56F5 /* ViewController.m in Sources */,
 				80D157DE1A27520500DF56F5 /* AppDelegate.m in Sources */,
+				80D158C51A27656000DF56F5 /* FirstViewController.m in Sources */,
+				80D158D01A277E5200DF56F5 /* ArticleImageCell.m in Sources */,
+				80D158DB1A27844800DF56F5 /* ArticleModel.m in Sources */,
+				80D158CB1A27690500DF56F5 /* LeftViewController.m in Sources */,
+				80D158C21A27655100DF56F5 /* RootViewController.m in Sources */,
 				80D157DB1A27520500DF56F5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,7 +412,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -332,7 +447,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -341,6 +456,7 @@
 		};
 		80D157F91A27520500DF56F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ADEFFE5ED59049088FF33ABE /* Pods-Designer.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Designer/Info.plist;
@@ -351,6 +467,7 @@
 		};
 		80D157FA1A27520500DF56F5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ADEFFE5ED59049088FF33ABE /* Pods-Designer.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Designer/Info.plist;
@@ -412,6 +529,7 @@
 				80D157FA1A27520500DF56F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		80D157FB1A27520500DF56F5 /* Build configuration list for PBXNativeTarget "DesignerTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +538,7 @@
 				80D157FD1A27520500DF56F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

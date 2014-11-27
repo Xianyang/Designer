@@ -7,16 +7,33 @@
 //
 
 #import "AppDelegate.h"
+#import <RESideMenu/RESideMenu.h>
+#import "FirstViewController.h"
+#import "SecondViewController.h"
+
+#define IS_WIDESCREEN ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 
 @interface AppDelegate ()
 
 @end
 
-@implementation AppDelegate
+@implementation AppDelegate {
+    NSMutableArray *_addedItems;
+    NSMutableArray *_menuItems;
+}
+
++ (NSInteger)OSVersion
+{
+    static NSUInteger _deviceSystemMajorVersion = -1;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _deviceSystemMajorVersion = [[[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."] objectAtIndex:0] intValue];
+    });
+    return _deviceSystemMajorVersion;
+}
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
     return YES;
 }
 
