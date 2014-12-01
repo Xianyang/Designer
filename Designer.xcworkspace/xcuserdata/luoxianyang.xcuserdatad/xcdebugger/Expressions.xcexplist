@@ -51,6 +51,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "-[SecondViewController setViewWithArticleDic:]:SecondViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.allArticle">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "-[CommentViewController reloadCommentData:]:CommentViewController.m">
       </ContextState>
       <ContextState

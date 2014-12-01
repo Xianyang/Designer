@@ -27,6 +27,9 @@
 		80D158D01A277E5200DF56F5 /* ArticleImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D158CF1A277E5200DF56F5 /* ArticleImageCell.m */; };
 		80D158D31A2780F500DF56F5 /* GetArticleData.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D158D21A2780F500DF56F5 /* GetArticleData.m */; };
 		80D158DB1A27844800DF56F5 /* ArticleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D158DA1A27844800DF56F5 /* ArticleModel.m */; };
+		80ED9FF41A2CC372000BD990 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80ED9FF31A2CC372000BD990 /* ThirdViewController.m */; };
+		80ED9FFA1A2CC38D000BD990 /* FifthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80ED9FF91A2CC38D000BD990 /* FifthViewController.m */; };
+		80EDA0001A2CC481000BD990 /* FourthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80ED9FFF1A2CC481000BD990 /* FourthViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +80,12 @@
 		80D158D21A2780F500DF56F5 /* GetArticleData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetArticleData.m; sourceTree = "<group>"; };
 		80D158D91A27844800DF56F5 /* ArticleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArticleModel.h; path = Model/ArticleModel.h; sourceTree = "<group>"; };
 		80D158DA1A27844800DF56F5 /* ArticleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArticleModel.m; path = Model/ArticleModel.m; sourceTree = "<group>"; };
+		80ED9FF21A2CC372000BD990 /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThirdViewController.h; path = Controllers/ThirdViewController.h; sourceTree = "<group>"; };
+		80ED9FF31A2CC372000BD990 /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ThirdViewController.m; path = Controllers/ThirdViewController.m; sourceTree = "<group>"; };
+		80ED9FF81A2CC38D000BD990 /* FifthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FifthViewController.h; path = Controllers/FifthViewController.h; sourceTree = "<group>"; };
+		80ED9FF91A2CC38D000BD990 /* FifthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FifthViewController.m; path = Controllers/FifthViewController.m; sourceTree = "<group>"; };
+		80ED9FFE1A2CC481000BD990 /* FourthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FourthViewController.h; path = Controllers/FourthViewController.h; sourceTree = "<group>"; };
+		80ED9FFF1A2CC481000BD990 /* FourthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FourthViewController.m; path = Controllers/FourthViewController.m; sourceTree = "<group>"; };
 		ADEFFE5ED59049088FF33ABE /* Pods-Designer.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Designer.xcconfig"; path = "Pods/Pods-Designer.xcconfig"; sourceTree = "<group>"; };
 		D0BAAD530CBD43A19AE0023F /* libPods-Designer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Designer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -108,7 +117,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		8086B8961A2CF9F000266A01 /* FirstTab */ = {
+		8086B8961A2CF9F000266A01 /* Tab1 */ = {
 			isa = PBXGroup;
 			children = (
 				80D158C31A27656000DF56F5 /* FirstViewController.h */,
@@ -120,16 +129,16 @@
 				8086B89C1A2CFD3600266A01 /* WriteCommentViewController.h */,
 				8086B89D1A2CFD3600266A01 /* WriteCommentViewController.m */,
 			);
-			name = FirstTab;
+			name = Tab1;
 			sourceTree = "<group>";
 		};
-		8086B8971A2CF9FC00266A01 /* SecondTab */ = {
+		8086B8971A2CF9FC00266A01 /* Tab2 */ = {
 			isa = PBXGroup;
 			children = (
 				80D158C61A27656B00DF56F5 /* SecondViewController.h */,
 				80D158C71A27656B00DF56F5 /* SecondViewController.m */,
 			);
-			name = SecondTab;
+			name = Tab2;
 			sourceTree = "<group>";
 		};
 		8086B8981A2CFA0600266A01 /* Cell */ = {
@@ -214,9 +223,12 @@
 				80D158C11A27655100DF56F5 /* RootViewController.m */,
 				80D158C91A27690500DF56F5 /* LeftViewController.h */,
 				80D158CA1A27690500DF56F5 /* LeftViewController.m */,
-				8086B8961A2CF9F000266A01 /* FirstTab */,
+				8086B8961A2CF9F000266A01 /* Tab1 */,
 				8086B8981A2CFA0600266A01 /* Cell */,
-				8086B8971A2CF9FC00266A01 /* SecondTab */,
+				8086B8971A2CF9FC00266A01 /* Tab2 */,
+				80ED9FFB1A2CC3AA000BD990 /* Tab3 */,
+				80ED9FFC1A2CC3B0000BD990 /* Tab4 */,
+				80ED9FFD1A2CC3B6000BD990 /* Tab5 */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -239,6 +251,33 @@
 				8086B89A1A2CFD3600266A01 /* CommentModel.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		80ED9FFB1A2CC3AA000BD990 /* Tab3 */ = {
+			isa = PBXGroup;
+			children = (
+				80ED9FF21A2CC372000BD990 /* ThirdViewController.h */,
+				80ED9FF31A2CC372000BD990 /* ThirdViewController.m */,
+			);
+			name = Tab3;
+			sourceTree = "<group>";
+		};
+		80ED9FFC1A2CC3B0000BD990 /* Tab4 */ = {
+			isa = PBXGroup;
+			children = (
+				80ED9FFE1A2CC481000BD990 /* FourthViewController.h */,
+				80ED9FFF1A2CC481000BD990 /* FourthViewController.m */,
+			);
+			name = Tab4;
+			sourceTree = "<group>";
+		};
+		80ED9FFD1A2CC3B6000BD990 /* Tab5 */ = {
+			isa = PBXGroup;
+			children = (
+				80ED9FF81A2CC38D000BD990 /* FifthViewController.h */,
+				80ED9FF91A2CC38D000BD990 /* FifthViewController.m */,
+			);
+			name = Tab5;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -376,16 +415,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80ED9FFA1A2CC38D000BD990 /* FifthViewController.m in Sources */,
 				8086B89E1A2CFD3600266A01 /* WriteCommentViewController.m in Sources */,
 				8086B8921A2CF9CC00266A01 /* CommentViewController.m in Sources */,
 				8086B8951A2CF9E000266A01 /* CommentCell.m in Sources */,
 				80D158D31A2780F500DF56F5 /* GetArticleData.m in Sources */,
 				80D158C81A27656B00DF56F5 /* SecondViewController.m in Sources */,
+				80EDA0001A2CC481000BD990 /* FourthViewController.m in Sources */,
 				80D157E11A27520500DF56F5 /* ViewController.m in Sources */,
 				80D157DE1A27520500DF56F5 /* AppDelegate.m in Sources */,
 				8086B88F1A2CEF6700266A01 /* ArticleDetailViewController.m in Sources */,
 				80D158C51A27656000DF56F5 /* FirstViewController.m in Sources */,
 				80D158D01A277E5200DF56F5 /* ArticleImageCell.m in Sources */,
+				80ED9FF41A2CC372000BD990 /* ThirdViewController.m in Sources */,
 				80D158DB1A27844800DF56F5 /* ArticleModel.m in Sources */,
 				80D158CB1A27690500DF56F5 /* LeftViewController.m in Sources */,
 				80D158C21A27655100DF56F5 /* RootViewController.m in Sources */,
