@@ -10,19 +10,30 @@
 #import "ArticleImageCell.h"
 #import "GetArticleData.h"
 #import "ArticleModel.h"
+#import "ArticleDetailViewController.h"
 #import <AFNetworking/UIKit+AFNetworking.h>
 
-@interface FirstViewController () <UITableViewDataSource, UITableViewDelegate>
+#define DEVICE_FRAME [UIScreen mainScreen].bounds.size
+
+@interface FirstViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 {
+    NSUInteger _kNameOfPages;
     NSUInteger _tableViewCellCount;
     
     NSUInteger _loadMoreArticleCount;
     BOOL _isFinishLoadAllArticle;
+    
+    BOOL _pageControlUsed;
 
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIScrollView *topScrollView;
+@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+@property (weak, nonatomic) IBOutlet UIView *myNavigationView;
 @property (strong, nonatomic) GetArticleData *data;
 @property (strong, nonatomic) ArticleModel *allArticle;
+@property (strong, nonatomic) NSMutableArray *imageViews;
+@property (strong, nonatomic) NSTimer *timer;
 @end
 
 @implementation FirstViewController
@@ -34,8 +45,19 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 
     self.navigationController.navigationBarHidden = YES;
     
+    //设置右滑返回
+    self.navigationController.interactivePopGestureRecognizer.delegate =(id)self;
+    
     //开始下载数据
     [self performSelectorInBackground:@selector(startDownloadArticleData) withObject:nil];
+    
+    //计时器，循环显示焦点图
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0f
+                                                  target:self
+                                                selector:@selector(scrollToNextPage:)
+                                                userInfo:nil
+                                                 repeats:YES];
+    [self.timer setFireDate:[NSDate distantFuture]];
 }
 
 #pragma mark - 下载数据
@@ -62,6 +84,24 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 
 - (void)setViewWithArticleDic:(NSDictionary *)dic
 {
+    //1.解析出top3文章的图片url数组
+    [self.allArticle.topImageViewIDsArray removeAllObjects];
+    [self.allArticle.topImageViewTitlesArray removeAllObjects];
+    [self.allArticle.topImageViewUrlsArray removeAllObjects];
+    id array = [dic objectForKey:@"top3"];
+    if ([array isKindOfClass:[NSArray class]]) {
+        _kNameOfPages = 0;
+        for (NSDictionary *aDic in array) {
+            [self.allArticle.topImageViewUrlsArray addObject:[aDic objectForKey:@"pic"]];
+            [self.allArticle.topImageViewIDsArray addObject:[aDic objectForKey:@"id"]];
+            [self.allArticle.topImageViewTitlesArray addObject:[aDic objectForKey:@"title"]];
+            _kNameOfPages++;
+        }
+    }
+    
+    [self setTopImageView];
+    
+    //2.解析出文章数据
     [self.allArticle.imagesUrlArray removeAllObjects];
     [self.allArticle.titlesArray removeAllObjects];
     [self.allArticle.idsArray removeAllObjects];
@@ -194,19 +234,214 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     [cell.customImageView setImageWithURL:[NSURL URLWithString:self.allArticle.imagesUrlArray[indexPath.row]]];
 }
 
+#pragma mark - TopScrollView
+
+- (void)setTopImageView
+{
+    [self.imageViews removeAllObjects];
+//    [self.isScrollViewHasSubview removeAllObjects];
+    for (unsigned i = 0; i < _kNameOfPages; i++) {
+        [self.imageViews addObject:[NSNull null]];
+    }
+    
+    //set up scroll view
+    [self.topScrollView setPagingEnabled:YES];
+    [self.topScrollView setContentSize:CGSizeMake([UIScreen mainScreen].bounds.size.width * _kNameOfPages, 160.0f)];
+    [self.topScrollView setShowsHorizontalScrollIndicator:NO];
+    [self.topScrollView setShowsVerticalScrollIndicator:NO];
+    [self.topScrollView setScrollsToTop:NO];
+    [self.topScrollView setDelegate:self];
+    
+    [self.pageControl setNumberOfPages:_kNameOfPages];
+    [self.pageControl setCurrentPage:0];
+    
+    [self loadScrollViewWithPage:0];
+    [self loadScrollViewWithPage:1];
+    
+    //开启计时器，自动翻页
+    [self.timer setFireDate:[NSDate date]];
+}
+
+//自动翻页到下一页
+- (void)scrollToNextPage:(id)sender
+{
+    NSInteger pageNum = self.pageControl.currentPage;
+    CGRect frame = self.topScrollView.frame;
+    frame.size.width = [UIScreen mainScreen].bounds.size.width;
+    frame.origin.y = 0.0f;
+    frame.origin.x = frame.size.width * (pageNum + 1);
+    [self.topScrollView scrollRectToVisible:frame animated:YES];
+    pageNum++;
+    
+    if (pageNum == _kNameOfPages) {
+        frame.origin.x = 0.0f;
+    }
+    [self.topScrollView scrollRectToVisible:frame animated:YES];
+}
+
+
+//加载一个page
+- (void)loadScrollViewWithPage:(int)page
+{
+    if (page < 0) {
+        return;
+    }
+    if (page >= _kNameOfPages) {
+        return;
+    }
+    
+    //若已添加上某图片，则不在添加
+    UIImageView *imageView = [self.imageViews objectAtIndex:page];
+    
+    if ([(NSNull *)imageView isEqual:[NSNull null]]) {
+        //if ([self.topImageViewImagesArray[page] isKindOfClass:[UIImage class]]) {
+        //imageView = [[UIImageView alloc] initWithImage:self.topImageViewImagesArray[page]];
+        imageView = [[UIImageView alloc] init];
+        [imageView setImageWithURL:[NSURL URLWithString:self.allArticle.topImageViewUrlsArray[page]]];
+        
+        imageView.tag = [self.allArticle.topImageViewIDsArray[page] integerValue];
+        //            imageView.exclusiveTouch = YES;
+        imageView.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *singleFingerOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewClicked:)];
+        singleFingerOne.numberOfTouchesRequired = 1;
+        singleFingerOne.numberOfTapsRequired = 1;
+        singleFingerOne.delegate = self;
+        [imageView addGestureRecognizer:singleFingerOne];
+        
+        UIImageView *zhezhaoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 160.0f - 54.0f, DEVICE_FRAME.width, 54.0f)];
+        zhezhaoImageView.image = [UIImage imageNamed:@"zhezhao_faxian"];
+        [imageView addSubview:zhezhaoImageView];
+        
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 110.0f, DEVICE_FRAME.width, 34.0f)];
+        //                [titleLabel setAlpha:0.5f];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        NSString *title = [@"    " stringByAppendingString:self.allArticle.topImageViewTitlesArray[page]];
+        
+        titleLabel.textColor = [UIColor whiteColor];
+        titleLabel.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:18];
+        [titleLabel setText:title];
+        [imageView addSubview:titleLabel];
+        
+        
+        
+        [self.imageViews replaceObjectAtIndex:page withObject:imageView];
+        //}
+        
+    }
+    
+    if (self.topScrollView != nil) {
+        CGRect frame = self.topScrollView.frame;
+        frame.size.width = [UIScreen mainScreen].bounds.size.width;
+        frame.origin.x = frame.size.width * page;
+        frame.origin.y = 0.0f;
+        [imageView setFrame:frame];
+        [self.topScrollView addSubview:imageView];
+    }
+}
+
+//点击图片，进入文章界面
+- (void)imageViewClicked:(UITapGestureRecognizer *)recognizer
+{
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ArticleDetailViewController *articleDetailViewController = [storyBoard instantiateViewControllerWithIdentifier:@"ArticleDetailViewController"];
+    //设置文章id
+    [articleDetailViewController setArticleID:recognizer.view.tag];
+    [self.navigationController pushViewController:articleDetailViewController animated:YES];
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)sender
+{
+    if ([sender isEqual:self.topScrollView]) {
+        // We don't want a "feedback loop" between the UIPageControl and the scroll delegate in
+        // which a scroll event generated from the user hitting the page control triggers updates from
+        // the delegate method. We use a boolean to disable the delegate logic when the page control is used.
+        if (_pageControlUsed)
+        {
+            // do nothing - the scroll was initiated from the page control, not the user dragging
+            return;
+        }
+        
+        // Switch the indicator when more than 50% of the previous/next page is visible
+        CGFloat pageWidth = self.topScrollView.frame.size.width;
+        int page = floor((self.topScrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+        self.pageControl.currentPage = page;
+        
+        // load the visible page and the page on either side of it (to avoid flashes when the user starts scrolling)
+        [self loadScrollViewWithPage:page - 1];
+        [self loadScrollViewWithPage:page];
+        [self loadScrollViewWithPage:page + 1];
+        
+        // A possible optimization would be to unload the views+controllers which are no longer visible
+    } else {
+        if (sender.contentOffset.y > -20.0f && sender.contentOffset.y < 76.0f) {
+            self.myNavigationView.alpha = (sender.contentOffset.y + 20) / 96;
+        } else if (sender.contentOffset.y < -20.0f){
+            self.myNavigationView.alpha = 0.0f;
+        } else if (sender.contentOffset.y > 76.0f) {
+            self.myNavigationView.alpha = 1.0f;
+        }
+    }
+//    else {
+//        [_refreshHeaderView egoRefreshScrollViewDidScroll:sender];
+//    }
+}
+
+// At the begin of scroll dragging, reset the boolean used when scrolls originate from the UIPageControl
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if ([scrollView isEqual:self.topScrollView]) {
+        _pageControlUsed = NO;
+        [self.timer setFireDate:[NSDate distantFuture]];
+    }
+}
+
+// At the end of scroll animation, reset the boolean used when scrolls originate from the UIPageControl
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if ([scrollView isEqual:self.topScrollView]) {
+        _pageControlUsed = NO;
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if ([scrollView isEqual:self.topScrollView]) {
+        //        self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0f
+        //                                                      target:self
+        //                                                    selector:@selector(scrollToNextPage:)
+        //                                                    userInfo:nil
+        //                                                     repeats:NO];
+        [self.timer setFireDate:[[NSDate date] dateByAddingTimeInterval:5.0]];
+    }
+//    else {
+//        [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+//    }
+}
+
+- (NSMutableArray *)imageViews
+{
+    if (!_imageViews) {
+        _imageViews = [[NSMutableArray alloc] init];
+    }
+    
+    return _imageViews;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"ShowArticleDetailSegue"]) {
+        NSIndexPath *indexPath = self.tableView.indexPathForSelectedRow;
+        ArticleDetailViewController *articleDetailViewController = segue.destinationViewController;
+        
+        [articleDetailViewController setArticleID:[self.allArticle.idsArray[indexPath.row] integerValue]];
+    }
 }
-*/
 
 @end

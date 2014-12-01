@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface ArticleModel : NSObject
-
+@property (strong, nonatomic) NSMutableArray *topImageViewIDsArray;
+@property (strong, nonatomic) NSMutableArray *topImageViewTitlesArray;
+@property (strong, nonatomic) NSMutableArray *topImageViewUrlsArray;
 @property (strong, nonatomic) NSMutableArray *imagesUrlArray;
 @property (strong, nonatomic) NSMutableArray *titlesArray;
 @property (strong, nonatomic) NSMutableArray *idsArray;

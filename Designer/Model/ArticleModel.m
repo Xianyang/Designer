@@ -10,6 +10,35 @@
 
 @implementation ArticleModel
 
+
+- (NSMutableArray *)topImageViewIDsArray
+{
+    if (!_topImageViewIDsArray) {
+        _topImageViewIDsArray = [[NSMutableArray alloc] init];
+    }
+    
+    return _topImageViewIDsArray;
+}
+
+- (NSMutableArray *)topImageViewTitlesArray
+{
+    if (!_topImageViewTitlesArray) {
+        _topImageViewTitlesArray = [[NSMutableArray alloc] init];
+    }
+    
+    return _topImageViewTitlesArray;
+}
+
+- (NSMutableArray *)topImageViewUrlsArray
+{
+    if (!_topImageViewUrlsArray) {
+        _topImageViewUrlsArray = [[NSMutableArray alloc] init];
+    }
+    
+    return _topImageViewUrlsArray;
+}
+
+
 - (NSMutableArray *)imagesUrlArray
 {
     if (!_imagesUrlArray) {

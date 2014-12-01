@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		7A0A820F0EF44203BB1F82FB /* libPods-Designer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BAAD530CBD43A19AE0023F /* libPods-Designer.a */; };
+		8086B88F1A2CEF6700266A01 /* ArticleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8086B88E1A2CEF6700266A01 /* ArticleDetailViewController.m */; };
+		8086B8921A2CF9CC00266A01 /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8086B8911A2CF9CC00266A01 /* CommentViewController.m */; };
+		8086B8951A2CF9E000266A01 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8086B8941A2CF9E000266A01 /* CommentCell.m */; };
+		8086B89B1A2CFD3600266A01 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8086B89A1A2CFD3600266A01 /* CommentModel.m */; };
+		8086B89E1A2CFD3600266A01 /* WriteCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8086B89D1A2CFD3600266A01 /* WriteCommentViewController.m */; };
 		80D157DB1A27520500DF56F5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D157DA1A27520500DF56F5 /* main.m */; };
 		80D157DE1A27520500DF56F5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D157DD1A27520500DF56F5 /* AppDelegate.m */; };
 		80D157E11A27520500DF56F5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D157E01A27520500DF56F5 /* ViewController.m */; };
@@ -35,6 +40,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8086B88D1A2CEF6700266A01 /* ArticleDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArticleDetailViewController.h; path = Controllers/ArticleDetailViewController.h; sourceTree = "<group>"; };
+		8086B88E1A2CEF6700266A01 /* ArticleDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArticleDetailViewController.m; path = Controllers/ArticleDetailViewController.m; sourceTree = "<group>"; };
+		8086B8901A2CF9CC00266A01 /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentViewController.h; path = Controllers/CommentViewController.h; sourceTree = "<group>"; };
+		8086B8911A2CF9CC00266A01 /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentViewController.m; path = Controllers/CommentViewController.m; sourceTree = "<group>"; };
+		8086B8931A2CF9E000266A01 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentCell.h; path = Common/CommentCell.h; sourceTree = "<group>"; };
+		8086B8941A2CF9E000266A01 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentCell.m; path = Common/CommentCell.m; sourceTree = "<group>"; };
+		8086B8991A2CFD3600266A01 /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentModel.h; path = Model/CommentModel.h; sourceTree = "<group>"; };
+		8086B89A1A2CFD3600266A01 /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommentModel.m; path = Model/CommentModel.m; sourceTree = "<group>"; };
+		8086B89C1A2CFD3600266A01 /* WriteCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WriteCommentViewController.h; path = Controllers/WriteCommentViewController.h; sourceTree = "<group>"; };
+		8086B89D1A2CFD3600266A01 /* WriteCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WriteCommentViewController.m; path = Controllers/WriteCommentViewController.m; sourceTree = "<group>"; };
 		80D157D51A27520500DF56F5 /* Designer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Designer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80D157D91A27520500DF56F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80D157DA1A27520500DF56F5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -91,6 +106,41 @@
 				D0BAAD530CBD43A19AE0023F /* libPods-Designer.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8086B8961A2CF9F000266A01 /* FirstTab */ = {
+			isa = PBXGroup;
+			children = (
+				80D158C31A27656000DF56F5 /* FirstViewController.h */,
+				80D158C41A27656000DF56F5 /* FirstViewController.m */,
+				8086B88D1A2CEF6700266A01 /* ArticleDetailViewController.h */,
+				8086B88E1A2CEF6700266A01 /* ArticleDetailViewController.m */,
+				8086B8901A2CF9CC00266A01 /* CommentViewController.h */,
+				8086B8911A2CF9CC00266A01 /* CommentViewController.m */,
+				8086B89C1A2CFD3600266A01 /* WriteCommentViewController.h */,
+				8086B89D1A2CFD3600266A01 /* WriteCommentViewController.m */,
+			);
+			name = FirstTab;
+			sourceTree = "<group>";
+		};
+		8086B8971A2CF9FC00266A01 /* SecondTab */ = {
+			isa = PBXGroup;
+			children = (
+				80D158C61A27656B00DF56F5 /* SecondViewController.h */,
+				80D158C71A27656B00DF56F5 /* SecondViewController.m */,
+			);
+			name = SecondTab;
+			sourceTree = "<group>";
+		};
+		8086B8981A2CFA0600266A01 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8086B8931A2CF9E000266A01 /* CommentCell.h */,
+				8086B8941A2CF9E000266A01 /* CommentCell.m */,
+				80D158CE1A277E5200DF56F5 /* ArticleImageCell.h */,
+				80D158CF1A277E5200DF56F5 /* ArticleImageCell.m */,
+			);
+			name = Cell;
 			sourceTree = "<group>";
 		};
 		80D157CC1A27520500DF56F5 = {
@@ -162,14 +212,11 @@
 			children = (
 				80D158C01A27655100DF56F5 /* RootViewController.h */,
 				80D158C11A27655100DF56F5 /* RootViewController.m */,
-				80D158C31A27656000DF56F5 /* FirstViewController.h */,
-				80D158C41A27656000DF56F5 /* FirstViewController.m */,
-				80D158C61A27656B00DF56F5 /* SecondViewController.h */,
-				80D158C71A27656B00DF56F5 /* SecondViewController.m */,
 				80D158C91A27690500DF56F5 /* LeftViewController.h */,
 				80D158CA1A27690500DF56F5 /* LeftViewController.m */,
-				80D158CE1A277E5200DF56F5 /* ArticleImageCell.h */,
-				80D158CF1A277E5200DF56F5 /* ArticleImageCell.m */,
+				8086B8961A2CF9F000266A01 /* FirstTab */,
+				8086B8981A2CFA0600266A01 /* Cell */,
+				8086B8971A2CF9FC00266A01 /* SecondTab */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -188,6 +235,8 @@
 			children = (
 				80D158D91A27844800DF56F5 /* ArticleModel.h */,
 				80D158DA1A27844800DF56F5 /* ArticleModel.m */,
+				8086B8991A2CFD3600266A01 /* CommentModel.h */,
+				8086B89A1A2CFD3600266A01 /* CommentModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -327,16 +376,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8086B89E1A2CFD3600266A01 /* WriteCommentViewController.m in Sources */,
+				8086B8921A2CF9CC00266A01 /* CommentViewController.m in Sources */,
+				8086B8951A2CF9E000266A01 /* CommentCell.m in Sources */,
 				80D158D31A2780F500DF56F5 /* GetArticleData.m in Sources */,
 				80D158C81A27656B00DF56F5 /* SecondViewController.m in Sources */,
 				80D157E11A27520500DF56F5 /* ViewController.m in Sources */,
 				80D157DE1A27520500DF56F5 /* AppDelegate.m in Sources */,
+				8086B88F1A2CEF6700266A01 /* ArticleDetailViewController.m in Sources */,
 				80D158C51A27656000DF56F5 /* FirstViewController.m in Sources */,
 				80D158D01A277E5200DF56F5 /* ArticleImageCell.m in Sources */,
 				80D158DB1A27844800DF56F5 /* ArticleModel.m in Sources */,
 				80D158CB1A27690500DF56F5 /* LeftViewController.m in Sources */,
 				80D158C21A27655100DF56F5 /* RootViewController.m in Sources */,
 				80D157DB1A27520500DF56F5 /* main.m in Sources */,
+				8086B89B1A2CFD3600266A01 /* CommentModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
