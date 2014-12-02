@@ -38,6 +38,12 @@ static NSString *CommentCellIdentifier = @"CommentCell";
     [self performSelectorInBackground:@selector(loadArticleCommentData) withObject:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:YES];
+    [super viewWillAppear:animated];
+}
+
 - (void)setArticleID:(NSInteger)articleID
 {
     _articleID = articleID;

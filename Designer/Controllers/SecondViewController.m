@@ -38,7 +38,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationController.navigationBarHidden = YES;
+    self.navigationController.navigationBarHidden = NO;
     
     //设置右滑返回
     self.navigationController.interactivePopGestureRecognizer.delegate =(id)self;

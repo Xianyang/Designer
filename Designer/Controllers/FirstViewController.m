@@ -60,6 +60,12 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     [self.timer setFireDate:[NSDate distantFuture]];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = YES;
+    [super viewWillAppear:animated];
+}
+
 #pragma mark - 下载数据
 //后台下载数据
 - (void)startDownloadArticleData

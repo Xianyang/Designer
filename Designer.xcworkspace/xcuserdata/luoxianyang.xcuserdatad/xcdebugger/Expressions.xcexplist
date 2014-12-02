@@ -11,20 +11,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "-[CommentViewController setContent:atIndexPath:]:CommentViewController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.allComment">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "-[GetArticleData loadData:]:GetArticleData.m">
       </ContextState>
       <ContextState
-         contextName = "-[CommentViewController tableView:cellForRowAtIndexPath:]:CommentViewController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.allComment">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "-[ArticleDetailViewController finishLoadArticleData:]:ArticleDetailViewController.m">
       </ContextState>
       <ContextState
          contextName = "-[CommentViewController finishLoadArticleCommentData:]:CommentViewController.m">
@@ -51,6 +41,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "-[ThirdViewController setViewWithArticleDic:]:ThirdViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.allArticle">
+            </PersistentString>
+            <PersistentString
+               value = "self.tableView">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "-[SecondViewController setViewWithArticleDic:]:SecondViewController.m">
          <PersistentStrings>
             <PersistentString
@@ -59,13 +60,23 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "-[CommentViewController tableView:cellForRowAtIndexPath:]:CommentViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.allComment">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[CommentViewController setContent:atIndexPath:]:CommentViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.allComment">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "-[CommentViewController reloadCommentData:]:CommentViewController.m">
-      </ContextState>
-      <ContextState
-         contextName = "-[GetArticleData loadData:]:GetArticleData.m">
-      </ContextState>
-      <ContextState
-         contextName = "-[ArticleDetailViewController finishLoadArticleData:]:ArticleDetailViewController.m">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

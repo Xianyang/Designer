@@ -58,6 +58,18 @@
     [self performSelectorInBackground:@selector(loadArticleData) withObject:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:YES];
+    [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:NO];
+    [super viewWillDisappear:animated];
+}
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     if ([self.webView isEqual:webView]) {

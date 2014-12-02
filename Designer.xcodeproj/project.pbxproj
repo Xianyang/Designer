@@ -122,12 +122,6 @@
 			children = (
 				80D158C31A27656000DF56F5 /* FirstViewController.h */,
 				80D158C41A27656000DF56F5 /* FirstViewController.m */,
-				8086B88D1A2CEF6700266A01 /* ArticleDetailViewController.h */,
-				8086B88E1A2CEF6700266A01 /* ArticleDetailViewController.m */,
-				8086B8901A2CF9CC00266A01 /* CommentViewController.h */,
-				8086B8911A2CF9CC00266A01 /* CommentViewController.m */,
-				8086B89C1A2CFD3600266A01 /* WriteCommentViewController.h */,
-				8086B89D1A2CFD3600266A01 /* WriteCommentViewController.m */,
 			);
 			name = Tab1;
 			sourceTree = "<group>";
@@ -150,6 +144,19 @@
 				80D158CF1A277E5200DF56F5 /* ArticleImageCell.m */,
 			);
 			name = Cell;
+			sourceTree = "<group>";
+		};
+		80B4AEA31A2D628E007635D7 /* AritcleContent */ = {
+			isa = PBXGroup;
+			children = (
+				8086B88D1A2CEF6700266A01 /* ArticleDetailViewController.h */,
+				8086B88E1A2CEF6700266A01 /* ArticleDetailViewController.m */,
+				8086B8901A2CF9CC00266A01 /* CommentViewController.h */,
+				8086B8911A2CF9CC00266A01 /* CommentViewController.m */,
+				8086B89C1A2CFD3600266A01 /* WriteCommentViewController.h */,
+				8086B89D1A2CFD3600266A01 /* WriteCommentViewController.m */,
+			);
+			name = AritcleContent;
 			sourceTree = "<group>";
 		};
 		80D157CC1A27520500DF56F5 = {
@@ -223,6 +230,7 @@
 				80D158C11A27655100DF56F5 /* RootViewController.m */,
 				80D158C91A27690500DF56F5 /* LeftViewController.h */,
 				80D158CA1A27690500DF56F5 /* LeftViewController.m */,
+				80B4AEA31A2D628E007635D7 /* AritcleContent */,
 				8086B8961A2CF9F000266A01 /* Tab1 */,
 				8086B8981A2CFA0600266A01 /* Cell */,
 				8086B8971A2CF9FC00266A01 /* Tab2 */,
