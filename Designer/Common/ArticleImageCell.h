@@ -15,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *likeCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentCountLabel;
 
+- (void)setCommentAndLikeHidden;
+
 @end

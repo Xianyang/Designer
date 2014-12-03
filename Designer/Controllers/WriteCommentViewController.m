@@ -25,6 +25,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBg"]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    NSDictionary * dict=[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+    [self.navigationController.navigationBar setTitleTextAttributes:dict];
+    
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
 
     [self.writeCommentTextView becomeFirstResponder];
 }
@@ -128,9 +135,11 @@
                 if ([comment isKindOfClass:[NSString class]]) {
                     [allComment.commentContents addObject:comment];
                 }
-                id area = [aDic objectForKey:@"area"];
-                if ([area isKindOfClass:[NSString class]]) {
-                    [allComment.commentUserName addObject:area];
+                id userName = [aDic objectForKey:@"who"];
+                if ([userName isKindOfClass:[NSString class]]) {
+                    [allComment.commentUserName addObject:userName];
+                } else {
+                    [allComment.commentUserName addObject:@"设计师"];
                 }
                 id time = [aDic objectForKey:@"time"];
                 if ([time isKindOfClass:[NSString class]]) {

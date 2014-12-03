@@ -14,9 +14,9 @@
 
 @property (strong, nonatomic) NSMutableArray *imageArray;
 
-- (NSDictionary *)getArticleListOnce;
-- (NSDictionary *)getMoreArticleList:(NSInteger)loadCount;
-- (NSMutableArray *)getTopImageDataOnce:(NSMutableArray *)urlArray;
+- (NSDictionary *)getArtilcleListWithLoadNumber:(NSInteger)loadCount;
+- (NSDictionary *)getArtilcleByGroupNumber:(NSInteger)group withLoadNumber:(NSInteger)loadCount;
+- (NSDictionary *)getTopImageDataOnce;
 - (UIImage *)getImageByUrl:(NSString *)urlString;
 
 - (NSDictionary *)getArticleData:(NSInteger)articleID;

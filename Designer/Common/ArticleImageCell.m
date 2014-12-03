@@ -14,6 +14,12 @@
     // Initialization code
 }
 
+- (void)setCommentAndLikeHidden
+{
+    [self.commentCountLabel setHidden:YES];
+    [self.likeCountLabel setHidden:YES];
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

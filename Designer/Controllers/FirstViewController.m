@@ -14,6 +14,7 @@
 #import <AFNetworking/UIKit+AFNetworking.h>
 
 #define DEVICE_FRAME [UIScreen mainScreen].bounds.size
+#define TOPIMAGE_HEIGHT 213.0f
 
 @interface FirstViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 {
@@ -49,6 +50,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     self.navigationController.interactivePopGestureRecognizer.delegate =(id)self;
     
     //开始下载数据
+    [self performSelectorInBackground:@selector(startDownloadTopImage) withObject:nil];
     [self performSelectorInBackground:@selector(startDownloadArticleData) withObject:nil];
     
     //计时器，循环显示焦点图
@@ -67,6 +69,18 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 }
 
 #pragma mark - 下载数据
+- (void)startDownloadTopImage
+{
+    NSDictionary *dic = [self.data getTopImageDataOnce];
+    
+    if (dic) {
+        [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"savedTopImageData"];
+        [self performSelectorOnMainThread:@selector(setTopImageViewWithDic:) withObject:dic waitUntilDone:NO];
+    } else {
+        
+    }
+}
+
 //后台下载数据
 - (void)startDownloadArticleData
 {
@@ -74,7 +88,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 //    _reloading = YES;
     _loadMoreArticleCount = 0;
     _isFinishLoadAllArticle = NO;
-    NSDictionary *dic = [self.data getArticleListOnce];
+    NSDictionary *dic = [self.data getArtilcleListWithLoadNumber:_loadMoreArticleCount];
     
     if (dic) {
         //将得到的数据保存起来，在没有网络连接的时候可以显示数据
@@ -88,13 +102,13 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     }
 }
 
-- (void)setViewWithArticleDic:(NSDictionary *)dic
+- (void)setTopImageViewWithDic:(NSDictionary *)dic
 {
-    //1.解析出top3文章的图片url数组
     [self.allArticle.topImageViewIDsArray removeAllObjects];
     [self.allArticle.topImageViewTitlesArray removeAllObjects];
     [self.allArticle.topImageViewUrlsArray removeAllObjects];
-    id array = [dic objectForKey:@"top3"];
+    
+    id array = [dic objectForKey:@"focus_list"];
     if ([array isKindOfClass:[NSArray class]]) {
         _kNameOfPages = 0;
         for (NSDictionary *aDic in array) {
@@ -106,8 +120,11 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     }
     
     [self setTopImageView];
-    
-    //2.解析出文章数据
+}
+
+- (void)setViewWithArticleDic:(NSDictionary *)dic
+{
+    //解析出文章数据
     [self.allArticle.imagesUrlArray removeAllObjects];
     [self.allArticle.titlesArray removeAllObjects];
     [self.allArticle.idsArray removeAllObjects];
@@ -137,7 +154,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     NSLog(@"load 5 more article");
     _loadMoreArticleCount++;
     
-    NSDictionary *dic = [self.data getMoreArticleList:_loadMoreArticleCount];
+    NSDictionary *dic = [self.data getArtilcleListWithLoadNumber:_loadMoreArticleCount];
     
     NSInteger list_size = [[dic objectForKey:@"list_size"] integerValue];
     if (list_size) {
@@ -315,11 +332,11 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         singleFingerOne.delegate = self;
         [imageView addGestureRecognizer:singleFingerOne];
         
-        UIImageView *zhezhaoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 160.0f - 54.0f, DEVICE_FRAME.width, 54.0f)];
-        zhezhaoImageView.image = [UIImage imageNamed:@"zhezhao_faxian"];
+        UIImageView *zhezhaoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, DEVICE_FRAME.width, TOPIMAGE_HEIGHT)];
+        zhezhaoImageView.image = [UIImage imageNamed:@"pic_zhezhao"];
         [imageView addSubview:zhezhaoImageView];
         
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 110.0f, DEVICE_FRAME.width, 34.0f)];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT - 50.0f, DEVICE_FRAME.width, 34.0f)];
         //                [titleLabel setAlpha:0.5f];
         titleLabel.backgroundColor = [UIColor clearColor];
         NSString *title = [@"    " stringByAppendingString:self.allArticle.topImageViewTitlesArray[page]];
@@ -382,11 +399,11 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         
         // A possible optimization would be to unload the views+controllers which are no longer visible
     } else {
-        if (sender.contentOffset.y > -20.0f && sender.contentOffset.y < 76.0f) {
-            self.myNavigationView.alpha = (sender.contentOffset.y + 20) / 96;
+        if (sender.contentOffset.y > -20.0f && sender.contentOffset.y < TOPIMAGE_HEIGHT - 86.0f) {
+            self.myNavigationView.alpha = (sender.contentOffset.y + 20) / (TOPIMAGE_HEIGHT - 64.0f);
         } else if (sender.contentOffset.y < -20.0f){
             self.myNavigationView.alpha = 0.0f;
-        } else if (sender.contentOffset.y > 76.0f) {
+        } else if (sender.contentOffset.y > (TOPIMAGE_HEIGHT - 84.0f)) {
             self.myNavigationView.alpha = 1.0f;
         }
     }

@@ -107,12 +107,20 @@
         cell.selectedBackgroundView = [[UIView alloc] init];
     }
     
-    NSArray *titles = @[@"首页", @"GUI", @"网页", @"平面", @"插画"];
 //    NSArray *images = @[@"IconHome", @"IconCalendar", @"IconProfile", @"IconSettings", @"IconEmpty"];
-    cell.textLabel.text = titles[indexPath.row];
+    cell.textLabel.text = [LeftViewController titlesOfTable][indexPath.row];
 //    cell.imageView.image = [UIImage imageNamed:images[indexPath.row]];
     
     return cell;
+}
+
++ (NSArray *)titlesOfTable
+{
+    return @[@"                首  页",
+             @"                G U I",
+             @"                网  页",
+             @"                平  面",
+             @"                插  画"];
 }
 
 @end

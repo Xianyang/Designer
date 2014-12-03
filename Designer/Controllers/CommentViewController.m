@@ -88,9 +88,11 @@ static NSString *CommentCellIdentifier = @"CommentCell";
                 if ([comment isKindOfClass:[NSString class]]) {
                     [self.allComment.commentContents addObject:comment];
                 }
-                id area = [aDic objectForKey:@"area"];
-                if ([area isKindOfClass:[NSString class]]) {
-                    [self.allComment.commentUserName addObject:area];
+                id userName = [aDic objectForKey:@"who"];
+                if ([userName isKindOfClass:[NSString class]]) {
+                    [self.allComment.commentUserName addObject:userName];
+                } else {
+                    [self.allComment.commentUserName addObject:@"设机师"];
                 }
                 id time = [aDic objectForKey:@"time"];
                 if ([time isKindOfClass:[NSString class]]) {

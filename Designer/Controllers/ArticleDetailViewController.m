@@ -9,6 +9,7 @@
 #import "ArticleDetailViewController.h"
 #import "GetArticleData.h"
 #import "CommentViewController.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIKit+AFNetworking.h>
 
 #define DEVICE_FRAME [UIScreen mainScreen].bounds.size
@@ -66,6 +67,9 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
     [self.navigationController setNavigationBarHidden:NO];
     [super viewWillDisappear:animated];
 }
@@ -103,6 +107,41 @@
     _articleID = articleID;
     NSLog(@"the article id is %lu", (unsigned long)_articleID);
 }
+
+#pragma mark - 点赞
+
+- (IBAction)dianzanButtonClicked:(id)sender
+{
+    //3.向后台发数据
+    NSDictionary *dic = [self.articleData sendADianzan:_articleID];
+    if (dic) {
+        //判断点赞是否成功
+        id status = [dic objectForKey:@"status"];
+        if ([status isKindOfClass:[NSString class]]) {
+            if ([status isEqualToString:@"1"]) {
+                //点赞成功
+                //1.更换点赞图片
+                self.imageOfDianzan.image = [UIImage imageNamed:@"button_zan_click"];
+                //2.更新界面
+                NSInteger dianzanCount = [self.labelCountOfDianzan.text integerValue];
+                dianzanCount++;
+                [self.labelCountOfDianzan setText:[NSString stringWithFormat:@"%ld", (long)dianzanCount]];
+            } else {
+                //点赞失败
+                MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+                [self.view addSubview:hud];
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"您已经点过赞了哦";
+                hud.minSize = CGSizeMake(120.0f, 120.0f);
+                hud.margin = 20.0f;
+                hud.yOffset = -50.0f;
+                [hud show:YES];
+                [hud hide:YES afterDelay:2.0f];
+            }
+        }
+    }
+}
+
 
 #pragma mark 去除webView滚动顶部和底部的白边
 - (void)clearWebViewBackground:(UIWebView *)webView
@@ -271,6 +310,8 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"PushToCommentViewSegue"]) {
+        
+        
         CommentViewController *commentViewController = segue.destinationViewController;
         [commentViewController setArticleID:_articleID];
     }

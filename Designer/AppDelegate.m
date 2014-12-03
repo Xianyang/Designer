@@ -10,6 +10,10 @@
 #import <RESideMenu/RESideMenu.h>
 #import "FirstViewController.h"
 #import "SecondViewController.h"
+#import <ASIHTTPRequest/ASIFormDataRequest.h>
+#import <ASIHTTPRequest/ASIHTTPRequest.h>
+
+#import "MobClick.h"
 
 #define IS_WIDESCREEN ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 
@@ -34,7 +38,57 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //判断是否首次进入
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"firstLogin"]) {
+        NSDictionary *dic = [self getSideMenuTitles];
+        if ([dic count]) {
+            id array = [dic objectForKey:@"group_array"];
+            if ([array isKindOfClass:[NSArray class]]) {
+                [[NSUserDefaults standardUserDefaults] setObject:array forKey:@"SideMenuTitles"];
+            }
+        }
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLogin"];
+    }
+
+    [MobClick startWithAppkey:@"546b03e7fd98c5b4c1002814" reportPolicy:BATCH channelId:@""];
+    
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [MobClick setAppVersion:version];
+    
+    [MobClick setLogEnabled:YES];
+    
     return YES;
+}
+
+- (NSDictionary *)getSideMenuTitles
+{
+    //获取文章分组
+    NSURL *url = [NSURL URLWithString:@"http://121.41.35.78/news_app/index.php?r=Data/grouplist"];
+    ASIFormDataRequest *asiHttpRequest = [ASIFormDataRequest requestWithURL:url];
+    [asiHttpRequest startSynchronous];
+    
+    NSError *error = [asiHttpRequest error];
+    if (!error) {
+        NSData *data = [asiHttpRequest responseData];
+        
+        if (data) {
+            NSDictionary *dic = [[NSDictionary alloc] init];
+            
+            dic = [NSJSONSerialization JSONObjectWithData:data
+                                                  options:NSJSONReadingMutableContainers
+                                                    error:&error];
+            
+            return dic;
+        }
+        
+        NSLog(@"fail to get article data");
+        return nil;
+    } else {
+        NSLog(@"fail to get article data");
+        return nil;
+    }
+
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

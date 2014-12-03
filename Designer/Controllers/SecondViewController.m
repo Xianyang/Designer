@@ -39,6 +39,10 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     [super viewDidLoad];
     
     self.navigationController.navigationBarHidden = NO;
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBg"]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    NSDictionary * dict=[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+    [self.navigationController.navigationBar setTitleTextAttributes:dict];
     
     //设置右滑返回
     self.navigationController.interactivePopGestureRecognizer.delegate =(id)self;
@@ -55,7 +59,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     //    _reloading = YES;
     _loadMoreArticleCount = 0;
     _isFinishLoadAllArticle = NO;
-    NSDictionary *dic = [self.data getArticleListOnce];
+    NSDictionary *dic = [self.data getArtilcleByGroupNumber:2 withLoadNumber:_loadMoreArticleCount];
     
     if (dic) {
         //将得到的数据保存起来，在没有网络连接的时候可以显示数据
@@ -100,7 +104,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     NSLog(@"load 5 more article");
     _loadMoreArticleCount++;
     
-    NSDictionary *dic = [self.data getMoreArticleList:_loadMoreArticleCount];
+    NSDictionary *dic = [self.data getArtilcleByGroupNumber:2 withLoadNumber:_loadMoreArticleCount];
     
     NSInteger list_size = [[dic objectForKey:@"list_size"] integerValue];
     if (list_size) {
