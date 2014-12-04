@@ -51,7 +51,7 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLogin"];
     }
 
-    [MobClick startWithAppkey:@"546b03e7fd98c5b4c1002814" reportPolicy:BATCH channelId:@""];
+    [MobClick startWithAppkey:@"548000f4fd98c5f440000e7f" reportPolicy:BATCH channelId:@""];
     
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     [MobClick setAppVersion:version];

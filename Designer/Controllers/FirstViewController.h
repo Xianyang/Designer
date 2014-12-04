@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <RESideMenu/RESideMenu.h>
 
+@class FirstViewController;
+typedef void (^BeginUpdatingBlock)(FirstViewController *);
+
 @interface FirstViewController : UIViewController
 
 @end

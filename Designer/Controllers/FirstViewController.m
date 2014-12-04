@@ -16,6 +16,12 @@
 #define DEVICE_FRAME [UIScreen mainScreen].bounds.size
 #define TOPIMAGE_HEIGHT 213.0f
 
+#define TOP_BG_HIDE 120.0f
+#define TOP_FLAG_HIDE 55.0f
+#define RATE 2
+#define SWITCH_Y -TOP_FLAG_HIDE
+#define ORIGINAL_POINT CGPointMake(self.view.bounds.size.width/2 - 40, -20)
+
 @interface FirstViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 {
     NSUInteger _kNameOfPages;
@@ -26,6 +32,9 @@
     
     BOOL _pageControlUsed;
 
+    BOOL _isLoading;
+    CGFloat angle;
+    BOOL stopRotating;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIScrollView *topScrollView;
@@ -35,6 +44,10 @@
 @property (strong, nonatomic) ArticleModel *allArticle;
 @property (strong, nonatomic) NSMutableArray *imageViews;
 @property (strong, nonatomic) NSTimer *timer;
+
+@property (strong, nonatomic) UIImageView *refreshImgView;
+@property (strong,nonatomic) BeginUpdatingBlock beginUpdatingBlock;
+
 @end
 
 @implementation FirstViewController
@@ -60,6 +73,18 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
                                                 userInfo:nil
                                                  repeats:YES];
     [self.timer setFireDate:[NSDate distantFuture]];
+    
+    __block FirstViewController *weakSelf = self;
+    self.beginUpdatingBlock = ^(FirstViewController *viewController) {
+        [weakSelf performSelectorInBackground:@selector(startDownloadTopImage) withObject:nil];
+        [weakSelf performSelectorInBackground:@selector(startDownloadArticleData) withObject:nil];
+    };
+    
+    self.refreshImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    self.refreshImgView.center = ORIGINAL_POINT;
+    self.refreshImgView.image = [UIImage imageNamed:@"refresh"];
+    [self.view addSubview:self.refreshImgView];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -79,6 +104,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     } else {
         
     }
+    [self endUpdating];
 }
 
 //后台下载数据
@@ -100,6 +126,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         
         
     }
+    
 }
 
 - (void)setTopImageViewWithDic:(NSDictionary *)dic
@@ -176,24 +203,6 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     }
 }
 
-- (ArticleModel *)allArticle
-{
-    if (!_allArticle) {
-        _allArticle = [[ArticleModel alloc] init];
-    }
-    
-    return _allArticle;
-}
-
-- (GetArticleData *)data
-{
-    if (!_data) {
-        _data = [[GetArticleData alloc] init];
-    }
-    
-    return _data;
-}
-
 
 #pragma mark - UITableViewDelegate
 
@@ -262,7 +271,6 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 - (void)setTopImageView
 {
     [self.imageViews removeAllObjects];
-//    [self.isScrollViewHasSubview removeAllObjects];
     for (unsigned i = 0; i < _kNameOfPages; i++) {
         [self.imageViews addObject:[NSNull null]];
     }
@@ -406,10 +414,67 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         } else if (sender.contentOffset.y > (TOPIMAGE_HEIGHT - 84.0f)) {
             self.myNavigationView.alpha = 1.0f;
         }
+        
+        CGPoint contentOffset = sender.contentOffset;
+        contentOffset.y += 20.0f;
+        CGPoint point = contentOffset;
+        point.y += 20.0f;
+//        CGFloat rate = point.y/sender.contentSize.height;
+        CGFloat rate = point.y / self.view.bounds.size.height;
+        if(point.y+TOP_BG_HIDE>5){
+            //self.bgImageView.frame = CGRectMake(0, (-TOP_BG_HIDE)*(1+rate*RATE), self.bgImageView.frame.size.width, self.bgImageView.frame.size.height);
+        }
+        if(!_isLoading){
+            if(sender.dragging){
+                if(point.y+TOP_FLAG_HIDE>=0){
+                    self.refreshImgView.center = CGPointMake(self.refreshImgView.center.x,(-TOP_FLAG_HIDE)*(1+rate*RATE*7)+30);
+                }
+                self.refreshImgView.transform = CGAffineTransformMakeRotation(rate*30);
+            }else{
+                //判断位置
+                if(point.y<SWITCH_Y){//触发刷新状态
+                    [self downLoadNewData];
+                }else{
+                    self.refreshImgView.center = CGPointMake(self.refreshImgView.center.x,(-TOP_FLAG_HIDE)*(1+rate*RATE*7)+30);
+                }
+            }
+        }
     }
-//    else {
-//        [_refreshHeaderView egoRefreshScrollViewDidScroll:sender];
-//    }
+}
+
+-(void)downLoadNewData{
+    _isLoading = YES;
+    stopRotating = NO;
+    angle = 0;
+    [self rotateRefreshImage];
+    
+    if(self.beginUpdatingBlock){
+        self.beginUpdatingBlock(self);
+    }
+}
+
+-(void)endUpdating{
+    stopRotating = YES;
+}
+
+-(void)rotateRefreshImage{
+    CGAffineTransform endAngle = CGAffineTransformMakeRotation(angle * (M_PI / 180.0f));
+    
+    [UIView animateWithDuration:0.01 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.refreshImgView.transform = endAngle;
+    } completion:^(BOOL finished) {
+        angle += 10;
+        if(!stopRotating){
+            [self rotateRefreshImage];
+        }else{
+            //上升隐藏
+            [UIView animateWithDuration:0.2 animations:^{
+                self.refreshImgView.center = ORIGINAL_POINT;
+            } completion:^(BOOL finished) {
+                _isLoading = NO;
+            }];
+        }
+    }];
 }
 
 // At the begin of scroll dragging, reset the boolean used when scrolls originate from the UIPageControl
@@ -431,16 +496,8 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     if ([scrollView isEqual:self.topScrollView]) {
-        //        self.timer = [NSTimer scheduledTimerWithTimeInterval:5.0f
-        //                                                      target:self
-        //                                                    selector:@selector(scrollToNextPage:)
-        //                                                    userInfo:nil
-        //                                                     repeats:NO];
         [self.timer setFireDate:[[NSDate date] dateByAddingTimeInterval:5.0]];
     }
-//    else {
-//        [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
-//    }
 }
 
 - (NSMutableArray *)imageViews
@@ -452,9 +509,26 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     return _imageViews;
 }
 
+- (ArticleModel *)allArticle
+{
+    if (!_allArticle) {
+        _allArticle = [[ArticleModel alloc] init];
+    }
+    
+    return _allArticle;
+}
+
+- (GetArticleData *)data
+{
+    if (!_data) {
+        _data = [[GetArticleData alloc] init];
+    }
+    
+    return _data;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

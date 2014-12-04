@@ -74,6 +74,14 @@
     [super viewWillDisappear:animated];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+}
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     if ([self.webView isEqual:webView]) {
@@ -202,16 +210,18 @@
     
     //(2).遮罩
     UIImageView *zhezhaoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, DEVICE_FRAME.width, TOPIMAGE_HEIGHT)];
-    if ([title length] < 15) {
-        [zhezhaoImageView setImage:[UIImage imageNamed:@"pic_zhezhao_small"]];
-    } else {
-        [zhezhaoImageView setImage:[UIImage imageNamed:@"pic_zhezhao"]];
-    }
-    
-    [_topImageView addSubview:zhezhaoImageView];
-    
     if ([title isKindOfClass:[NSString class]]) {
+        if ([title length] < 15) {
+            [zhezhaoImageView setImage:[UIImage imageNamed:@"pic_zhezhao_small"]];
+        } else {
+            [zhezhaoImageView setImage:[UIImage imageNamed:@"pic_zhezhao"]];
+        }
+        [_topImageView addSubview:zhezhaoImageView];
+        
         self.articleTitle.text = title;
+        [_topImageView addSubview:self.articleTitle];
+    } else {
+        self.articleTitle.text = @"文章加载失败";
         [_topImageView addSubview:self.articleTitle];
     }
     
@@ -221,7 +231,7 @@
     CGFloat imageWidth = DEVICE_FRAME.width - 40.0f;
     NSString *imageWidhtString = [NSString stringWithFormat:@"%f", imageWidth];
     
-    NSString *htmlURLString = [[@"<body style='background-color:#FFFFFF;'><style>img{width:" stringByAppendingString:imageWidhtString] stringByAppendingString:@"px;</style>"];
+    NSString *htmlURLString = [[@"<body style='background-color:#FFFFFF;'><style>img{width:" stringByAppendingString:imageWidhtString] stringByAppendingString:@"px;}</style>"];
     
     NSString *contentString = htmlURLString;
     contentString = [htmlURLString stringByAppendingString:[dic objectForKey:@"content"]];
@@ -251,6 +261,7 @@
     if (!_webView) {
         _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT, DEVICE_FRAME.width, self.scrollView.frame.size.height - TOPIMAGE_HEIGHT)];
         _webView.delegate = self;
+//        _webView.scalesPageToFit = YES;
         _webView.scrollView.bounces = NO;
         _webView.scrollView.scrollEnabled = NO;
     }

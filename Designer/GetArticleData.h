@@ -12,12 +12,9 @@
 
 @interface GetArticleData : NSObject <ASIHTTPRequestDelegate>
 
-@property (strong, nonatomic) NSMutableArray *imageArray;
-
 - (NSDictionary *)getArtilcleListWithLoadNumber:(NSInteger)loadCount;
 - (NSDictionary *)getArtilcleByGroupNumber:(NSInteger)group withLoadNumber:(NSInteger)loadCount;
 - (NSDictionary *)getTopImageDataOnce;
-- (UIImage *)getImageByUrl:(NSString *)urlString;
 
 - (NSDictionary *)getArticleData:(NSInteger)articleID;
 - (NSDictionary *)getCommentData:(NSInteger)articleID;
