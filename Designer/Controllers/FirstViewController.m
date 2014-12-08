@@ -14,7 +14,8 @@
 #import <AFNetworking/UIKit+AFNetworking.h>
 
 #define DEVICE_FRAME [UIScreen mainScreen].bounds.size
-#define TOPIMAGE_HEIGHT 213.0f
+#define TOPIMAGE_HEIGHT 350.0f
+#define TOPIMAGE_ACTUAL_HEIGHT 213.0f
 
 #define TOP_BG_HIDE 120.0f
 #define TOP_FLAG_HIDE 55.0f
@@ -62,7 +63,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     self.navigationController.navigationBarHidden = YES;
     
     //设置右滑返回
-    self.navigationController.interactivePopGestureRecognizer.delegate =(id)self;
+//    self.navigationController.interactivePopGestureRecognizer.delegate =(id)self;
     
     //开始下载数据
     _loadTaskCount = 0;
@@ -222,6 +223,13 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 
 #pragma mark - UITableViewDelegate
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ArticleDetailViewController *articleDetailViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ArticleDetailViewController"];
+    [articleDetailViewController setArticleID:[self.allArticle.idsArray[indexPath.row] integerValue]];
+    [self.navigationController pushViewController:articleDetailViewController animated:YES];
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -347,8 +355,8 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         //if ([self.topImageViewImagesArray[page] isKindOfClass:[UIImage class]]) {
         //imageView = [[UIImageView alloc] initWithImage:self.topImageViewImagesArray[page]];
         imageView = [[UIImageView alloc] init];
-//        [imageView setImageWithURL:[NSURL URLWithString:self.allArticle.topImageViewUrlsArray[page]]];
-        [imageView setImage:[UIImage imageNamed:@"Stars"]];
+        [imageView setImageWithURL:[NSURL URLWithString:self.allArticle.topImageViewUrlsArray[page]]];
+//        [imageView setImage:[UIImage imageNamed:@"Stars"]];
         
         imageView.tag = [self.allArticle.topImageViewIDsArray[page] integerValue];
         //            imageView.exclusiveTouch = YES;
@@ -362,7 +370,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         
         UIImageView *zhezhaoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, DEVICE_FRAME.width, TOPIMAGE_HEIGHT)];
         zhezhaoImageView.image = [UIImage imageNamed:@"pic_zhezhao"];
-        [imageView addSubview:zhezhaoImageView];
+//        [imageView addSubview:zhezhaoImageView];
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT - 50.0f, DEVICE_FRAME.width, 34.0f)];
         //                [titleLabel setAlpha:0.5f];
@@ -425,11 +433,11 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         
         // A possible optimization would be to unload the views+controllers which are no longer visible
     } else {
-        if (sender.contentOffset.y > -20.0f && sender.contentOffset.y < TOPIMAGE_HEIGHT - 86.0f) {
-            self.myNavigationView.alpha = (sender.contentOffset.y + 20) / (TOPIMAGE_HEIGHT - 64.0f);
+        if (sender.contentOffset.y > -20.0f && sender.contentOffset.y < TOPIMAGE_ACTUAL_HEIGHT - 86.0f) {
+            self.myNavigationView.alpha = (sender.contentOffset.y + 20) / (TOPIMAGE_ACTUAL_HEIGHT - 64.0f);
         } else if (sender.contentOffset.y < -20.0f){
             self.myNavigationView.alpha = 0.0f;
-        } else if (sender.contentOffset.y > (TOPIMAGE_HEIGHT - 84.0f)) {
+        } else if (sender.contentOffset.y > (TOPIMAGE_ACTUAL_HEIGHT - 84.0f)) {
             self.myNavigationView.alpha = 1.0f;
         }
         
