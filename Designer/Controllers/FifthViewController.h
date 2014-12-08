@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class FifthViewController;
+typedef void (^BeginUpdatingBlock5)(FifthViewController *);
+
 @interface FifthViewController : UIViewController
 
 @end

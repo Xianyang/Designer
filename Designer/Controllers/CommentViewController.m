@@ -12,6 +12,8 @@
 #import "CommentModel.h"
 #import "WriteCommentViewController.h"
 
+#define DEVICE_FRAME [UIScreen mainScreen].bounds.size
+
 static NSString *CommentCellIdentifier = @"CommentCell";
 
 @interface CommentViewController () <UITableViewDataSource, UITableViewDelegate, WriteCommentViewControllerDelegate>
@@ -129,16 +131,34 @@ static NSString *CommentCellIdentifier = @"CommentCell";
 
 #pragma mark - UITableViewDelegate
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [self heightForBasicCellAtIndexPath:indexPath];
+}
+
+- (CGFloat)heightForBasicCellAtIndexPath:(NSIndexPath *)indexPath {
+    static CommentCell *sizingCell = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sizingCell = [self.tableView dequeueReusableCellWithIdentifier:CommentCellIdentifier];
+    });
+    
+    [self setContent:sizingCell atIndexPath:indexPath];
+    return [self calculateHeightForConfiguredSizingCell:sizingCell];
+}
+
+- (CGFloat)calculateHeightForConfiguredSizingCell:(UITableViewCell *)sizingCell {
+    [sizingCell setNeedsLayout];
+    [sizingCell layoutIfNeeded];
+    
+    CGSize size = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    return size.height + 1.0f; // Add 1.0f for the cell separator height
+}
+
 #pragma mark - UITableViewDatasource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.allComment.commentTimes count];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 102.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -155,9 +175,13 @@ static NSString *CommentCellIdentifier = @"CommentCell";
 
 - (void)setContent:(CommentCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
+    //[cell.userNameOfComment setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     cell.userNameOfComment.text = self.allComment.commentUserName[indexPath.row];
     cell.timeOfComment.text = self.allComment.commentTimes[indexPath.row];
     cell.contentOfComment.text = self.allComment.commentContents[indexPath.row];
+    
+    [cell.contentOfComment preferredMaxLayoutWidth];
+    [cell.contentOfComment setPreferredMaxLayoutWidth:DEVICE_FRAME.width - 80.0f];
 }
 
 - (CommentModel *)allComment

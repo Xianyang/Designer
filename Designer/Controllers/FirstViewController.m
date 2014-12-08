@@ -35,6 +35,8 @@
     BOOL _isLoading;
     CGFloat angle;
     BOOL stopRotating;
+    
+    NSUInteger _loadTaskCount;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIScrollView *topScrollView;
@@ -63,6 +65,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     self.navigationController.interactivePopGestureRecognizer.delegate =(id)self;
     
     //开始下载数据
+    _loadTaskCount = 0;
     [self performSelectorInBackground:@selector(startDownloadTopImage) withObject:nil];
     [self performSelectorInBackground:@selector(startDownloadArticleData) withObject:nil];
     
@@ -73,6 +76,8 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
                                                 userInfo:nil
                                                  repeats:YES];
     [self.timer setFireDate:[NSDate distantFuture]];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     __block FirstViewController *weakSelf = self;
     self.beginUpdatingBlock = ^(FirstViewController *viewController) {
@@ -96,6 +101,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 #pragma mark - 下载数据
 - (void)startDownloadTopImage
 {
+    _loadTaskCount++;
     NSDictionary *dic = [self.data getTopImageDataOnce];
     
     if (dic) {
@@ -104,12 +110,15 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     } else {
         
     }
-    [self endUpdating];
+    
+    _loadTaskCount--;
+    [self tryEndUpdating];
 }
 
 //后台下载数据
 - (void)startDownloadArticleData
 {
+    _loadTaskCount++;
     //从头加载数据
 //    _reloading = YES;
     _loadMoreArticleCount = 0;
@@ -123,10 +132,17 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     } else {
 //        _reloading = NO;
 //        [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-        
-        
     }
     
+    _loadTaskCount--;
+    [self tryEndUpdating];
+}
+
+- (void)tryEndUpdating
+{
+    if (_loadTaskCount == 0) {
+        [self endUpdating];
+    }
 }
 
 - (void)setTopImageViewWithDic:(NSDictionary *)dic
@@ -270,6 +286,8 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 
 - (void)setTopImageView
 {
+    [[self.topScrollView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
     [self.imageViews removeAllObjects];
     for (unsigned i = 0; i < _kNameOfPages; i++) {
         [self.imageViews addObject:[NSNull null]];
@@ -286,8 +304,9 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     [self.pageControl setNumberOfPages:_kNameOfPages];
     [self.pageControl setCurrentPage:0];
     
-    [self loadScrollViewWithPage:0];
-    [self loadScrollViewWithPage:1];
+    for (int i = 0; i < _kNameOfPages; i++) {
+        [self loadScrollViewWithPage:i];
+    }
     
     //开启计时器，自动翻页
     [self.timer setFireDate:[NSDate date]];
@@ -328,7 +347,8 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         //if ([self.topImageViewImagesArray[page] isKindOfClass:[UIImage class]]) {
         //imageView = [[UIImageView alloc] initWithImage:self.topImageViewImagesArray[page]];
         imageView = [[UIImageView alloc] init];
-        [imageView setImageWithURL:[NSURL URLWithString:self.allArticle.topImageViewUrlsArray[page]]];
+//        [imageView setImageWithURL:[NSURL URLWithString:self.allArticle.topImageViewUrlsArray[page]]];
+        [imageView setImage:[UIImage imageNamed:@"Stars"]];
         
         imageView.tag = [self.allArticle.topImageViewIDsArray[page] integerValue];
         //            imageView.exclusiveTouch = YES;
@@ -357,8 +377,6 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         
         
         [self.imageViews replaceObjectAtIndex:page withObject:imageView];
-        //}
-        
     }
     
     if (self.topScrollView != nil) {
@@ -401,9 +419,9 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         self.pageControl.currentPage = page;
         
         // load the visible page and the page on either side of it (to avoid flashes when the user starts scrolling)
-        [self loadScrollViewWithPage:page - 1];
-        [self loadScrollViewWithPage:page];
-        [self loadScrollViewWithPage:page + 1];
+//        [self loadScrollViewWithPage:page - 1];
+//        [self loadScrollViewWithPage:page];
+//        [self loadScrollViewWithPage:page + 1];
         
         // A possible optimization would be to unload the views+controllers which are no longer visible
     } else {
@@ -415,6 +433,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
             self.myNavigationView.alpha = 1.0f;
         }
         
+        //下拉刷新逻辑
         CGPoint contentOffset = sender.contentOffset;
         contentOffset.y += 20.0f;
         CGPoint point = contentOffset;

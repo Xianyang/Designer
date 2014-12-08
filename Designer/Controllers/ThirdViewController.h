@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class ThirdViewController;
+typedef void (^BeginUpdatingBlock3)(ThirdViewController *);
+
+
 @interface ThirdViewController : UIViewController
 
 @end

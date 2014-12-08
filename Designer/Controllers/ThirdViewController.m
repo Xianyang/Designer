@@ -15,6 +15,12 @@
 
 #define DEVICE_FRAME [UIScreen mainScreen].bounds.size
 
+#define TOP_BG_HIDE 120.0f
+#define TOP_FLAG_HIDE 55.0f
+#define RATE 2
+#define SWITCH_Y -TOP_FLAG_HIDE
+#define ORIGINAL_POINT CGPointMake(self.view.bounds.size.width/2 - 40, -20)
+
 @interface ThirdViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 {
     NSUInteger _kNameOfPages;
@@ -25,10 +31,15 @@
     
     BOOL _pageControlUsed;
     
+    BOOL _isLoading;
+    CGFloat angle;
+    BOOL stopRotating;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) GetArticleData *data;
 @property (strong, nonatomic) ArticleModel *allArticle;
+@property (strong,nonatomic) BeginUpdatingBlock3 beginUpdatingBlock;
+@property (strong, nonatomic) UIImageView *refreshImgView;
 @end
 
 @implementation ThirdViewController
@@ -49,6 +60,18 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     
     //开始下载数据
     [self performSelectorInBackground:@selector(startDownloadArticleData) withObject:nil];
+    
+    __block ThirdViewController *weakSelf = self;
+    self.beginUpdatingBlock = ^(ThirdViewController *viewController) {
+        [weakSelf performSelectorInBackground:@selector(startDownloadArticleData) withObject:nil];
+    };
+    
+    self.refreshImgView.hidden = YES;
+    self.refreshImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    self.refreshImgView.center = ORIGINAL_POINT;
+    self.refreshImgView.image = [UIImage imageNamed:@"refresh"];
+    [self.navigationController.view addSubview:self.refreshImgView];
+
 }
 
 #pragma mark - 下载数据
@@ -71,6 +94,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         
         
     }
+    [self endUpdating];
 }
 
 - (void)setViewWithArticleDic:(NSDictionary *)dic
@@ -205,6 +229,76 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 {
     [cell.customImageView setImage:nil];
     [cell.customImageView setImageWithURL:[NSURL URLWithString:self.allArticle.imagesUrlArray[indexPath.row]]];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)sender
+{
+    //下拉刷新逻辑
+    CGPoint contentOffset = sender.contentOffset;
+//    contentOffset.y += 20.0f;
+    CGPoint point = contentOffset;
+//    point.y += 20.0f;
+    //        CGFloat rate = point.y/sender.contentSize.height;
+    CGFloat rate = point.y / self.view.bounds.size.height;
+    if(point.y+TOP_BG_HIDE>5){
+        //self.bgImageView.frame = CGRectMake(0, (-TOP_BG_HIDE)*(1+rate*RATE), self.bgImageView.frame.size.width, self.bgImageView.frame.size.height);
+    }
+    if(!_isLoading){
+        if(sender.dragging){
+            if(point.y+TOP_FLAG_HIDE>=0){
+                self.refreshImgView.center = CGPointMake(self.refreshImgView.center.x,(-TOP_FLAG_HIDE)*(1+rate*RATE*7)+30);
+            }
+            self.refreshImgView.transform = CGAffineTransformMakeRotation(rate*30);
+        }else{
+            //判断位置
+            if(point.y<SWITCH_Y){//触发刷新状态
+                [self downLoadNewData];
+            }else{
+                self.refreshImgView.center = CGPointMake(self.refreshImgView.center.x,(-TOP_FLAG_HIDE)*(1+rate*RATE*7)+30);
+            }
+        }
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    self.refreshImgView.hidden = NO;
+}
+
+-(void)downLoadNewData{
+    _isLoading = YES;
+    stopRotating = NO;
+    angle = 0;
+    [self rotateRefreshImage];
+    
+    if(self.beginUpdatingBlock){
+        self.beginUpdatingBlock(self);
+    }
+}
+
+-(void)endUpdating{
+    stopRotating = YES;
+}
+
+-(void)rotateRefreshImage{
+    CGAffineTransform endAngle = CGAffineTransformMakeRotation(angle * (M_PI / 180.0f));
+    
+    [UIView animateWithDuration:0.01 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        self.refreshImgView.transform = endAngle;
+    } completion:^(BOOL finished) {
+        angle += 10;
+        if(!stopRotating){
+            [self rotateRefreshImage];
+        }else{
+            //上升隐藏
+            [UIView animateWithDuration:0.2 animations:^{
+                self.refreshImgView.center = ORIGINAL_POINT;
+            } completion:^(BOOL finished) {
+                _isLoading = NO;
+                self.refreshImgView.hidden = YES;
+            }];
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *userNameOfComment;
 @property (weak, nonatomic) IBOutlet UILabel *timeOfComment;
 @property (weak, nonatomic) IBOutlet UILabel *contentOfComment;
+@property (weak, nonatomic) IBOutlet UIImageView *touxiangImage;
 
 @end

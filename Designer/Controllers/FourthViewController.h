@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class FourthViewController;
+typedef void (^BeginUpdatingBlock4)(FourthViewController *);
+
 @interface FourthViewController : UIViewController
 
 @end

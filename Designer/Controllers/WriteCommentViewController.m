@@ -63,7 +63,7 @@
         hud.yOffset = -50.0f;
         [hud show:YES];
         [hud hide:YES afterDelay:2.0f];
-    } else if (self.writeCommentTextView.text.length > 40) {
+    } else if (self.writeCommentTextView.text.length > 4000) {
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"字数超出限制";
         hud.minSize = CGSizeMake(120.0f, 120.0f);

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class SecondViewController;
+typedef void (^BeginUpdatingBlock2)(SecondViewController *);
+
 @interface SecondViewController : UIViewController
 
 @end
