@@ -13,5 +13,6 @@
 @property (strong, nonatomic) NSMutableArray *commentTimes;
 @property (strong, nonatomic) NSMutableArray *commentUserName;
 @property (strong, nonatomic) NSMutableArray *commentContents;
+@property (strong, nonatomic) NSMutableArray *commentAvatars;
 
 @end

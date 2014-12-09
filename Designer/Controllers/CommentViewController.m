@@ -11,6 +11,7 @@
 #import "GetArticleData.h"
 #import "CommentModel.h"
 #import "WriteCommentViewController.h"
+#import <AFNetworking/UIKit+AFNetworking.h>
 
 #define DEVICE_FRAME [UIScreen mainScreen].bounds.size
 
@@ -25,6 +26,7 @@ static NSString *CommentCellIdentifier = @"CommentCell";
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *writeCommentButton;
+@property (weak, nonatomic) IBOutlet UIImageView *shafaImageView;
 @property (strong, nonatomic) GetArticleData *articleData;
 @property (strong, nonatomic) CommentModel *allComment;
 
@@ -84,6 +86,7 @@ static NSString *CommentCellIdentifier = @"CommentCell";
             [self.allComment.commentTimes removeAllObjects];
             [self.allComment.commentUserName removeAllObjects];
             [self.allComment.commentContents removeAllObjects];
+            [self.allComment.commentAvatars removeAllObjects];
             
             for (NSDictionary *aDic in reversedArray) {
                 id comment = [aDic objectForKey:@"comment"];
@@ -100,12 +103,16 @@ static NSString *CommentCellIdentifier = @"CommentCell";
                 if ([time isKindOfClass:[NSString class]]) {
                     [self.allComment.commentTimes addObject:time];
                 }
+                id avatar = [aDic objectForKey:@"avatar"];
+                if ([avatar isKindOfClass:[NSString class]]) {
+                    [self.allComment.commentAvatars addObject:avatar];
+                }
             }
             
             [self.tableView reloadData];
         } else {
             //TODO无评论
-            
+            [self.shafaImageView setHidden:NO];
         }
     }
 }
@@ -158,7 +165,12 @@ static NSString *CommentCellIdentifier = @"CommentCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.allComment.commentTimes count];
+    if ([self.allComment.commentTimes count]) {
+        [self.shafaImageView setHidden:YES];
+        return [self.allComment.commentTimes count];
+    } else {
+        return 0;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -175,10 +187,12 @@ static NSString *CommentCellIdentifier = @"CommentCell";
 
 - (void)setContent:(CommentCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    //[cell.userNameOfComment setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     cell.userNameOfComment.text = self.allComment.commentUserName[indexPath.row];
     cell.timeOfComment.text = self.allComment.commentTimes[indexPath.row];
     cell.contentOfComment.text = self.allComment.commentContents[indexPath.row];
+    [cell.touxiangImage setImageWithURL:[NSURL URLWithString:self.allComment.commentAvatars[indexPath.row]] placeholderImage:[UIImage imageNamed:@"placeholder_touxiang"]];
+    cell.touxiangImage.layer.masksToBounds = YES;
+    cell.touxiangImage.layer.cornerRadius = 15.0f;
     
     [cell.contentOfComment preferredMaxLayoutWidth];
     [cell.contentOfComment setPreferredMaxLayoutWidth:DEVICE_FRAME.width - 80.0f];

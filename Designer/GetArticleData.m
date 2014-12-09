@@ -73,14 +73,8 @@ static NSString *urlString = @"http://121.41.35.78/hahafarm/index.php?r=tblArtic
     NSURL *url = [NSURL URLWithString:@"http://121.41.35.78/news_app/index.php?r=Data/comment"];
     ASIFormDataRequest *asiHttpRequest = [ASIFormDataRequest requestWithURL:url];
     
-    id userArea = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserLocationCity"];
-    if ([userArea isKindOfClass:[NSString class]]) {
-        userArea = [userArea stringByAppendingString:@"设计师"];
-        [asiHttpRequest addPostValue:userArea forKey:@"who"];
-    } else {
-        [asiHttpRequest addPostValue:@"设计师" forKey:@"who"];
-    }
-    
+    NSString *idfv = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    [asiHttpRequest addPostValue:idfv forKey:@"uuid"];
     [asiHttpRequest addPostValue:[NSString stringWithFormat:@"%ld", (long)articleID] forKey:@"id"];
     [asiHttpRequest addPostValue:dateString forKey:@"time"];
     [asiHttpRequest addPostValue:[NSString stringWithFormat:@"%@", contentString] forKey:@"comment"];

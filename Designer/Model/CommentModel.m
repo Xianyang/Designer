@@ -37,5 +37,14 @@
     return _commentTimes;
 }
 
+- (NSMutableArray *)commentAvatars
+{
+    if (!_commentAvatars) {
+        _commentAvatars = [[NSMutableArray alloc] init];
+    }
+    
+    return _commentAvatars;
+}
+
 
 @end

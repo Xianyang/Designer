@@ -145,6 +145,10 @@
                 if ([time isKindOfClass:[NSString class]]) {
                     [allComment.commentTimes addObject:time];
                 }
+                id avatar = [aDic objectForKey:@"avatar"];
+                if ([avatar isKindOfClass:[NSString class]]) {
+                    [allComment.commentAvatars addObject:avatar];
+                }
             }
             
             [self.delegate reloadCommentData:allComment];

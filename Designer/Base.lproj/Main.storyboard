@@ -909,6 +909,13 @@
                                     <outlet property="delegate" destination="Euk-wQ-GWb" id="ybf-YQ-cin"/>
                                 </connections>
                             </tableView>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button_safa" translatesAutoresizingMaskIntoConstraints="NO" id="cPQ-J7-iNf">
+                                <rect key="frame" x="190" y="150" width="220" height="220"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="220" id="Nha-2r-IaX"/>
+                                    <constraint firstAttribute="width" constant="220" id="bwR-rK-exr"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -919,13 +926,16 @@
                             <constraint firstItem="aSN-oP-e34" firstAttribute="top" secondItem="nR6-Tr-iMZ" secondAttribute="bottom" id="BSw-1I-Qb6"/>
                             <constraint firstItem="3ws-7T-MJs" firstAttribute="leading" secondItem="Hrj-wG-cMO" secondAttribute="leading" id="BpQ-eH-1WD"/>
                             <constraint firstAttribute="trailing" secondItem="aSN-oP-e34" secondAttribute="trailing" id="Qri-14-kHY"/>
+                            <constraint firstItem="cPQ-J7-iNf" firstAttribute="top" secondItem="JHe-wK-9fs" secondAttribute="bottom" constant="130" id="RVx-ip-jmi"/>
                             <constraint firstItem="3ws-7T-MJs" firstAttribute="top" secondItem="Hrj-wG-cMO" secondAttribute="top" id="UrS-DZ-PSP"/>
                             <constraint firstAttribute="trailing" secondItem="nR6-Tr-iMZ" secondAttribute="trailing" id="dWo-zp-0Lk"/>
+                            <constraint firstAttribute="centerX" secondItem="cPQ-J7-iNf" secondAttribute="centerX" id="pvt-oQ-bbY"/>
                             <constraint firstItem="aLo-36-KdE" firstAttribute="bottom" secondItem="aSN-oP-e34" secondAttribute="bottom" id="wLi-oi-f2t"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="backButton" destination="vj3-rE-JYp" id="JhI-n3-kMP"/>
+                        <outlet property="shafaImageView" destination="cPQ-J7-iNf" id="2Iv-q2-Jqb"/>
                         <outlet property="tableView" destination="nR6-Tr-iMZ" id="YPc-2S-ZWP"/>
                     </connections>
                 </viewController>
@@ -1167,6 +1177,7 @@
         <image name="button_back" width="20" height="18"/>
         <image name="button_cehua" width="22" height="18"/>
         <image name="button_pinglun" width="23" height="18"/>
+        <image name="button_safa" width="110" height="110"/>
         <image name="button_word" width="17" height="18"/>
         <image name="button_zan" width="20" height="18"/>
     </resources>
