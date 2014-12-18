@@ -124,7 +124,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 //    _reloading = YES;
     _loadMoreArticleCount = 0;
     _isFinishLoadAllArticle = NO;
-    NSDictionary *dic = [self.data getArtilcleListWithLoadNumber:_loadMoreArticleCount];
+    NSDictionary *dic = [self.data getArtilcleByGroupNumber:0 withLoadNumber:_loadMoreArticleCount];
     
     if (dic) {
         //将得到的数据保存起来，在没有网络连接的时候可以显示数据
@@ -198,7 +198,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     NSLog(@"load 5 more article");
     _loadMoreArticleCount++;
     
-    NSDictionary *dic = [self.data getArtilcleListWithLoadNumber:_loadMoreArticleCount];
+    NSDictionary *dic = [self.data getArtilcleByGroupNumber:0 withLoadNumber:_loadMoreArticleCount];
     
     NSInteger list_size = [[dic objectForKey:@"list_size"] integerValue];
     if (list_size) {
@@ -373,7 +373,6 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 //        [imageView addSubview:zhezhaoImageView];
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT - 50.0f, DEVICE_FRAME.width, 34.0f)];
-        //                [titleLabel setAlpha:0.5f];
         titleLabel.backgroundColor = [UIColor clearColor];
         NSString *title = [@"    " stringByAppendingString:self.allArticle.topImageViewTitlesArray[page]];
         
@@ -447,7 +446,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         CGPoint point = contentOffset;
         point.y += 20.0f;
 //        CGFloat rate = point.y/sender.contentSize.height;
-        CGFloat rate = point.y / self.view.bounds.size.height;
+        CGFloat rate = point.y / 667;
         if(point.y+TOP_BG_HIDE>5){
             //self.bgImageView.frame = CGRectMake(0, (-TOP_BG_HIDE)*(1+rate*RATE), self.bgImageView.frame.size.width, self.bgImageView.frame.size.height);
         }

@@ -89,15 +89,16 @@
         UIScrollView *ascollView = [arr objectAtIndex:0];
         
         CGFloat actualHeight = 0.0f;
-        if (DEVICE_FRAME.width == 320.0f) {
-            actualHeight = ascollView.contentSize.height + _imageCount * 180.0f;
-        } else if (DEVICE_FRAME.width == 375.0f) {
-            actualHeight = ascollView.contentSize.height + _imageCount * 210.0f;
-        } else if (DEVICE_FRAME.width == 414.0f) {
-            actualHeight = ascollView.contentSize.height + _imageCount * 230.0f;
-        }
-        
-        NSLog(@"The no image webview hight is %f", actualHeight);
+        actualHeight = ascollView.contentSize.height;
+//        if (DEVICE_FRAME.width == 320.0f) {
+//            actualHeight = ascollView.contentSize.height + _imageCount * 180.0f;
+//        } else if (DEVICE_FRAME.width == 375.0f) {
+//            actualHeight = ascollView.contentSize.height + _imageCount * 210.0f;
+//        } else if (DEVICE_FRAME.width == 414.0f) {
+//            actualHeight = ascollView.contentSize.height + _imageCount * 230.0f;
+//        }
+//        
+//        NSLog(@"The no image webview hight is %f", actualHeight);
         [self.webView setFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT, DEVICE_FRAME.width, actualHeight)];
         [self.scrollView setContentSize:CGSizeMake(TOPIMAGE_HEIGHT, TOPIMAGE_HEIGHT + self.webView.frame.size.height)];
     }
@@ -226,18 +227,18 @@
     }
     
     //(3).正文
-    //    NSString *htmlURLString = [NSString stringWithFormat:@"<body style='background-color:#FFFFFF'><h3>%@</h3>", title];
-    //    NSString *htmlURLString = @"<body style='background-color:#FFFFFF'>";
-    CGFloat imageWidth = DEVICE_FRAME.width - 40.0f;
-    NSString *imageWidhtString = [NSString stringWithFormat:@"%f", imageWidth];
-    
-    NSString *htmlURLString = [[@"<body style='background-color:#FFFFFF;'><style>img{width:" stringByAppendingString:imageWidhtString] stringByAppendingString:@"px;}</style>"];
-    
-    NSString *contentString = htmlURLString;
-    contentString = [htmlURLString stringByAppendingString:[dic objectForKey:@"content"]];
-    contentString = [contentString stringByAppendingString:@"</body>"];
-    
-    [self.webView loadHTMLString:contentString baseURL:nil];
+//    CGFloat imageWidth = DEVICE_FRAME.width - 40.0f;
+//    NSString *imageWidhtString = [NSString stringWithFormat:@"%f", imageWidth];
+//    
+//    NSString *htmlURLString = [[@"<body style='background-color:#FFFFFF;'><style>img{width:" stringByAppendingString:imageWidhtString] stringByAppendingString:@"px;}</style>"];
+//    
+//    NSString *contentString = htmlURLString;
+//    contentString = [htmlURLString stringByAppendingString:[dic objectForKey:@"content"]];
+//    contentString = [contentString stringByAppendingString:@"</body>"];
+//    
+//    [self.webView loadHTMLString:contentString baseURL:nil];
+    NSString *urlString = [dic objectForKey:@"content"];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -259,7 +260,7 @@
 - (UIWebView *)webView
 {
     if (!_webView) {
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT, DEVICE_FRAME.width, self.scrollView.frame.size.height - TOPIMAGE_HEIGHT)];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT, DEVICE_FRAME.width, self.scrollView.frame.size.height)];
         _webView.delegate = self;
 //        _webView.scalesPageToFit = YES;
         _webView.scrollView.bounces = NO;

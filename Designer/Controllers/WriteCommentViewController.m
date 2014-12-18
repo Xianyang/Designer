@@ -15,6 +15,7 @@
     NSInteger _articleID;
 }
 @property (weak, nonatomic) IBOutlet UITextView *writeCommentTextView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sendCommentBtn;
 
 @property (strong, nonatomic) GetArticleData *articleData;
 
@@ -49,6 +50,7 @@
 
 - (IBAction)sendClick
 {
+    [self.sendCommentBtn setEnabled:NO];
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:hud];
     
@@ -63,6 +65,7 @@
         hud.yOffset = -50.0f;
         [hud show:YES];
         [hud hide:YES afterDelay:2.0f];
+        [self.sendCommentBtn setEnabled:YES];
     } else if (self.writeCommentTextView.text.length > 4000) {
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"字数超出限制";
@@ -71,6 +74,7 @@
         hud.yOffset = -50.0f;
         [hud show:YES];
         [hud hide:YES afterDelay:2.0f];
+        [self.sendCommentBtn setEnabled:YES];
     } else {
         hud.labelText = @"发送中";
         hud.yOffset = -50.0f;
@@ -101,7 +105,7 @@
         [self performSelectorOnMainThread:@selector(textViewResignFirstResponder) withObject:nil waitUntilDone:NO];
         
         [self performSelectorOnMainThread:@selector(reloadComment:) withObject:dic waitUntilDone:NO];
-        
+        [self.sendCommentBtn setEnabled:YES];
         
     } else {
         __block UIImageView *imageView;
@@ -113,6 +117,7 @@
         HUD.mode = MBProgressHUDModeCustomView;
         HUD.labelText = @"发送失败";
         sleep(1);
+        [self.sendCommentBtn setEnabled:YES];
     }
 }
 

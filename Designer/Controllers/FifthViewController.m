@@ -71,6 +71,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     self.refreshImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
     self.refreshImgView.center = ORIGINAL_POINT;
     self.refreshImgView.image = [UIImage imageNamed:@"refresh"];
+    self.refreshImgView.hidden = YES;
     [self.navigationController.view addSubview:self.refreshImgView];
 }
 
@@ -82,7 +83,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     //    _reloading = YES;
     _loadMoreArticleCount = 0;
     _isFinishLoadAllArticle = NO;
-    NSDictionary *dic = [self.data getArtilcleByGroupNumber:5 withLoadNumber:_loadMoreArticleCount];
+    NSDictionary *dic = [self.data getArtilcleByGroupNumber:4 withLoadNumber:_loadMoreArticleCount];
     
     if (dic) {
         //将得到的数据保存起来，在没有网络连接的时候可以显示数据
@@ -128,7 +129,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     NSLog(@"load 5 more article");
     _loadMoreArticleCount++;
     
-    NSDictionary *dic = [self.data getArtilcleByGroupNumber:5 withLoadNumber:_loadMoreArticleCount];
+    NSDictionary *dic = [self.data getArtilcleByGroupNumber:4 withLoadNumber:_loadMoreArticleCount];
     
     NSInteger list_size = [[dic objectForKey:@"list_size"] integerValue];
     if (list_size) {
@@ -239,14 +240,14 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     CGPoint point = contentOffset;
 //    point.y += 20.0f;
     //        CGFloat rate = point.y/sender.contentSize.height;
-    CGFloat rate = point.y / self.view.bounds.size.height;
+    CGFloat rate = point.y / 667;
     if(point.y+TOP_BG_HIDE>5){
         //self.bgImageView.frame = CGRectMake(0, (-TOP_BG_HIDE)*(1+rate*RATE), self.bgImageView.frame.size.width, self.bgImageView.frame.size.height);
     }
     if(!_isLoading){
         if(sender.dragging){
             if(point.y+TOP_FLAG_HIDE>=0){
-                self.refreshImgView.center = CGPointMake(self.refreshImgView.center.x,(-TOP_FLAG_HIDE)*(1+rate*RATE*7)+30);
+                self.refreshImgView.center = CGPointMake(self.refreshImgView.center.x,(-TOP_FLAG_HIDE)*(1+rate*RATE*7)+35);
             }
             self.refreshImgView.transform = CGAffineTransformMakeRotation(rate*30);
         }else{
@@ -254,7 +255,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
             if(point.y<SWITCH_Y){//触发刷新状态
                 [self downLoadNewData];
             }else{
-                self.refreshImgView.center = CGPointMake(self.refreshImgView.center.x,(-TOP_FLAG_HIDE)*(1+rate*RATE*7)+30);
+                self.refreshImgView.center = CGPointMake(self.refreshImgView.center.x,(-TOP_FLAG_HIDE)*(1+rate*RATE*7)+35);
             }
         }
     }
