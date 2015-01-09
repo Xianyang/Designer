@@ -20,13 +20,13 @@ static NSString *CommentCellIdentifier = @"CommentCell";
 @interface CommentViewController () <UITableViewDataSource, UITableViewDelegate, WriteCommentViewControllerDelegate>
 {
     NSInteger _articleID;
-
+    
     NSInteger _commentCount;
 }
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UITableView *tableview;
+@property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (weak, nonatomic) IBOutlet UIButton *writeCommentButton;
-@property (weak, nonatomic) IBOutlet UIImageView *shafaImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *shafaImgView;
 @property (strong, nonatomic) GetArticleData *articleData;
 @property (strong, nonatomic) CommentModel *allComment;
 
@@ -37,8 +37,8 @@ static NSString *CommentCellIdentifier = @"CommentCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.backButton addTarget:self action:@selector(popViewController) forControlEvents:UIControlEventTouchUpInside];
-
+    [self.backBtn addTarget:self action:@selector(popViewController) forControlEvents:UIControlEventTouchUpInside];
+    
     [self performSelectorInBackground:@selector(loadArticleCommentData) withObject:nil];
 }
 
@@ -109,10 +109,10 @@ static NSString *CommentCellIdentifier = @"CommentCell";
                 }
             }
             
-            [self.tableView reloadData];
+            [self.tableview reloadData];
         } else {
             //TODO无评论
-            [self.shafaImageView setHidden:NO];
+            [self.shafaImgView setHidden:NO];
         }
     }
 }
@@ -132,7 +132,7 @@ static NSString *CommentCellIdentifier = @"CommentCell";
 - (void)reloadCommentData:(CommentModel *)allComment
 {
     self.allComment = allComment;
-    [self.tableView reloadData];
+    [self.tableview reloadData];
     NSLog(@"reload comment");
 }
 
@@ -146,7 +146,7 @@ static NSString *CommentCellIdentifier = @"CommentCell";
     static CommentCell *sizingCell = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sizingCell = [self.tableView dequeueReusableCellWithIdentifier:CommentCellIdentifier];
+        sizingCell = [self.tableview dequeueReusableCellWithIdentifier:CommentCellIdentifier];
     });
     
     [self setContent:sizingCell atIndexPath:indexPath];
@@ -166,7 +166,7 @@ static NSString *CommentCellIdentifier = @"CommentCell";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if ([self.allComment.commentTimes count]) {
-        [self.shafaImageView setHidden:YES];
+        [self.shafaImgView setHidden:YES];
         return [self.allComment.commentTimes count];
     } else {
         return 0;
@@ -175,9 +175,9 @@ static NSString *CommentCellIdentifier = @"CommentCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([tableView isEqual:self.tableView]) {
+    if ([tableView isEqual:self.tableview]) {
         CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:CommentCellIdentifier
-                                                             forIndexPath:indexPath];
+                                                            forIndexPath:indexPath];
         [self setContent:cell atIndexPath:indexPath];
         return cell;
     } else {
@@ -195,7 +195,8 @@ static NSString *CommentCellIdentifier = @"CommentCell";
     cell.touxiangImage.layer.cornerRadius = 15.0f;
     
     [cell.contentOfComment preferredMaxLayoutWidth];
-    [cell.contentOfComment setPreferredMaxLayoutWidth:DEVICE_FRAME.width - 80.0f];
+    CGFloat preferrdMaxLayoutWidth = DEVICE_FRAME.width - 80.0f;
+    [cell.contentOfComment setPreferredMaxLayoutWidth:preferrdMaxLayoutWidth];
 }
 
 - (CommentModel *)allComment

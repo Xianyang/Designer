@@ -14,8 +14,9 @@
 {
     NSInteger _articleID;
 }
-@property (weak, nonatomic) IBOutlet UITextView *writeCommentTextView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *sendCommentBtn;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sendCommentButton;
+@property (weak, nonatomic) IBOutlet UITextView *writeCommentTV;
+
 
 @property (strong, nonatomic) GetArticleData *articleData;
 
@@ -33,8 +34,8 @@
     [self.navigationController.navigationBar setTitleTextAttributes:dict];
     
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-
-    [self.writeCommentTextView becomeFirstResponder];
+    
+    [self.writeCommentTV becomeFirstResponder];
 }
 
 - (void)setArticleID:(NSInteger)articleID
@@ -42,22 +43,22 @@
     _articleID = articleID;
 }
 
-- (IBAction)cancleClick
+- (IBAction)cancleBtnClick
 {
-    [self.writeCommentTextView resignFirstResponder];
+    [self.writeCommentTV resignFirstResponder];
     [self.delegate dimissWriteCommentController];
 }
 
-- (IBAction)sendClick
+- (IBAction)sendBtnClick
 {
-    [self.sendCommentBtn setEnabled:NO];
+    [self.sendCommentButton setEnabled:NO];
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:hud];
     
     hud.delegate = self;
     
     //[hud showWhileExecuting:@selector(sending:) onTarget:self withObject:hud animated:YES];
-    if (self.writeCommentTextView.text.length == 0) {
+    if (self.writeCommentTV.text.length == 0) {
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"请输入评论";
         hud.minSize = CGSizeMake(120.0f, 120.0f);
@@ -65,8 +66,8 @@
         hud.yOffset = -50.0f;
         [hud show:YES];
         [hud hide:YES afterDelay:2.0f];
-        [self.sendCommentBtn setEnabled:YES];
-    } else if (self.writeCommentTextView.text.length > 4000) {
+        [self.sendCommentButton setEnabled:YES];
+    } else if (self.writeCommentTV.text.length > 4000) {
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"字数超出限制";
         hud.minSize = CGSizeMake(120.0f, 120.0f);
@@ -74,7 +75,7 @@
         hud.yOffset = -50.0f;
         [hud show:YES];
         [hud hide:YES afterDelay:2.0f];
-        [self.sendCommentBtn setEnabled:YES];
+        [self.sendCommentButton setEnabled:YES];
     } else {
         hud.labelText = @"发送中";
         hud.yOffset = -50.0f;
@@ -90,7 +91,7 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"YYYY-MM-dd HH:mm"];
     NSString *sendDateString = [dateFormatter stringFromDate:sendDate];
-    NSDictionary *dic = [self.articleData sendACommentInArticle:_articleID commentContent:self.writeCommentTextView.text atTime:sendDateString];
+    NSDictionary *dic = [self.articleData sendACommentInArticle:_articleID commentContent:self.writeCommentTV.text atTime:sendDateString];
     if ([dic count]) {
         __block UIImageView *imageView;
         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -105,7 +106,7 @@
         [self performSelectorOnMainThread:@selector(textViewResignFirstResponder) withObject:nil waitUntilDone:NO];
         
         [self performSelectorOnMainThread:@selector(reloadComment:) withObject:dic waitUntilDone:NO];
-        [self.sendCommentBtn setEnabled:YES];
+        [self.sendCommentButton setEnabled:YES];
         
     } else {
         __block UIImageView *imageView;
@@ -117,14 +118,14 @@
         HUD.mode = MBProgressHUDModeCustomView;
         HUD.labelText = @"发送失败";
         sleep(1);
-        [self.sendCommentBtn setEnabled:YES];
+        [self.sendCommentButton setEnabled:YES];
     }
 }
 
 - (void)textViewResignFirstResponder
 {
     [self.delegate dimissWriteCommentController];
-    [self.writeCommentTextView resignFirstResponder];
+    [self.writeCommentTV resignFirstResponder];
 }
 
 - (void)reloadComment:(NSDictionary *)dic
@@ -173,13 +174,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

@@ -21,11 +21,11 @@
     NSInteger _imageCount;
 }
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
-@property (weak, nonatomic) IBOutlet UIImageView *imageOfDianzan;
-@property (weak, nonatomic) IBOutlet UILabel *labelCountOfDianzan;
-@property (weak, nonatomic) IBOutlet UILabel *labelCountOfComment;
+@property (weak, nonatomic) IBOutlet UIScrollView *scroller;
+@property (weak, nonatomic) IBOutlet UIButton *backBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *dianzanImage;
+@property (weak, nonatomic) IBOutlet UILabel *dianzanLabel;
+@property (weak, nonatomic) IBOutlet UILabel *commentLabel;
 
 @property (strong, nonatomic) UIImageView *topImageView;
 @property (strong, nonatomic) UILabel *articleTitle;
@@ -42,19 +42,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.backButton addTarget:self action:@selector(popViewController) forControlEvents:UIControlEventTouchUpInside];
-
+    [self.backBtn addTarget:self action:@selector(popViewController) forControlEvents:UIControlEventTouchUpInside];
+    
     _commentCount = 0;
     
     self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
-    [self.scrollView addSubview:self.webView];
+    [self.scroller addSubview:self.webView];
     [self clearWebViewBackground:self.webView];
     
     self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
     
-//    加载文章数据, 文章加载完后才会加载评论数据
+    //    加载文章数据, 文章加载完后才会加载评论数据
     
     [self performSelectorInBackground:@selector(loadArticleData) withObject:nil];
 }
@@ -69,6 +69,8 @@
 {
     self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    
     
     [self.navigationController setNavigationBarHidden:NO];
     [super viewWillDisappear:animated];
@@ -90,17 +92,17 @@
         
         CGFloat actualHeight = 0.0f;
         actualHeight = ascollView.contentSize.height;
-//        if (DEVICE_FRAME.width == 320.0f) {
-//            actualHeight = ascollView.contentSize.height + _imageCount * 180.0f;
-//        } else if (DEVICE_FRAME.width == 375.0f) {
-//            actualHeight = ascollView.contentSize.height + _imageCount * 210.0f;
-//        } else if (DEVICE_FRAME.width == 414.0f) {
-//            actualHeight = ascollView.contentSize.height + _imageCount * 230.0f;
-//        }
-//        
-//        NSLog(@"The no image webview hight is %f", actualHeight);
+        //        if (DEVICE_FRAME.width == 320.0f) {
+        //            actualHeight = ascollView.contentSize.height + _imageCount * 180.0f;
+        //        } else if (DEVICE_FRAME.width == 375.0f) {
+        //            actualHeight = ascollView.contentSize.height + _imageCount * 210.0f;
+        //        } else if (DEVICE_FRAME.width == 414.0f) {
+        //            actualHeight = ascollView.contentSize.height + _imageCount * 230.0f;
+        //        }
+        //
+        //        NSLog(@"The no image webview hight is %f", actualHeight);
         [self.webView setFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT, DEVICE_FRAME.width, actualHeight)];
-        [self.scrollView setContentSize:CGSizeMake(TOPIMAGE_HEIGHT, TOPIMAGE_HEIGHT + self.webView.frame.size.height)];
+        [self.scroller setContentSize:CGSizeMake(TOPIMAGE_HEIGHT, TOPIMAGE_HEIGHT + self.webView.frame.size.height)];
     }
 }
 
@@ -119,7 +121,7 @@
 
 #pragma mark - 点赞
 
-- (IBAction)dianzanButtonClicked:(id)sender
+- (IBAction)dianzanBtnClicked:(id)sender
 {
     //3.向后台发数据
     NSDictionary *dic = [self.articleData sendADianzan:_articleID];
@@ -130,11 +132,11 @@
             if ([status isEqualToString:@"1"]) {
                 //点赞成功
                 //1.更换点赞图片
-                self.imageOfDianzan.image = [UIImage imageNamed:@"button_zan_click"];
+                self.dianzanImage.image = [UIImage imageNamed:@"button_zan_click"];
                 //2.更新界面
-                NSInteger dianzanCount = [self.labelCountOfDianzan.text integerValue];
+                NSInteger dianzanCount = [self.dianzanLabel.text integerValue];
                 dianzanCount++;
-                [self.labelCountOfDianzan setText:[NSString stringWithFormat:@"%ld", (long)dianzanCount]];
+                [self.dianzanLabel setText:[NSString stringWithFormat:@"%ld", (long)dianzanCount]];
             } else {
                 //点赞失败
                 MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
@@ -179,7 +181,7 @@
 - (void)finishLoadArticleData:(NSDictionary *)dic
 {
     //1.下载顶部图片
-    [self.scrollView addSubview:self.topImageView];
+    [self.scroller addSubview:self.topImageView];
     id imageUrlString = [dic objectForKey:@"t_pic"];
     if ([imageUrlString isKindOfClass:[NSString class]]) {
         [self.topImageView setImageWithURL:[NSURL URLWithString:imageUrlString]];
@@ -189,18 +191,18 @@
     id dianzanString = [dic objectForKey:@"like_count"];
     id pinglunString = [dic objectForKey:@"comment_count"];
     if ([dianzanString isKindOfClass:[NSString class]]) {
-        self.labelCountOfDianzan.text = dianzanString;
+        self.dianzanLabel.text = dianzanString;
     }
     if ([pinglunString isKindOfClass:[NSString class]]) {
-        self.labelCountOfComment.text = pinglunString;
+        self.commentLabel.text = pinglunString;
     }
     
     id dianzanStatus = [dic objectForKey:@"status"];
     if ([dianzanStatus isKindOfClass:[NSString class]]) {
         if ([dianzanStatus isEqualToString:@"1"]) {
-            self.imageOfDianzan.image = [UIImage imageNamed:@"button_zan"];
+            self.dianzanImage.image = [UIImage imageNamed:@"button_zan"];
         } else {
-            self.imageOfDianzan.image = [UIImage imageNamed:@"button_zan_click"];
+            self.dianzanImage.image = [UIImage imageNamed:@"button_zan_click"];
         }
     }
     
@@ -226,17 +228,6 @@
         [_topImageView addSubview:self.articleTitle];
     }
     
-    //(3).正文
-//    CGFloat imageWidth = DEVICE_FRAME.width - 40.0f;
-//    NSString *imageWidhtString = [NSString stringWithFormat:@"%f", imageWidth];
-//    
-//    NSString *htmlURLString = [[@"<body style='background-color:#FFFFFF;'><style>img{width:" stringByAppendingString:imageWidhtString] stringByAppendingString:@"px;}</style>"];
-//    
-//    NSString *contentString = htmlURLString;
-//    contentString = [htmlURLString stringByAppendingString:[dic objectForKey:@"content"]];
-//    contentString = [contentString stringByAppendingString:@"</body>"];
-//    
-//    [self.webView loadHTMLString:contentString baseURL:nil];
     NSString *urlString = [dic objectForKey:@"content"];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
 }
@@ -260,9 +251,9 @@
 - (UIWebView *)webView
 {
     if (!_webView) {
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT, DEVICE_FRAME.width, self.scrollView.frame.size.height)];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT, DEVICE_FRAME.width, self.scroller.frame.size.height)];
         _webView.delegate = self;
-//        _webView.scalesPageToFit = YES;
+        //        _webView.scalesPageToFit = YES;
         _webView.scrollView.bounces = NO;
         _webView.scrollView.scrollEnabled = NO;
     }
@@ -322,7 +313,7 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"PushToCommentViewSegue"]) {
-        
+        self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
         
         CommentViewController *commentViewController = segue.destinationViewController;
         [commentViewController setArticleID:_articleID];

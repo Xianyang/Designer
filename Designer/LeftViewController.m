@@ -9,6 +9,9 @@
 #import "LeftViewController.h"
 #import "FirstViewController.h"
 #import "SecondViewController.h"
+#import "ThirdViewController.h"
+#import "FourthViewController.h"
+#import "FifthViewController.h"
 #import "UIViewController+RESideMenu.h"
 
 @interface LeftViewController ()
@@ -40,6 +43,9 @@
         tableView.scrollsToTop = NO;
         tableView;
     });
+    
+//    self.firstNav;
+    [self.view setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:self.tableView];
 }
 
@@ -51,6 +57,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.row) {
         case 0:
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstTabTapped"];
             [self.sideMenuViewController setContentViewController:self.firstNav
                                                          animated:YES];
             [self.sideMenuViewController hideMenuViewController];
@@ -83,7 +90,8 @@
 - (UINavigationController *)firstNav
 {
     if (!_firstNav) {
-        _firstNav = [[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"FirstViewController"]];
+        FirstViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"FirstViewController"];
+        _firstNav = [[UINavigationController alloc] initWithRootViewController:viewController];
     }
     
     return _firstNav;
@@ -93,7 +101,9 @@
 - (UINavigationController *)secondNav
 {
     if (!_secondNav) {
-        _secondNav = [[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"SecondViewController"]];
+        SecondViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SecondViewController"];
+        viewController.group= 1;
+        _secondNav = [[UINavigationController alloc] initWithRootViewController:viewController];
     }
     
     return _secondNav;
@@ -102,7 +112,9 @@
 - (UINavigationController *)thirdNav
 {
     if (!_thirdNav) {
-        _thirdNav = [[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"ThirdViewController"]];
+        ThirdViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"ThirdViewController"];
+        viewController.group = 2;
+        _thirdNav = [[UINavigationController alloc] initWithRootViewController:viewController];
     }
     
     return _thirdNav;
@@ -111,7 +123,9 @@
 - (UINavigationController *)fourthNav
 {
     if (!_fourthNav) {
-        _fourthNav = [[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"FourthViewController"]];
+        FourthViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"FourthViewController"];
+        viewController.group = 3;
+        _fourthNav = [[UINavigationController alloc] initWithRootViewController:viewController];
     }
     
     return _fourthNav;
@@ -120,7 +134,9 @@
 - (UINavigationController *)fifthNav
 {
     if (!_fifthNav) {
-        _fifthNav = [[UINavigationController alloc] initWithRootViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"FifthViewController"]];
+        FifthViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"FifthViewController"];
+        viewController.group = 4;
+        _fifthNav = [[UINavigationController alloc] initWithRootViewController:viewController];
     }
     
     return _fifthNav;

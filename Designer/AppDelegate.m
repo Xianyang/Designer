@@ -50,8 +50,12 @@
         
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLogin"];
     }
+    
+    NSBundle * bundle = [NSBundle mainBundle];
+    NSString * path = [bundle pathForResource:@"channelid" ofType:nil];
+    NSString * channelname = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
 
-    [MobClick startWithAppkey:@"548000f4fd98c5f440000e7f" reportPolicy:BATCH channelId:@""];
+    [MobClick startWithAppkey:@"548000f4fd98c5f440000e7f" reportPolicy:BATCH channelId:channelname];
     
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     [MobClick setAppVersion:version];

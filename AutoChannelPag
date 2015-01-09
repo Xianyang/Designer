@@ -1,0 +1,37 @@
+#!/bin/sh
+#提示输入  
+echo "输入ipa文件路径 :"
+read file
+#获取名字
+filename=${file##*/}
+#获取路径
+filepath=`dirname $filepath`
+#获取用户名
+username=`whoami`
+#解压路径
+channel="/Users/${username}/Desktop/channel"
+#解压文件
+unzip -o $file -d $channel
+#获取App名称
+appname=`ls $channel/Payload`
+#获取channel列表
+channellist="${channel}/Payload/${appname}/channellist"
+channelsource="${channel}/Payload/${appname}/channelid"
+
+for line in $(cat $channellist)
+do
+channelname=`echo $line`
+channelid=`echo $line`
+
+echo "${channelid}\c" > $channelsource
+
+zipname="${channelname}_${filename}"
+zippath="/Users/${username}/Desktop"
+cd $channel
+zip -r "${zippath}/${zipname}" Payload 
+
+done
+rm -r $channel
+
+
+

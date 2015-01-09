@@ -1,16 +1,15 @@
 //
 //  FirstViewController.h
-//  Designer
+//  Shejishi
 //
-//  Created by 罗 显扬 on 11/27/14.
+//  Created by 罗 显扬 on 12/8/14.
 //  Copyright (c) 2014 罗 显扬. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import <RESideMenu/RESideMenu.h>
 
 @class FirstViewController;
-typedef void (^BeginUpdatingBlock)(FirstViewController *);
+typedef void (^BeginUpdatingBlock0)(FirstViewController *);
 
 @interface FirstViewController : UIViewController
 
