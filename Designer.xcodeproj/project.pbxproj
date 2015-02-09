@@ -567,12 +567,12 @@
 			baseConfigurationReference = ADEFFE5ED59049088FF33ABE /* Pods-Designer.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: XIANYANG LUO (K5J44K984X)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: XIANYANG LUO (K5J44K984X)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Designer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4d0e053e-3cda-4bdd-9e4d-642300796b9f";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -581,12 +581,12 @@
 			baseConfigurationReference = ADEFFE5ED59049088FF33ABE /* Pods-Designer.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: XIANYANG LUO (K5J44K984X)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: XIANYANG LUO (K5J44K984X)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Designer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4d0e053e-3cda-4bdd-9e4d-642300796b9f";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
