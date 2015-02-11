@@ -79,29 +79,26 @@
 
 - (void)initializePlat
 {
-    //1.微博
-    [ShareSDK connectSinaWeiboWithAppKey:@"2370731359"
-                               appSecret:@"2d9bedf493e5b81657993461ea21381e"
-                             redirectUri:@"http://www.sharesdk.cn"];
-    
-    //2.Wechat
+    //1.Wechat
     [ShareSDK connectWeChatWithAppId:@"wx606d3cb001243b32"
                               appSecret:@"4ecec4a1f013c05950b8f6c228b3d49e"
                               wechatCls:[WXApi class]];
     
-    //3.QQ
+    //2.QQ
     [ShareSDK connectQQWithQZoneAppKey:@"1104153828"
                      qqApiInterfaceCls:[TencentApiInterface class]
                        tencentOAuthCls:[TencentOAuth class]];
+    
+    //3.微博
+    [ShareSDK connectSinaWeiboWithAppKey:@"2370731359"
+                               appSecret:@"2d9bedf493e5b81657993461ea21381e"
+                             redirectUri:@"http://www.sharesdk.cn"];
     
     //4.QQ控件
     [ShareSDK connectQZoneWithAppKey:@"1104153828"
                            appSecret:@"LG8vODHsfY8sSRVn"
                    qqApiInterfaceCls:[TencentApiInterface class]
                      tencentOAuthCls:[TencentOAuth class]];
-    
-    //短信
-    [ShareSDK connectSMS];
 }
 
 - (BOOL)application:(UIApplication *)application

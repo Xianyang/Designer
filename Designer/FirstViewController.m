@@ -231,6 +231,8 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     NSString *articleID = topImage.articleID;
     [articleDetailViewController setArticleID:[articleID integerValue]];
     
+//    [articleDetailViewController setThumbnail:article.imageUrl];
+    
     [self.navigationController pushViewController:articleDetailViewController animated:YES];
 }
 
@@ -409,6 +411,8 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         
         ArticleInList *article = self.articlesInList[indexPath.row];
         [articleDetailViewController setArticleID:[article.articleID integerValue]];
+        
+        [articleDetailViewController setThumbnail:article.imageUrl];
     }
 }
 

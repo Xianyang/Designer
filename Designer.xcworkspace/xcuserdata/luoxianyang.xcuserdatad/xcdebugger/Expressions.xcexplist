@@ -3,6 +3,17 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "-[ThirdViewController setViewWithArticleDic:]:ThirdViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.allArticle">
+            </PersistentString>
+            <PersistentString
+               value = "self.tableView">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "-[ArticleDetailViewController dianzanButtonClicked:]:ArticleDetailViewController.m">
       </ContextState>
       <ContextState
@@ -10,14 +21,6 @@
          <PersistentStrings>
             <PersistentString
                value = "self.allComment">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "-[LeftViewController aNavToInitNav:withID:]:LeftViewController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.firstNav">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -30,24 +33,16 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "-[ThirdViewController setViewWithArticleDic:]:ThirdViewController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.allArticle">
-            </PersistentString>
-            <PersistentString
-               value = "self.tableView">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "-[CommentViewController reloadCommentData:]:CommentViewController.m">
       </ContextState>
       <ContextState
          contextName = "-[GetArticleData loadData:]:GetArticleData.m">
       </ContextState>
       <ContextState
-         contextName = "-[FirstViewController startDownloadTopImage]:FirstViewController.m">
+         contextName = "-[AppDelegate application:didFinishLaunchingWithOptions:]:AppDelegate.m">
       </ContextState>
       <ContextState
-         contextName = "-[AppDelegate application:didFinishLaunchingWithOptions:]:AppDelegate.m">
+         contextName = "-[FirstViewController startDownloadTopImage]:FirstViewController.m">
       </ContextState>
       <ContextState
          contextName = "-[ArticleDetailViewController finishLoadArticleData:]:ArticleDetailViewController.m">
@@ -107,7 +102,20 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "-[CommentViewController reloadCommentData:]:CommentViewController.m">
+         contextName = "-[FirstViewController prepareForSegue:sender:]:FirstViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.articlesInList">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[LeftViewController aNavToInitNav:withID:]:LeftViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.firstNav">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
    </ContextStates>
 </VariablesViewState>

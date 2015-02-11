@@ -9,6 +9,8 @@
 #import "ArticleDetailViewController.h"
 #import "GetArticleData.h"
 #import "CommentViewController.h"
+#import <NJKWebViewProgress/NJKWebViewProgress.h>
+#import <NJKWebViewProgress/NJKWebViewProgressView.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIKit+AFNetworking.h>
 #import <ShareSDK/ShareSDK.h>
@@ -16,23 +18,28 @@
 #define DEVICE_FRAME [UIScreen mainScreen].bounds.size
 #define TOPIMAGE_HEIGHT 213.0f
 
-@interface ArticleDetailViewController () <UIWebViewDelegate, UIScrollViewDelegate>
+@interface ArticleDetailViewController () <UIWebViewDelegate, UIScrollViewDelegate, NJKWebViewProgressDelegate>
 {
     NSInteger _commentCount;
     NSInteger _imageCount;
     
     NSString *_title;
+    
+    NSString *_thumbnailName;
+    
+    NJKWebViewProgressView *_progressView;
+    NJKWebViewProgress *_progressProxy;
 }
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scroller;
+//@property (weak, nonatomic) IBOutlet UIScrollView *scroller;
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *dianzanImage;
 @property (weak, nonatomic) IBOutlet UILabel *dianzanLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentLabel;
 
-@property (strong, nonatomic) UIImageView *topImageView;
-@property (strong, nonatomic) UILabel *articleTitle;
-@property (strong, nonatomic) UIWebView *webView;
+//@property (strong, nonatomic) UIImageView *topImageView;
+//@property (strong, nonatomic) UILabel *articleTitle;
+@property (strong, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic) UIView *statusBarZheZhaoView;
 
 @property (strong, nonatomic) GetArticleData *articleData;
@@ -52,8 +59,10 @@
     self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
-    [self.scroller addSubview:self.webView];
-    [self clearWebViewBackground:self.webView];
+//    [self.scroller addSubview:self.webView];
+//    [self clearWebViewBackground:self.webView];
+    
+    [self setProgressView];
     
     self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
     
@@ -65,6 +74,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:YES];
+    [self.view addSubview:_progressView];
     [super viewWillAppear:animated];
 }
 
@@ -87,27 +97,45 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
+- (void)setProgressView
 {
-    if ([self.webView isEqual:webView]) {
-        NSArray *arr = [self.webView subviews];
-        UIScrollView *ascollView = [arr objectAtIndex:0];
-        
-        CGFloat actualHeight = 0.0f;
-        actualHeight = ascollView.contentSize.height;
-        //        if (DEVICE_FRAME.width == 320.0f) {
-        //            actualHeight = ascollView.contentSize.height + _imageCount * 180.0f;
-        //        } else if (DEVICE_FRAME.width == 375.0f) {
-        //            actualHeight = ascollView.contentSize.height + _imageCount * 210.0f;
-        //        } else if (DEVICE_FRAME.width == 414.0f) {
-        //            actualHeight = ascollView.contentSize.height + _imageCount * 230.0f;
-        //        }
-        //
-        //        NSLog(@"The no image webview hight is %f", actualHeight);
-        [self.webView setFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT, DEVICE_FRAME.width, actualHeight)];
-        [self.scroller setContentSize:CGSizeMake(TOPIMAGE_HEIGHT, TOPIMAGE_HEIGHT + self.webView.frame.size.height)];
-    }
+    _progressProxy = [[NJKWebViewProgress alloc] init];
+    self.webView.delegate = _progressProxy;
+    _progressProxy.webViewProxyDelegate = self;
+    _progressProxy.progressDelegate = self;
+    
+    _progressView = [[NJKWebViewProgressView alloc] initWithFrame:CGRectMake(0, 1, self.view.frame.size.width, 3)];
+    _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 }
+
+#pragma mark - NJKWebViewProgressDelegate
+-(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
+{
+    [_progressView setProgress:progress animated:YES];
+    self.title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+}
+
+//- (void)webViewDidFinishLoad:(UIWebView *)webView
+//{
+//    if ([self.webView isEqual:webView]) {
+//        NSArray *arr = [self.webView subviews];
+//        UIScrollView *ascollView = [arr objectAtIndex:0];
+//        
+//        CGFloat actualHeight = 0.0f;
+//        actualHeight = ascollView.contentSize.height;
+//        //        if (DEVICE_FRAME.width == 320.0f) {
+//        //            actualHeight = ascollView.contentSize.height + _imageCount * 180.0f;
+//        //        } else if (DEVICE_FRAME.width == 375.0f) {
+//        //            actualHeight = ascollView.contentSize.height + _imageCount * 210.0f;
+//        //        } else if (DEVICE_FRAME.width == 414.0f) {
+//        //            actualHeight = ascollView.contentSize.height + _imageCount * 230.0f;
+//        //        }
+//        //
+//        //        NSLog(@"The no image webview hight is %f", actualHeight);
+//        [self.webView setFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT, DEVICE_FRAME.width, actualHeight)];
+//        [self.scroller setContentSize:CGSizeMake(TOPIMAGE_HEIGHT, TOPIMAGE_HEIGHT + self.webView.frame.size.height)];
+//    }
+//}
 
 - (void)popViewController
 {
@@ -122,51 +150,28 @@
     NSLog(@"the article id is %lu", (unsigned long)_articleID);
 }
 
-#pragma mark - 点赞
-
-- (IBAction)dianzanBtnClicked:(id)sender
+- (void)setThumbnail:(NSString *)thumbnailName
 {
-    /*
-    //3.向后台发数据
-    NSDictionary *dic = [self.articleData sendADianzan:_articleID];
-    if (dic) {
-        //判断点赞是否成功
-        id status = [dic objectForKey:@"status"];
-        if ([status isKindOfClass:[NSString class]]) {
-            if ([status isEqualToString:@"1"]) {
-                //点赞成功
-                //1.更换点赞图片
-                self.dianzanImage.image = [UIImage imageNamed:@"button_zan_click"];
-                //2.更新界面
-                NSInteger dianzanCount = [self.dianzanLabel.text integerValue];
-                dianzanCount++;
-                [self.dianzanLabel setText:[NSString stringWithFormat:@"%ld", (long)dianzanCount]];
-            } else {
-                //点赞失败
-                MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
-                [self.view addSubview:hud];
-                hud.mode = MBProgressHUDModeText;
-                hud.labelText = @"您已经点过赞了哦";
-                hud.minSize = CGSizeMake(120.0f, 120.0f);
-                hud.margin = 20.0f;
-                hud.yOffset = -50.0f;
-                [hud show:YES];
-                [hud hide:YES afterDelay:2.0f];
-            }
-        }
-    }
-     */
+    _thumbnailName = thumbnailName;
+}
+
+#pragma mark - 分享
+
+- (IBAction)shareBtnClicked:(id)sender
+{
+    NSString *imagePath = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@", [_thumbnailName lastPathComponent]];
     
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"ShareSDK" ofType:@"jpg"];
+//    filename = [NSHomeDirectory() stringByAppendingFormat:@"/Documents/%@", filename];
+//    NSData *data = [NSData dataWithContentsOfFile:filename];
     
     //1、构造分享内容
-//    id<ISSContent> publishContent = [ShareSDK content:@"要分享的内容"
-//                                       defaultContent:@"默认内容"
-//                                                image:[ShareSDK imageWithPath:imagePath]
-//                                                title:@"ShareSDK"
-//                                                  url:@"http://www.mob.com"
-//                                          description:@"这是一条演示信息"
-//                                            mediaType:SSPublishContentMediaTypeNews];
+    //    id<ISSContent> publishContent = [ShareSDK content:@"要分享的内容"
+    //                                       defaultContent:@"默认内容"
+    //                                                image:[ShareSDK imageWithPath:imagePath]
+    //                                                title:@"ShareSDK"
+    //                                                  url:@"http://www.mob.com"
+    //                                          description:@"这是一条演示信息"
+    //                                            mediaType:SSPublishContentMediaTypeNews];
     
     id<ISSContent> publishContent = [ShareSDK content:@""
                                        defaultContent:@""
@@ -210,6 +215,40 @@
                             }];
 }
 
+#pragma mark - 点赞
+
+- (IBAction)dianzanBtnClicked:(id)sender
+{
+    //3.向后台发数据
+    NSDictionary *dic = [self.articleData sendADianzan:_articleID];
+    if (dic) {
+        //判断点赞是否成功
+        id status = [dic objectForKey:@"status"];
+        if ([status isKindOfClass:[NSString class]]) {
+            if ([status isEqualToString:@"1"]) {
+                //点赞成功
+                //1.更换点赞图片
+                self.dianzanImage.image = [UIImage imageNamed:@"button_zan_click"];
+                //2.更新界面
+                NSInteger dianzanCount = [self.dianzanLabel.text integerValue];
+                dianzanCount++;
+                [self.dianzanLabel setText:[NSString stringWithFormat:@"%ld", (long)dianzanCount]];
+            } else {
+                //点赞失败
+                MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+                [self.view addSubview:hud];
+                hud.mode = MBProgressHUDModeText;
+                hud.labelText = @"您已经点过赞了哦";
+                hud.minSize = CGSizeMake(120.0f, 120.0f);
+                hud.margin = 20.0f;
+                hud.yOffset = -50.0f;
+                [hud show:YES];
+                [hud hide:YES afterDelay:2.0f];
+            }
+        }
+    }
+}
+
 
 #pragma mark 去除webView滚动顶部和底部的白边
 - (void)clearWebViewBackground:(UIWebView *)webView
@@ -238,11 +277,11 @@
 - (void)finishLoadArticleData:(NSDictionary *)dic
 {
     //1.下载顶部图片
-    [self.scroller addSubview:self.topImageView];
-    id imageUrlString = [dic objectForKey:@"t_pic"];
-    if ([imageUrlString isKindOfClass:[NSString class]]) {
-        [self.topImageView setImageWithURL:[NSURL URLWithString:imageUrlString]];
-    }
+//    [self.scroller addSubview:self.topImageView];
+//    id imageUrlString = [dic objectForKey:@"t_pic"];
+//    if ([imageUrlString isKindOfClass:[NSString class]]) {
+//        [self.topImageView setImageWithURL:[NSURL URLWithString:imageUrlString]];
+//    }
     
     //2.显示评论数和点赞数
     id dianzanString = [dic objectForKey:@"like_count"];
@@ -269,25 +308,25 @@
     id title = [dic objectForKey:@"title"];
     
     //(2).遮罩
-    UIImageView *zhezhaoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, DEVICE_FRAME.width, TOPIMAGE_HEIGHT)];
+    //UIImageView *zhezhaoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, DEVICE_FRAME.width, TOPIMAGE_HEIGHT)];
     if ([title isKindOfClass:[NSString class]]) {
         _title = title;
-        if ([title length] < 15) {
-            [zhezhaoImageView setImage:[UIImage imageNamed:@"pic_zhezhao_small"]];
-        } else {
-            [zhezhaoImageView setImage:[UIImage imageNamed:@"pic_zhezhao"]];
-        }
-        [_topImageView addSubview:zhezhaoImageView];
+//        if ([title length] < 15) {
+//            [zhezhaoImageView setImage:[UIImage imageNamed:@"pic_zhezhao_small"]];
+//        } else {
+//            [zhezhaoImageView setImage:[UIImage imageNamed:@"pic_zhezhao"]];
+//        }
+//        [_topImageView addSubview:zhezhaoImageView];
         
-        self.articleTitle.text = title;
-        [_topImageView addSubview:self.articleTitle];
+//        self.articleTitle.text = title;
+//        [_topImageView addSubview:self.articleTitle];
     } else {
-        self.articleTitle.text = @"文章加载失败";
-        [_topImageView addSubview:self.articleTitle];
+//        self.articleTitle.text = @"文章加载失败";
+//        [_topImageView addSubview:self.articleTitle];
     }
     
-    NSString *urlString = [dic objectForKey:@"content"];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
+//    NSString *urlString = [dic objectForKey:@"content"];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[@"http://shejishi.hop8.com/share/article.php?id=" stringByAppendingString:[NSString stringWithFormat:@"%ld", (long)_articleID]]]]];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -306,39 +345,39 @@
 }
 
 
-- (UIWebView *)webView
-{
-    if (!_webView) {
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT, DEVICE_FRAME.width, self.scroller.frame.size.height)];
-        _webView.delegate = self;
-        //        _webView.scalesPageToFit = YES;
-        _webView.scrollView.bounces = NO;
-        _webView.scrollView.scrollEnabled = NO;
-    }
-    
-    return _webView;
-}
-
-- (UIImageView *)topImageView
-{
-    if (!_topImageView) {
-        _topImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, DEVICE_FRAME.width, TOPIMAGE_HEIGHT)];
-    }
-    
-    return _topImageView;
-}
-
-- (UILabel *)articleTitle
-{
-    if (!_articleTitle) {
-        _articleTitle = [[UILabel alloc] initWithFrame:CGRectMake(22.0f, TOPIMAGE_HEIGHT - 60.0f, DEVICE_FRAME.width - 47.0f, 60.0f)];
-        _articleTitle.textColor = [UIColor whiteColor];
-        _articleTitle.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:21];
-        _articleTitle.numberOfLines = 0;
-    }
-    
-    return _articleTitle;
-}
+//- (UIWebView *)webView
+//{
+//    if (!_webView) {
+//        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT, DEVICE_FRAME.width, self.scroller.frame.size.height)];
+//        _webView.delegate = self;
+//        //        _webView.scalesPageToFit = YES;
+//        _webView.scrollView.bounces = NO;
+//        _webView.scrollView.scrollEnabled = NO;
+//    }
+//    
+//    return _webView;
+//}
+//
+//- (UIImageView *)topImageView
+//{
+//    if (!_topImageView) {
+//        _topImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, DEVICE_FRAME.width, TOPIMAGE_HEIGHT)];
+//    }
+//    
+//    return _topImageView;
+//}
+//
+//- (UILabel *)articleTitle
+//{
+//    if (!_articleTitle) {
+//        _articleTitle = [[UILabel alloc] initWithFrame:CGRectMake(22.0f, TOPIMAGE_HEIGHT - 60.0f, DEVICE_FRAME.width - 47.0f, 60.0f)];
+//        _articleTitle.textColor = [UIColor whiteColor];
+//        _articleTitle.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:21];
+//        _articleTitle.numberOfLines = 0;
+//    }
+//    
+//    return _articleTitle;
+//}
 
 - (UIView *)statusBarZheZhaoView
 {

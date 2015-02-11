@@ -13,6 +13,7 @@
     NSUInteger _articleID;
 }
 
-- (void)setArticleID:(NSUInteger)id;
+- (void)setArticleID:(NSUInteger)articleID;
+- (void)setThumbnail:(NSString *)thumbnailName;
 
 @end

@@ -266,6 +266,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         
         ArticleInList *article = self.articlesInList[indexPath.row];
         [articleDetailViewController setArticleID:[article.articleID integerValue]];
+        [articleDetailViewController setThumbnail:article.imageUrl];
     }
 }
 
