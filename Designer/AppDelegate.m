@@ -13,6 +13,13 @@
 #import <ASIHTTPRequest/ASIFormDataRequest.h>
 #import <ASIHTTPRequest/ASIHTTPRequest.h>
 
+#import <ShareSDK/ShareSDK.h>
+#import <TencentOpenAPI/TencentApiInterface.h>
+#import <TencentOpenAPI/TencentOAuth.h>
+#import "WXApi.h"
+#import "WeiboSDK.h"
+#import <RennSDK/RennSDK.h>
+
 #import "MobClick.h"
 
 #define IS_WIDESCREEN ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
@@ -62,7 +69,57 @@
     
     [MobClick setLogEnabled:YES];
     
+    //设置社交平台
+    [ShareSDK registerApp:@"5ba046852942"];
+    
+    [self initializePlat];
+    
     return YES;
+}
+
+- (void)initializePlat
+{
+    //1.微博
+    [ShareSDK connectSinaWeiboWithAppKey:@"2370731359"
+                               appSecret:@"2d9bedf493e5b81657993461ea21381e"
+                             redirectUri:@"http://www.sharesdk.cn"];
+    
+    //2.Wechat
+    [ShareSDK connectWeChatWithAppId:@"wx606d3cb001243b32"
+                              appSecret:@"4ecec4a1f013c05950b8f6c228b3d49e"
+                              wechatCls:[WXApi class]];
+    
+    //3.QQ
+    [ShareSDK connectQQWithQZoneAppKey:@"1104153828"
+                     qqApiInterfaceCls:[TencentApiInterface class]
+                       tencentOAuthCls:[TencentOAuth class]];
+    
+    //4.QQ控件
+    [ShareSDK connectQZoneWithAppKey:@"1104153828"
+                           appSecret:@"LG8vODHsfY8sSRVn"
+                   qqApiInterfaceCls:[TencentApiInterface class]
+                     tencentOAuthCls:[TencentOAuth class]];
+    
+    //短信
+    [ShareSDK connectSMS];
+}
+
+- (BOOL)application:(UIApplication *)application
+      handleOpenURL:(NSURL *)url
+{
+    return [ShareSDK handleOpenURL:url
+                        wxDelegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [ShareSDK handleOpenURL:url
+                 sourceApplication:sourceApplication
+                        annotation:annotation
+                        wxDelegate:self];
 }
 
 - (NSDictionary *)getSideMenuTitles

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6B35FD07EFDD4A29B49D5451"
+               BlueprintIdentifier = "FBD4DD605A164E2DAC07E3E5"
                BuildableName = "libPods-Designer-AFNetworkActivityLogger.a"
                BlueprintName = "Pods-Designer-AFNetworkActivityLogger"
                ReferencedContainer = "container:Pods.xcodeproj">

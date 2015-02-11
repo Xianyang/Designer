@@ -10,6 +10,7 @@ target "Designer" do
     pod 'ASIHTTPRequest', '~> 1.8.2'
     pod 'RESideMenu', '~> 4.0.7'
     pod 'UMengAnalytics', '~> 3.1.8'
+    pod 'NJKWebViewProgress', '~> 0.2.3'
 end
 
 target "DesignerTests" do

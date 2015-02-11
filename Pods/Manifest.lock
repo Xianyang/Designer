@@ -41,6 +41,11 @@ PODS:
   - EGOTableViewPullRefresh (0.1.0)
   - INTULocationManager (1.2.0)
   - MBProgressHUD (0.9)
+  - NJKWebViewProgress (0.2.3):
+    - NJKWebViewProgress/Core
+    - NJKWebViewProgress/ProgressView
+  - NJKWebViewProgress/Core (0.2.3)
+  - NJKWebViewProgress/ProgressView (0.2.3)
   - Reachability (3.2)
   - RESideMenu (4.0.7)
   - UMengAnalytics (3.1.8)
@@ -52,6 +57,7 @@ DEPENDENCIES:
   - EGOTableViewPullRefresh (~> 0.1.0)
   - INTULocationManager
   - MBProgressHUD (~> 0.8)
+  - NJKWebViewProgress (~> 0.2.3)
   - RESideMenu (~> 4.0.7)
   - UMengAnalytics (~> 3.1.8)
 
@@ -63,6 +69,7 @@ SPEC CHECKSUMS:
   EGOTableViewPullRefresh: 04bb7d115f660c91a036ebade5e6678c7ef26c59
   INTULocationManager: 596c57e35a00ca1ee9d59bf4cc2b63dc299b580e
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
+  NJKWebViewProgress: 721b57080c840c76f70ff6c2dda4f836ee1b27c1
   Reachability: 1ef8adf5c4e3d362f96515d4278f68dad3c26930
   RESideMenu: a9c1cd2e64e60e1d3166ddac01a83e215a0e4d30
   UMengAnalytics: c263b4e0f27e91551b7e79eacdf812f1bae0e256

@@ -15,7 +15,7 @@ static NSString *urlString = @"http://121.41.35.78/hahafarm/index.php?r=tblArtic
 //加载首页数据，参数load
 - (NSDictionary *)getArtilcleListWithLoadNumber:(NSInteger)loadCount
 {
-    NSURL *url = [NSURL URLWithString:@"http://121.41.118.112/designer_app/index.php?r=Data/listall"];
+    NSURL *url = [NSURL URLWithString:@"http://shejishi.ios.hop8.com/designer_app/index.php?r=Data/listall"];
     ASIFormDataRequest *asiHttpRequest = [ASIFormDataRequest requestWithURL:url];
     [asiHttpRequest addPostValue:[NSString stringWithFormat:@"%ld", (long)loadCount] forKey:@"load"];
     return [self loadData:asiHttpRequest];
@@ -24,7 +24,7 @@ static NSString *urlString = @"http://121.41.35.78/hahafarm/index.php?r=tblArtic
 //加载分组文章数据
 - (NSDictionary *)getArtilcleByGroupNumber:(NSInteger)group withLoadNumber:(NSInteger)loadCount
 {
-    NSURL *url = [NSURL URLWithString:@"http://121.41.118.112/designer_app/index.php?r=Data/listgroup"];
+    NSURL *url = [NSURL URLWithString:@"http://shejishi.ios.hop8.com/designer_app/index.php?r=Data/listgroup"];
     ASIFormDataRequest *asiHttpRequest = [ASIFormDataRequest requestWithURL:url];
     [asiHttpRequest addPostValue:[NSString stringWithFormat:@"%ld", (long)loadCount] forKey:@"load"];
     [asiHttpRequest addPostValue:[NSString stringWithFormat:@"%ld", (long)group] forKey:@"group"];
@@ -35,7 +35,7 @@ static NSString *urlString = @"http://121.41.35.78/hahafarm/index.php?r=tblArtic
 //获取文章数据
 - (NSDictionary *)getArticleData:(NSInteger)articleID
 {
-    NSURL *url = [NSURL URLWithString:@"http://121.41.118.112/designer_app/index.php?r=Data/article"];
+    NSURL *url = [NSURL URLWithString:@"http://shejishi.ios.hop8.com/designer_app/index.php?r=Data/article"];
     ASIFormDataRequest *asiHttpRequest = [ASIFormDataRequest requestWithURL:url];
     [asiHttpRequest addPostValue:[NSString stringWithFormat:@"%ld", (long)articleID] forKey:@"id"];
     
@@ -49,7 +49,7 @@ static NSString *urlString = @"http://121.41.35.78/hahafarm/index.php?r=tblArtic
 //获取文章评论数据
 - (NSDictionary *)getCommentData:(NSInteger)articleID
 {
-    NSURL *url = [NSURL URLWithString:@"http://121.41.118.112/designer_app/index.php?r=Data/commentlist"];
+    NSURL *url = [NSURL URLWithString:@"http://shejishi.ios.hop8.com/designer_app/index.php?r=Data/commentlist"];
     ASIFormDataRequest *asiHttpRequest = [ASIFormDataRequest requestWithURL:url];
 
     [asiHttpRequest addPostValue:[NSString stringWithFormat:@"%ld", (long)articleID] forKey:@"id"];
@@ -60,7 +60,7 @@ static NSString *urlString = @"http://121.41.35.78/hahafarm/index.php?r=tblArtic
 //获取三个image
 - (NSDictionary *)getTopImageDataOnce
 {
-    NSURL *url = [NSURL URLWithString:@"http://121.41.118.112/designer_app/index.php?r=Data/focuslist"];
+    NSURL *url = [NSURL URLWithString:@"http://shejishi.ios.hop8.com/designer_app/index.php?r=Data/focuslist"];
     ASIFormDataRequest *asiHttpRequest = [ASIFormDataRequest requestWithURL:url];
     
     return [self loadData:asiHttpRequest];
@@ -70,7 +70,7 @@ static NSString *urlString = @"http://121.41.35.78/hahafarm/index.php?r=tblArtic
 - (NSDictionary *)sendACommentInArticle:(NSInteger)articleID commentContent:(NSString *)contentString atTime:(NSString *)dateString
 {
     NSLog(@"send a comment data");
-    NSURL *url = [NSURL URLWithString:@"http://121.41.118.112/designer_app/index.php?r=Data/comment"];
+    NSURL *url = [NSURL URLWithString:@"http://shejishi.ios.hop8.com/designer_app/index.php?r=Data/comment"];
     ASIFormDataRequest *asiHttpRequest = [ASIFormDataRequest requestWithURL:url];
     
     id userArea = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserLocationCity"];
@@ -91,7 +91,7 @@ static NSString *urlString = @"http://121.41.35.78/hahafarm/index.php?r=tblArtic
 - (NSDictionary *)sendADianzan:(NSInteger)articleID
 {
     NSLog(@"send a dianzan data");
-    NSURL *url = [NSURL URLWithString:@"http://121.41.118.112/designer_app/index.php?r=Data/like"];
+    NSURL *url = [NSURL URLWithString:@"http://shejishi.ios.hop8.com/designer_app/index.php?r=Data/like"];
     ASIFormDataRequest *asiHttpRequest = [ASIFormDataRequest requestWithURL:url];
 
     [asiHttpRequest addPostValue:[NSString stringWithFormat:@"%ld", (long)articleID] forKey:@"id"];

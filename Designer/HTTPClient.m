@@ -13,7 +13,7 @@
 
 - (NSDictionary *)downloadArticleInGroup:(int)group withLoadCount:(int)loadCount
 {
-    NSURL *url = [NSURL URLWithString:@"http://121.41.118.112/designer_app//index.php?r=Data/listgroup"];
+    NSURL *url = [NSURL URLWithString:@"http://shejishi.ios.hop8.com/designer_app//index.php?r=Data/listgroup"];
     ASIFormDataRequest *asiHttpRequest = [ASIFormDataRequest requestWithURL:url];
     [asiHttpRequest addPostValue:[NSString stringWithFormat:@"%ld", (long)loadCount] forKey:@"load"];
     [asiHttpRequest addPostValue:[NSString stringWithFormat:@"%ld", (long)group] forKey:@"group"];
@@ -23,7 +23,7 @@
 
 - (NSDictionary *)downloadTopImageURL
 {
-    NSURL *url = [NSURL URLWithString:@"http://121.41.118.112/designer_app/index.php?r=Data/focuslist"];
+    NSURL *url = [NSURL URLWithString:@"http://shejishi.ios.hop8.com/designer_app/index.php?r=Data/focuslist"];
     ASIFormDataRequest *asiHttpRequest = [ASIFormDataRequest requestWithURL:url];
     
     return [self loadData:asiHttpRequest];

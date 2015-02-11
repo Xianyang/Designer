@@ -11,6 +11,7 @@
 #import "CommentViewController.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <AFNetworking/UIKit+AFNetworking.h>
+#import <ShareSDK/ShareSDK.h>
 
 #define DEVICE_FRAME [UIScreen mainScreen].bounds.size
 #define TOPIMAGE_HEIGHT 213.0f
@@ -19,6 +20,8 @@
 {
     NSInteger _commentCount;
     NSInteger _imageCount;
+    
+    NSString *_title;
 }
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scroller;
@@ -123,6 +126,7 @@
 
 - (IBAction)dianzanBtnClicked:(id)sender
 {
+    /*
     //3.向后台发数据
     NSDictionary *dic = [self.articleData sendADianzan:_articleID];
     if (dic) {
@@ -151,6 +155,59 @@
             }
         }
     }
+     */
+    
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"ShareSDK" ofType:@"jpg"];
+    
+    //1、构造分享内容
+//    id<ISSContent> publishContent = [ShareSDK content:@"要分享的内容"
+//                                       defaultContent:@"默认内容"
+//                                                image:[ShareSDK imageWithPath:imagePath]
+//                                                title:@"ShareSDK"
+//                                                  url:@"http://www.mob.com"
+//                                          description:@"这是一条演示信息"
+//                                            mediaType:SSPublishContentMediaTypeNews];
+    
+    id<ISSContent> publishContent = [ShareSDK content:@""
+                                       defaultContent:@""
+                                                image:[ShareSDK imageWithPath:imagePath]
+                                                title:_title?_title:@""
+                                                  url:[@"http://shejishi.hop8.com/share/article.php?id=" stringByAppendingString:[NSString stringWithFormat:@"%ld", (long)_articleID]]
+                                          description:@"设计狮——专属设计师的新闻客户端"
+                                            mediaType:SSPublishContentMediaTypeNews];
+    //1+创建弹出菜单容器（iPad必要）
+    id<ISSContainer> container = [ShareSDK container];
+    [container setIPadContainerWithView:sender arrowDirect:UIPopoverArrowDirectionUp];
+    
+    //2、弹出分享菜单
+    [ShareSDK showShareActionSheet:container
+                         shareList:nil
+                           content:publishContent
+                     statusBarTips:YES
+                       authOptions:nil
+                      shareOptions:nil
+                            result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+                                
+                                //可以根据回调提示用户。
+                                if (state == SSResponseStateSuccess)
+                                {
+                                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享成功"
+                                                                                    message:nil
+                                                                                   delegate:self
+                                                                          cancelButtonTitle:@"OK"
+                                                                          otherButtonTitles:nil, nil];
+                                    [alert show];
+                                }
+                                else if (state == SSResponseStateFail)
+                                {
+                                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"分享失败"
+                                                                                    message:[NSString stringWithFormat:@"失败描述：%@",[error errorDescription]]
+                                                                                   delegate:self
+                                                                          cancelButtonTitle:@"OK"
+                                                                          otherButtonTitles:nil, nil];
+                                    [alert show];
+                                }
+                            }];
 }
 
 
@@ -214,6 +271,7 @@
     //(2).遮罩
     UIImageView *zhezhaoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, DEVICE_FRAME.width, TOPIMAGE_HEIGHT)];
     if ([title isKindOfClass:[NSString class]]) {
+        _title = title;
         if ([title length] < 15) {
             [zhezhaoImageView setImage:[UIImage imageNamed:@"pic_zhezhao_small"]];
         } else {
