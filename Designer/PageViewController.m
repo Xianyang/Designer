@@ -152,6 +152,8 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     ArticleInList *article = self.articlesInList[indexPath.row];
     
     [cell.titleLabel setText:article.title];
+    [cell.customImageView.layer setBorderColor:[[UIColor blackColor] CGColor]];
+    [cell.customImageView.layer setBorderWidth:5.0f];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DownloadImageNotification"
                                                         object:self
@@ -265,8 +267,9 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         ArticleDetailViewController *articleDetailViewController = segue.destinationViewController;
         
         ArticleInList *article = self.articlesInList[indexPath.row];
-        [articleDetailViewController setArticleID:[article.articleID integerValue]];
-        [articleDetailViewController setThumbnail:article.imageUrl];
+        [articleDetailViewController setArticleID:[article.articleID integerValue]
+                                        thumbnail:article.imageUrl
+                                      isFirstPage:NO];
     }
 }
 

@@ -24,8 +24,11 @@
     NSInteger _imageCount;
     
     NSString *_title;
+    NSString *_abstract;
     
     NSString *_thumbnailName;
+    
+    BOOL _isFirstPage;
     
     NJKWebViewProgressView *_progressView;
     NJKWebViewProgress *_progressProxy;
@@ -74,7 +77,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:YES];
-    [self.view addSubview:_progressView];
+    
+    if (_isFirstPage) {
+        [self.view addSubview:_progressView];
+    }
+    
     [super viewWillAppear:animated];
 }
 
@@ -115,6 +122,15 @@
     self.title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
 }
 
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSString *picName = [[request URL] absoluteString];
+    
+    NSLog(@"pic name is %@", picName);
+    
+    return YES;
+}
+
 //- (void)webViewDidFinishLoad:(UIWebView *)webView
 //{
 //    if ([self.webView isEqual:webView]) {
@@ -144,15 +160,13 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)setArticleID:(NSUInteger)articleID
+- (void)setArticleID:(NSUInteger)articleID thumbnail:(NSString *)thumbnailName isFirstPage:(BOOL)isFirstPage
 {
     _articleID = articleID;
-    NSLog(@"the article id is %lu", (unsigned long)_articleID);
-}
-
-- (void)setThumbnail:(NSString *)thumbnailName
-{
     _thumbnailName = thumbnailName;
+    _isFirstPage = isFirstPage;
+    
+    NSLog(@"the article id is %lu", (unsigned long)_articleID);
 }
 
 #pragma mark - 分享
@@ -173,7 +187,7 @@
     //                                          description:@"这是一条演示信息"
     //                                            mediaType:SSPublishContentMediaTypeNews];
     
-    id<ISSContent> publishContent = [ShareSDK content:@""
+    id<ISSContent> publishContent = [ShareSDK content:_abstract
                                        defaultContent:@""
                                                 image:[ShareSDK imageWithPath:imagePath]
                                                 title:_title?_title:@""
@@ -251,15 +265,15 @@
 
 
 #pragma mark 去除webView滚动顶部和底部的白边
-- (void)clearWebViewBackground:(UIWebView *)webView
-{
-    UIWebView *web = webView;
-    for (id v in web.subviews) {
-        if ([v isKindOfClass:[UIScrollView class]]) {
-            [v setBounces:NO];
-        }
-    }
-}
+//- (void)clearWebViewBackground:(UIWebView *)webView
+//{
+//    UIWebView *web = webView;
+//    for (id v in web.subviews) {
+//        if ([v isKindOfClass:[UIScrollView class]]) {
+//            [v setBounces:NO];
+//        }
+//    }
+//}
 
 #pragma mark 加载文章数据
 
@@ -307,6 +321,7 @@
     //(1).标题
     id title = [dic objectForKey:@"title"];
     
+    _abstract = [dic objectForKey:@"abstract"];
     //(2).遮罩
     //UIImageView *zhezhaoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, DEVICE_FRAME.width, TOPIMAGE_HEIGHT)];
     if ([title isKindOfClass:[NSString class]]) {
@@ -325,8 +340,8 @@
 //        [_topImageView addSubview:self.articleTitle];
     }
     
-//    NSString *urlString = [dic objectForKey:@"content"];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[@"http://shejishi.hop8.com/share/article.php?id=" stringByAppendingString:[NSString stringWithFormat:@"%ld", (long)_articleID]]]]];
+    NSString *urlString = [dic objectForKey:@"content"];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
 }
 
 #pragma mark - UIScrollViewDelegate

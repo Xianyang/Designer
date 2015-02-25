@@ -10,7 +10,8 @@
 		7A0A820F0EF44203BB1F82FB /* libPods-Designer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BAAD530CBD43A19AE0023F /* libPods-Designer.a */; };
 		80237F981A5E1B5C00AE4FB2 /* channellist in Resources */ = {isa = PBXBuildFile; fileRef = 80237F961A5E1B5C00AE4FB2 /* channellist */; };
 		80237F991A5E1B5C00AE4FB2 /* channelid in Resources */ = {isa = PBXBuildFile; fileRef = 80237F971A5E1B5C00AE4FB2 /* channelid */; };
-		807724651A53E0C900B6E2F5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 807724641A53E0C900B6E2F5 /* Main.storyboard */; };
+		80611A3E1A8E631D00935CAA /* InstructionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80611A3D1A8E631D00935CAA /* InstructionView.m */; };
+		80611AF01A9B5BC100935CAA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80611AEF1A9B5BC100935CAA /* Main.storyboard */; };
 		8077246E1A53E12600B6E2F5 /* ArticleImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 807724671A53E12600B6E2F5 /* ArticleImageCell.m */; };
 		8077246F1A53E12600B6E2F5 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 807724691A53E12600B6E2F5 /* CommentCell.m */; };
 		807724701A53E12600B6E2F5 /* TopScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 8077246B1A53E12600B6E2F5 /* TopScroller.m */; };
@@ -90,7 +91,9 @@
 /* Begin PBXFileReference section */
 		80237F961A5E1B5C00AE4FB2 /* channellist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = channellist; sourceTree = "<group>"; };
 		80237F971A5E1B5C00AE4FB2 /* channelid */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = channelid; sourceTree = "<group>"; };
-		807724641A53E0C900B6E2F5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		80611A3C1A8E631D00935CAA /* InstructionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstructionView.h; sourceTree = "<group>"; };
+		80611A3D1A8E631D00935CAA /* InstructionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstructionView.m; sourceTree = "<group>"; };
+		80611AEF1A9B5BC100935CAA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		807724661A53E12600B6E2F5 /* ArticleImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArticleImageCell.h; sourceTree = "<group>"; };
 		807724671A53E12600B6E2F5 /* ArticleImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleImageCell.m; sourceTree = "<group>"; };
 		807724681A53E12600B6E2F5 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
@@ -274,6 +277,8 @@
 				8077246B1A53E12600B6E2F5 /* TopScroller.m */,
 				8077246C1A53E12600B6E2F5 /* TopImageView.h */,
 				8077246D1A53E12600B6E2F5 /* TopImageView.m */,
+				80611A3C1A8E631D00935CAA /* InstructionView.h */,
+				80611A3D1A8E631D00935CAA /* InstructionView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -495,7 +500,7 @@
 				807724A11A53E15200B6E2F5 /* ViewController */,
 				8077247F1A53E13900B6E2F5 /* Model */,
 				807724721A53E12A00B6E2F5 /* View */,
-				807724641A53E0C900B6E2F5 /* Main.storyboard */,
+				80611AEF1A9B5BC100935CAA /* Main.storyboard */,
 				80D157E51A27520500DF56F5 /* Images.xcassets */,
 				80D157D81A27520500DF56F5 /* Supporting Files */,
 			);
@@ -613,13 +618,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				80237F981A5E1B5C00AE4FB2 /* channellist in Resources */,
+				80611AF01A9B5BC100935CAA /* Main.storyboard in Resources */,
 				80D157E61A27520500DF56F5 /* Images.xcassets in Resources */,
 				807DE2C31A88B04A0090735E /* ShareSDKLocalizable.strings in Resources */,
 				807DE2C81A88B04A0090735E /* RennSDK.bundle in Resources */,
 				807DE2C41A88B04A0090735E /* Resource.bundle in Resources */,
 				807DE2CB1A88B04A0090735E /* WeiboSDK.bundle in Resources */,
 				807DE2C71A88B04A0090735E /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
-				807724651A53E0C900B6E2F5 /* Main.storyboard in Resources */,
 				807DE2CF1A88B04A0090735E /* ShareSDKFlatShareViewUI.bundle in Resources */,
 				80237F991A5E1B5C00AE4FB2 /* channelid in Resources */,
 			);
@@ -684,6 +689,7 @@
 				8077247E1A53E13600B6E2F5 /* TopImage.m in Sources */,
 				807724B21A53E16F00B6E2F5 /* HTTPClient.m in Sources */,
 				807724B01A53E16F00B6E2F5 /* ArticleManager.m in Sources */,
+				80611A3E1A8E631D00935CAA /* InstructionView.m in Sources */,
 				8077246E1A53E12600B6E2F5 /* ArticleImageCell.m in Sources */,
 				807724B11A53E16F00B6E2F5 /* TopImageManager.m in Sources */,
 				807724701A53E12600B6E2F5 /* TopScroller.m in Sources */,
@@ -835,7 +841,7 @@
 					"$(PROJECT_DIR)/Designer/ShareSDK/Extend/WeChatSDK",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "947f860a-bb54-4645-9ad1-088d1ff0b125";
+				PROVISIONING_PROFILE = "2155b53a-ba0b-4680-9830-8bac5a626871";
 			};
 			name = Debug;
 		};
@@ -864,7 +870,7 @@
 					"$(PROJECT_DIR)/Designer/ShareSDK/Extend/WeChatSDK",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "947f860a-bb54-4645-9ad1-088d1ff0b125";
+				PROVISIONING_PROFILE = "2155b53a-ba0b-4680-9830-8bac5a626871";
 			};
 			name = Release;
 		};

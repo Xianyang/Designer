@@ -13,7 +13,6 @@
     NSUInteger _articleID;
 }
 
-- (void)setArticleID:(NSUInteger)articleID;
-- (void)setThumbnail:(NSString *)thumbnailName;
+- (void)setArticleID:(NSUInteger)articleID thumbnail:(NSString *)thumbnailName isFirstPage:(BOOL)isFirstPage;
 
 @end

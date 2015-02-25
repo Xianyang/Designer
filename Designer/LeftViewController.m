@@ -78,9 +78,9 @@
             [self.sideMenuViewController hideMenuViewController];
             break;
         case 4:
-            [self.sideMenuViewController setContentViewController:self.fifthNav
-                                                         animated:YES];
-            [self.sideMenuViewController hideMenuViewController];
+//            [self.sideMenuViewController setContentViewController:self.fifthNav
+//                                                         animated:YES];
+//            [self.sideMenuViewController hideMenuViewController];
             break;
         default:
             break;
@@ -192,13 +192,23 @@
     return cell;
 }
 
+//+ (NSArray *)titlesOfTable
+//{
+//    return @[@"                首  页",
+//             @"                G U I",
+//             @"                网  页",
+//             @"                平  面",
+//             @"                插  画"];
+//}
+
+
 + (NSArray *)titlesOfTable
 {
     return @[@"                首  页",
              @"                G U I",
              @"                网  页",
              @"                平  面",
-             @"                插  画"];
+             @""];
 }
 
 @end

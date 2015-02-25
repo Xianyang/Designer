@@ -13,6 +13,7 @@
 #import "TopImage.h"
 #import "TopImageView.h"
 #import "ArticleDetailViewController.h"
+#import "InstructionView.h"
 #import <AFNetworking/UIKit+AFNetworking.h>
 
 #define TOPIMAGE_HEIGHT 350.0f
@@ -61,6 +62,16 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
                                                   forBarMetrics:UIBarMetricsDefault];
     NSDictionary * dict=[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     [self.navigationController.navigationBar setTitleTextAttributes:dict];
+    
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"is_first"]) {
+        NSString *string = @"App_had_launched";
+        [[NSUserDefaults standardUserDefaults] setObject:string forKey:@"is_first"];
+        
+        InstructionView *instructionView = [[InstructionView alloc] initWithFrame:self.view.frame withPanelCount:2];
+        
+        [instructionView showInView:self.navigationController.view];
+    }
+    
     
     _group = 0;
     _loadTaskCount = 0;
@@ -229,7 +240,9 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     
     TopImage *topImage = self.topImages[index];
     NSString *articleID = topImage.articleID;
-    [articleDetailViewController setArticleID:[articleID integerValue]];
+    [articleDetailViewController setArticleID:[articleID integerValue]
+                                    thumbnail:@""
+                                  isFirstPage:YES];
     
 //    [articleDetailViewController setThumbnail:article.imageUrl];
     
@@ -410,9 +423,9 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         ArticleDetailViewController *articleDetailViewController = segue.destinationViewController;
         
         ArticleInList *article = self.articlesInList[indexPath.row];
-        [articleDetailViewController setArticleID:[article.articleID integerValue]];
-        
-        [articleDetailViewController setThumbnail:article.imageUrl];
+        [articleDetailViewController setArticleID:[article.articleID integerValue]
+                                        thumbnail:article.imageUrl
+                                      isFirstPage:YES];
     }
 }
 

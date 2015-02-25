@@ -39,6 +39,14 @@
          contextName = "-[GetArticleData loadData:]:GetArticleData.m">
       </ContextState>
       <ContextState
+         contextName = "-[PageViewController configureImageCell:atIndexPath:]:PageViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "cell.customImageView">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "-[AppDelegate application:didFinishLaunchingWithOptions:]:AppDelegate.m">
       </ContextState>
       <ContextState

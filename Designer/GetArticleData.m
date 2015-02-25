@@ -35,7 +35,7 @@ static NSString *urlString = @"http://121.41.35.78/hahafarm/index.php?r=tblArtic
 //获取文章数据
 - (NSDictionary *)getArticleData:(NSInteger)articleID
 {
-    NSURL *url = [NSURL URLWithString:@"http://shejishi.ios.hop8.com/designer_app/index.php?r=Data/article"];
+    NSURL *url = [NSURL URLWithString:@"http://shejishi.ios.hop8.com/designer_app/index.php?r=Data/iosArticle"];
     ASIFormDataRequest *asiHttpRequest = [ASIFormDataRequest requestWithURL:url];
     [asiHttpRequest addPostValue:[NSString stringWithFormat:@"%ld", (long)articleID] forKey:@"id"];
     
