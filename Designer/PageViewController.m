@@ -152,8 +152,8 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     ArticleInList *article = self.articlesInList[indexPath.row];
     
     [cell.titleLabel setText:article.title];
-    [cell.customImageView.layer setBorderColor:[[UIColor blackColor] CGColor]];
-    [cell.customImageView.layer setBorderWidth:5.0f];
+//    [cell.customImageView.layer setBorderColor:[[UIColor blackColor] CGColor]];
+//    [cell.customImageView.layer setBorderWidth:5.0f];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DownloadImageNotification"
                                                         object:self
