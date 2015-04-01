@@ -11,6 +11,8 @@ target "Designer" do
     pod 'RESideMenu', '~> 4.0.7'
     pod 'UMengAnalytics', '~> 3.1.8'
     pod 'NJKWebViewProgress', '~> 0.2.3'
+    pod 'AFNetworking', '~> 2.5.2'
+    pod 'JSONModel', '~> 1.0.2'
 end
 
 target "DesignerTests" do

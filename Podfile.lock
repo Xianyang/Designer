@@ -2,25 +2,25 @@ PODS:
   - AFNetworkActivityLogger (2.0.3):
     - AFNetworking/NSURLConnection (~> 2.0)
     - AFNetworking/NSURLSession (~> 2.0)
-  - AFNetworking (2.5.0):
+  - AFNetworking (2.5.2):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
     - AFNetworking/UIKit
-  - AFNetworking/NSURLConnection (2.5.0):
+  - AFNetworking/NSURLConnection (2.5.2):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.5.0):
+  - AFNetworking/NSURLSession (2.5.2):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.5.0)
-  - AFNetworking/Security (2.5.0)
-  - AFNetworking/Serialization (2.5.0)
-  - AFNetworking/UIKit (2.5.0):
+  - AFNetworking/Reachability (2.5.2)
+  - AFNetworking/Security (2.5.2)
+  - AFNetworking/Serialization (2.5.2)
+  - AFNetworking/UIKit (2.5.2):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - ASIHTTPRequest (1.8.2):
@@ -40,6 +40,7 @@ PODS:
     - AFNetworking (~> 2.0)
   - EGOTableViewPullRefresh (0.1.0)
   - INTULocationManager (1.2.0)
+  - JSONModel (1.0.2)
   - MBProgressHUD (0.9)
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core
@@ -52,26 +53,29 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworkActivityLogger (~> 2.0)
+  - AFNetworking (~> 2.5.2)
   - ASIHTTPRequest (~> 1.8.2)
   - BlockRSSParser (~> 2.1)
   - EGOTableViewPullRefresh (~> 0.1.0)
   - INTULocationManager
+  - JSONModel (~> 1.0.2)
   - MBProgressHUD (~> 0.8)
   - NJKWebViewProgress (~> 0.2.3)
   - RESideMenu (~> 4.0.7)
   - UMengAnalytics (~> 3.1.8)
 
 SPEC CHECKSUMS:
-  AFNetworkActivityLogger: d6a2d2755fada3a1fbf1f490ec0dd92224e092a4
-  AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
-  ASIHTTPRequest: 2c8335b49410c0e2ad42829c438e74d454b77590
-  BlockRSSParser: 971b87a57521a3e4bc514af60dc8975d0ccc9b4c
-  EGOTableViewPullRefresh: 04bb7d115f660c91a036ebade5e6678c7ef26c59
-  INTULocationManager: 596c57e35a00ca1ee9d59bf4cc2b63dc299b580e
-  MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
-  NJKWebViewProgress: 721b57080c840c76f70ff6c2dda4f836ee1b27c1
-  Reachability: 1ef8adf5c4e3d362f96515d4278f68dad3c26930
-  RESideMenu: a9c1cd2e64e60e1d3166ddac01a83e215a0e4d30
-  UMengAnalytics: c263b4e0f27e91551b7e79eacdf812f1bae0e256
+  AFNetworkActivityLogger: e82c9ba285b37042d86729bff5b14036c4312cd7
+  AFNetworking: fefbce9660acb17f48ae0011292d4da0f457bf36
+  ASIHTTPRequest: ec013992946676b7978dcbde6396d57312d21db4
+  BlockRSSParser: aedf3ab9a6c92f8d0881b9415fe88b5e136ab174
+  EGOTableViewPullRefresh: d4c15be51914f4168d6fd7529b6ad3a4ab01e5f4
+  INTULocationManager: 022ea0ada74cc1b9ada12ba370d0439be567e50b
+  JSONModel: 6ffcb4ffa3659c9e9a2e5d45d6c7705bab187c03
+  MBProgressHUD: d8e7ea388dc1549a42e0d219067cf5f2c898fb66
+  NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  RESideMenu: f24c508404b49c667344c54aba7e590883533958
+  UMengAnalytics: fe0fa30f2686541eda3ae778d036cc368bc1abd4
 
 COCOAPODS: 0.33.1

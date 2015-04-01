@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DF6398B0CC03497AAC87D69B"
+               BlueprintIdentifier = "184E73C5A24A48BABBDF98E5"
                BuildableName = "libPods-Designer-RESideMenu.a"
                BlueprintName = "Pods-Designer-RESideMenu"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C06429883E6C4EC1A0C113D0"
+               BlueprintIdentifier = "1ED2EB0026134DC1806DD484"
                BuildableName = "libPods-Designer-BlockRSSParser.a"
                BlueprintName = "Pods-Designer-BlockRSSParser"
                ReferencedContainer = "container:Pods.xcodeproj">
