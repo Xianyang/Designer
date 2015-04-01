@@ -3,63 +3,24 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "-[ThirdViewController setViewWithArticleDic:]:ThirdViewController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.allArticle">
-            </PersistentString>
-            <PersistentString
-               value = "self.tableView">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "-[ArticleDetailViewController dianzanButtonClicked:]:ArticleDetailViewController.m">
-      </ContextState>
-      <ContextState
-         contextName = "-[CommentViewController tableView:cellForRowAtIndexPath:]:CommentViewController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.allComment">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "-[FirstViewController setViewWithArticleDic:]:FirstViewController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.allArticle">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "-[CommentViewController reloadCommentData:]:CommentViewController.m">
       </ContextState>
       <ContextState
-         contextName = "-[GetArticleData loadData:]:GetArticleData.m">
+         contextName = "-[FirstViewController reloadScroller:]:FirstViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.topImages">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[FirstViewController startDownloadArticleData]:FirstViewController.m">
       </ContextState>
       <ContextState
          contextName = "-[PageViewController configureImageCell:atIndexPath:]:PageViewController.m">
          <PersistentStrings>
             <PersistentString
                value = "cell.customImageView">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "-[AppDelegate application:didFinishLaunchingWithOptions:]:AppDelegate.m">
-      </ContextState>
-      <ContextState
-         contextName = "-[FirstViewController startDownloadTopImage]:FirstViewController.m">
-      </ContextState>
-      <ContextState
-         contextName = "-[ArticleDetailViewController finishLoadArticleData:]:ArticleDetailViewController.m">
-      </ContextState>
-      <ContextState
-         contextName = "-[CommentViewController finishLoadArticleCommentData:]:CommentViewController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.allComment">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -72,7 +33,23 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "-[FirstViewController startDownloadArticleData]:FirstViewController.m">
+         contextName = "-[CommentViewController finishLoadArticleCommentData:]:CommentViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.allComment">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ThirdViewController setViewWithArticleDic:]:ThirdViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.allArticle">
+            </PersistentString>
+            <PersistentString
+               value = "self.tableView">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "-[FirstViewController loadScrollViewWithPage:]:FirstViewController.m">
@@ -86,7 +63,31 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "-[CommentViewController setContent:atIndexPath:]:CommentViewController.m">
+         contextName = "__51-[LibraryAPI downloadArticleInGroup:withLoadCount:]_block_invoke:LibraryAPI.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.articleManagers">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[LeftViewController aNavToInitNav:withID:]:LeftViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.firstNav">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[FirstViewController reloadTableView:]:FirstViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.articlesInList">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[CommentViewController tableView:cellForRowAtIndexPath:]:CommentViewController.m">
          <PersistentStrings>
             <PersistentString
                value = "self.allComment">
@@ -94,10 +95,77 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "-[FirstViewController topScroller:viewAtIndex:]:FirstViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.topImages">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__66-[XYHttpClient downloadArticleInGroup:withLoadCount:success:fail:]_block_invoke:XYHttpClient.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[FirstViewController startDownloadTopImage]:FirstViewController.m">
+      </ContextState>
+      <ContextState
          contextName = "-[WriteCommentViewController cancleClick]:WriteCommentViewController.m">
          <PersistentStrings>
             <PersistentString
                value = "self.delegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[GetArticleData loadData:]:GetArticleData.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[ArticleManager addArticle:]:ArticleManager.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.articles">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ArticleDetailViewController dianzanButtonClicked:]:ArticleDetailViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[XYHttpClient downloadArticleInGroup:withLoadCount:success:fail:]:XYHttpClient.m">
+      </ContextState>
+      <ContextState
+         contextName = "__64-[LibraryAPI downloadArticleInGroup:withLoadCount:success:fail:]_block_invoke:LibraryAPI.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.articleManagers">
+            </PersistentString>
+            <PersistentString
+               value = "xyArticleListManager">
+            </PersistentString>
+            <PersistentString
+               value = "self.articleManagers[0]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[AppDelegate application:didFinishLaunchingWithOptions:]:AppDelegate.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[HTTPClient loadData:]:HTTPClient.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[FirstViewController setViewWithArticleDic:]:FirstViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.allArticle">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[CommentViewController setContent:atIndexPath:]:CommentViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.allComment">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -118,12 +186,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "-[LeftViewController aNavToInitNav:withID:]:LeftViewController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.firstNav">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "-[ArticleDetailViewController finishLoadArticleData:]:ArticleDetailViewController.m">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

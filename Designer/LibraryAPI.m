@@ -9,14 +9,15 @@
 #import "LibraryAPI.h"
 #import "ArticleManager.h"
 #import "TopImageManager.h"
-#import "HTTPClient.h"
-#import "TopImage.h"
+#import "XYHttpClient.h"
+#import "XYArticleList.h"
+#import "XYArticleListManager.h"
 
 @interface LibraryAPI()
 
-@property (strong, nonatomic) NSMutableArray *articleManagers;
+@property (strong, nonatomic) __block NSMutableArray *articleManagers;
 @property (strong, nonatomic) TopImageManager *topImageManager;
-@property (strong, nonatomic) HTTPClient *httpClient;
+@property (strong, nonatomic) XYHttpClient *xyHttpClient;
 
 @end
 
@@ -48,7 +49,7 @@
                                 [[ArticleManager alloc] init],
                                 [[ArticleManager alloc] init], nil];
         self.topImageManager = [[TopImageManager alloc] init];
-        self.httpClient = [[HTTPClient alloc] init];
+        self.xyHttpClient = [[XYHttpClient alloc] init];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(downloadImage:)
@@ -64,62 +65,73 @@
     return [self.articleManagers[group] getArticles];
 }
 
-- (void)addArticleToGroup:(ArticleInList *)articleInList atIndex:(int)index inGroup:(int)group
-{
-    [self.articleManagers[group] addArticle:articleInList];
-}
-
 #pragma mark - 下载文章列表
 - (void)downloadArticleInGroup:(int)group withLoadCount:(int)loadCount
 {
-    NSDictionary *dic = [self.httpClient downloadArticleInGroup:group withLoadCount:loadCount];
-    
-    if ([dic[@"list_size"] isEqualToString:@"0"]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"LoadAllArticlesFinish"
-                                                            object:self
-                                                          userInfo:@{@"group":[NSString stringWithFormat:@"%d", group]}];
-    } else {
-        [self setArticleManagersWithDic:dic inGroup:group withLoadCount:loadCount];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadTableViewInGroup"
-                                                            object:self
-                                                          userInfo:@{@"group":[NSString stringWithFormat:@"%d", group]}];
-    }
+    [self.xyHttpClient downloadArticleInGroup:group
+                                withLoadCount:loadCount
+                                      success:^(XYArticleListManager *xyArticleListManager) {
+                                          //判断文章是否加载完
+                                          if ([xyArticleListManager.list_size isEqualToString:@"0"]) {
+                                              [[NSNotificationCenter defaultCenter] postNotificationName:@"LoadAllArticlesFinish"
+                                                                                                  object:self
+                                                                                                userInfo:@{@"group":[NSString stringWithFormat:@"%d", group]}];
+                                          } else {
+                                              //分为刷新和加载更多
+                                              if (loadCount == 0) {
+                                                  [self.articleManagers[group] removeAllArticles];
+                                                  for (XYArticleList *article in xyArticleListManager.list) {
+                                                      [self.articleManagers[group] addArticle:article];
+                                                  }
+                                              } else {
+                                                  for (XYArticleList *article in xyArticleListManager.list) {
+                                                      [self.articleManagers[group] addArticle:article];
+                                                  }
+                                              }
+                                              
+                                              //通知刷新
+                                              [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadTableViewInGroup"
+                                                                                                  object:self
+                                                                                                userInfo:@{@"group":[NSString stringWithFormat:@"%d", group]}];
+                                          }
+                                      } fail:^(NSError *error) {
+                                          NSLog(@"Download Article List Error:%@", error);
+                                      }];
 }
 
-- (void)setArticleManagersWithDic:(NSDictionary *)dic inGroup:(int)group withLoadCount:(int)loadCount
+- (void)downloadArticleInGroup:(int)group withLoadCount:(int)loadCount success:(void (^)(NSArray *articlesInList))successBlock fail:(void (^)(NSError *error))failBlock
 {
-    NSArray *articles = [self changeDicToArticles:dic];
-    
-    //分为第一次加载和再次加载
-    if (loadCount == 0) {
-        [self.articleManagers[group] removeAllArticles];
-        
-        for (ArticleInList *article in articles) {
-            [self.articleManagers[group] addArticle:article];
-        }
-    } else {
-        for (ArticleInList *article in articles) {
-            [self.articleManagers[group] addArticle:article];
-        }
-    }
-    
-}
-
-- (NSArray *)changeDicToArticles:(NSDictionary *)dic
-{
-    NSMutableArray *articleInListsArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *articleDic in [dic objectForKey:@"list"]) {
-        ArticleInList *articleInList = [[ArticleInList alloc] initWithID:[articleDic objectForKey:@"id"]
-                                                                   title:[articleDic objectForKey:@"title"]
-                                                                imageUrl:[articleDic objectForKey:@"pic"]
-                                                               likeCount:[articleDic objectForKey:@"like_count"]
-                                                            commentCount:[articleDic objectForKey:@"comment_count"]];
-        
-        [articleInListsArray addObject:articleInList];
-    }
-    
-    return articleInListsArray;
+    [self.xyHttpClient downloadArticleInGroup:group
+                                withLoadCount:loadCount
+                                      success:^(XYArticleListManager *xyArticleListManager) {
+                                          //判断文章是否加载完
+                                          if ([xyArticleListManager.list_size isEqualToString:@"0"]) {
+                                              [[NSNotificationCenter defaultCenter] postNotificationName:@"LoadAllArticlesFinish"
+                                                                                                  object:self
+                                                                                                userInfo:@{@"group":[NSString stringWithFormat:@"%d", group]}];
+                                          } else {
+                                              //分为刷新和加载更多
+                                              if (loadCount == 0) {
+                                                  [self.articleManagers[group] removeAllArticles];
+                                                  for (XYArticleList *article in xyArticleListManager.list) {
+                                                      [self.articleManagers[group] addArticle:article];
+                                                  }
+                                              } else {
+                                                  for (XYArticleList *article in xyArticleListManager.list) {
+                                                      [self.articleManagers[group] addArticle:article];
+                                                  }
+                                              }
+                                              
+                                              //通知刷新
+//                                              [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadTableViewInGroup"
+//                                                                                                  object:self
+//                                                                                                userInfo:@{@"group":[NSString stringWithFormat:@"%d", group]}];
+                                              NSArray *array = [self getArticlesInGroup:group];
+                                              successBlock(array);
+                                          }
+                                      } fail:^(NSError *error) {
+                                          NSLog(@"Download Article List Error:%@", error);
+                                      }];
 }
 
 #pragma mark - 获取焦点图
@@ -131,33 +143,15 @@
 
 - (void)downloadTopImage
 {
-    NSDictionary *dic = [self.httpClient downloadTopImageURL];
-    
-    [self setTopImageManagerWithDic:dic];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadScroller"
-                                                        object:self
-                                                      userInfo:nil];
-}
-
-- (void)setTopImageManagerWithDic:(NSDictionary *)dic
-{
-    NSArray *topImages = [self changeDicToTopImages:dic];
-    
-    [self.topImageManager setTopImagesWithArray:topImages];
-}
-
-- (NSArray *)changeDicToTopImages:(NSDictionary *)dic
-{
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    for (NSDictionary *topImageDic in dic[@"focus_list"]) {
-        TopImage *topImage = [[TopImage alloc] initWithArticleID:topImageDic[@"id"]
-                                                           title:topImageDic[@"title"]
-                                                        imageUrl:topImageDic[@"pic"]];
-        [array addObject:topImage];
+    [self.xyHttpClient downloadTopImageURL:^(XYTopImageManager *xyTopImageManager) {
+        [self.topImageManager setTopImagesWithArray:xyTopImageManager.focus_list];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadScroller"
+                                                            object:self
+                                                          userInfo:nil];
     }
-    
-    return array;
+                                      fail:^(NSError *error) {
+                                          NSLog(@"Download Top Images URL Error:%@", error);
+                                      }];
 }
 
 #pragma mark - 下载图片
@@ -175,7 +169,7 @@
     {
         // 3
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            UIImage *image = [self.httpClient downloadImage:coverUrl];
+            UIImage *image = [self.xyHttpClient downloadImage:coverUrl];
             
             // 4
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -184,11 +178,6 @@
             });
         });
     }
-}
-
-- (void)downloadTenMoreArticles
-{
-    
 }
 
 - (void)dealloc

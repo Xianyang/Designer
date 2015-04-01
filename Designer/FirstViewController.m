@@ -10,11 +10,13 @@
 #import "LibraryAPI.h"
 #import "ArticleImageCell.h"
 #import "TopScroller.h"
-#import "TopImage.h"
+//#import "TopImage.h"
+#import "XYTopImage.h"
 #import "TopImageView.h"
 #import "ArticleDetailViewController.h"
 #import "InstructionView.h"
 #import <AFNetworking/UIKit+AFNetworking.h>
+#import "XYArticleList.h"
 
 #define TOPIMAGE_HEIGHT 350.0f
 #define TOPIMAGE_ACTUAL_HEIGHT 213.0f
@@ -79,11 +81,11 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     _isFinishLoadAllArticle = NO;
 
     //文章下载好后加载数据
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(downloadArticleFinish:)
-                                                 name:@"ReloadTableViewInGroup"
-                                               object:nil];
-    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(downloadArticleFinish:)
+//                                                 name:@"ReloadTableViewInGroup"
+//                                               object:nil];
+//    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(LoadAllArticlesFinish:)
                                                  name:@"LoadAllArticlesFinish"
@@ -103,7 +105,15 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     //2.
     self.articlesInList = [[LibraryAPI sharedInstance] getArticlesInGroup:_group];
     if (![self.articlesInList count]) {
-        [self performSelectorInBackground:@selector(startDownloadArticle) withObject:nil];
+        [[LibraryAPI sharedInstance] downloadArticleInGroup:_group
+                                              withLoadCount:_loadMoreArticleCount
+                                                    success:^(NSArray *articlesInList) {
+                                                        [self reloadTableViewWithArray:articlesInList];
+                                                    }
+                                                       fail:^(NSError *error) {
+                                                           
+                                                       }];
+//        [self performSelectorInBackground:@selector(startDownloadArticle) withObject:nil];
     } else {
         _tableViewCellCount = (int)[self.articlesInList count];
         [self.tableView reloadData];
@@ -119,7 +129,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     //3.
     __block FirstViewController *weakSelf = self;
     self.beginUpdatingBlock = ^(FirstViewController *viewController) {
-        [weakSelf performSelectorInBackground:@selector(startDownloadArticle) withObject:nil];
+//        [weakSelf performSelectorInBackground:@selector(startDownloadArticle) withObject:nil];
         [weakSelf performSelectorInBackground:@selector(startDownloadImage) withObject:nil];
     };
     
@@ -145,12 +155,12 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     [super viewWillAppear:animated];
 }
 
-- (void)startDownloadArticle
-{
-    _loadTaskCount++;
-    
-    [[LibraryAPI sharedInstance] downloadArticleInGroup:0 withLoadCount:_loadMoreArticleCount];
-}
+//- (void)startDownloadArticle
+//{
+//    _loadTaskCount++;
+//    
+//    [[LibraryAPI sharedInstance] downloadArticleInGroup:0 withLoadCount:_loadMoreArticleCount];
+//}
 
 - (void)startDownloadImage
 {
@@ -158,19 +168,19 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     [[LibraryAPI sharedInstance] downloadTopImage];
 }
 
-- (void)startLoadMoreArticle
-{
-    NSLog(@"load 5 more article");
-    _loadMoreArticleCount++;
-    
-    [[LibraryAPI sharedInstance] downloadArticleInGroup:0 withLoadCount:_loadMoreArticleCount];
-}
+//- (void)startLoadMoreArticle
+//{
+//    NSLog(@"load 5 more article");
+//    _loadMoreArticleCount++;
+//    
+//    [[LibraryAPI sharedInstance] downloadArticleInGroup:0 withLoadCount:_loadMoreArticleCount];
+//}
 
-- (void)downloadArticleFinish:(NSNotification *)notification
-{
-    _loadTaskCount--;
-    [self performSelectorOnMainThread:@selector(reloadTableView:) withObject:notification waitUntilDone:NO];
-}
+//- (void)downloadArticleFinish:(NSNotification *)notification
+//{
+//    _loadTaskCount--;
+//    [self performSelectorOnMainThread:@selector(reloadTableView:) withObject:notification waitUntilDone:NO];
+//}
 
 - (void)downloadImageFinish:(NSNotification *)notification
 {
@@ -178,17 +188,25 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     [self performSelectorOnMainThread:@selector(reloadScroller:) withObject:notification waitUntilDone:NO];
 }
 
-- (void)reloadTableView:(NSNotification *)notification
+//- (void)reloadTableView:(NSNotification *)notification
+//{
+//    NSString *group = notification.userInfo[@"group"];
+//    if ([group isEqualToString:@"0"]) {
+//        self.articlesInList = [[LibraryAPI sharedInstance] getArticlesInGroup:_group];
+//        _tableViewCellCount = (int)[self.articlesInList count];
+//        
+//        [self.tableView reloadData];
+//    }
+//    
+//    [self tryEndUpdating];
+//}
+
+- (void)reloadTableViewWithArray:(NSArray *)articlesInList
 {
-    NSString *group = notification.userInfo[@"group"];
-    if ([group isEqualToString:@"0"]) {
-        self.articlesInList = [[LibraryAPI sharedInstance] getArticlesInGroup:_group];
-        _tableViewCellCount = (int)[self.articlesInList count];
-        
-        [self.tableView reloadData];
-    }
+    self.articlesInList = articlesInList;
+    _tableViewCellCount = (int)[self.articlesInList count];
     
-    [self tryEndUpdating];
+    [self.tableView reloadData];
 }
 
 - (void)reloadScroller:(NSNotification *)notification
@@ -225,8 +243,8 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     TopImageView *topImageView = self.topImageViews[index];
     
     if ([topImageView isEqual:[NSNull null]]) {
-        TopImage *topImage = self.topImages[index];
-        topImageView = [[TopImageView alloc] initWithImageUrl:topImage.imageUrl title:topImage.title articleID:topImage.articleID];
+        XYTopImage *topImage = self.topImages[index];
+        topImageView = [[TopImageView alloc] initWithImageUrl:topImage.pic title:topImage.title articleID:topImage.id];
         [self.topImageViews replaceObjectAtIndex:index withObject:topImageView];
     }
     
@@ -238,8 +256,8 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ArticleDetailViewController *articleDetailViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"ArticleDetailViewController"];
     
-    TopImage *topImage = self.topImages[index];
-    NSString *articleID = topImage.articleID;
+    XYTopImage *topImage = self.topImages[index];
+    NSString *articleID = topImage.id;
     [articleDetailViewController setArticleID:[articleID integerValue]
                                     thumbnail:@""
                                   isFirstPage:YES];
@@ -266,7 +284,16 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     if (indexPath.row == _tableViewCellCount - 5) {
         if (!_isFinishLoadAllArticle) {
             //记得将这个值改成20
-            [self performSelectorInBackground:@selector(startLoadMoreArticle) withObject:nil];
+            _loadMoreArticleCount++;
+            [[LibraryAPI sharedInstance] downloadArticleInGroup:_group
+                                                  withLoadCount:_loadMoreArticleCount
+                                                        success:^(NSArray *articlesInList) {
+                                                            [self reloadTableViewWithArray:articlesInList];
+                                                        }
+                                                           fail:^(NSError *error) {
+                                                               
+                                                           }];
+//            [self performSelectorInBackground:@selector(startLoadMoreArticle) withObject:nil];
         }
     }
     
@@ -284,13 +311,13 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 
 - (void)configureImageCell:(ArticleImageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    ArticleInList *article = self.articlesInList[indexPath.row];
+    XYArticleList *article = self.articlesInList[indexPath.row];
     
     [cell.titleLabel setText:article.title];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DownloadImageNotification"
                                                         object:self
-                                                      userInfo:@{@"imageView":cell.customImageView, @"url":article.imageUrl, @"group":[NSString stringWithFormat:@"%d", _group]}];
+                                                      userInfo:@{@"imageView":cell.customImageView, @"url":article.pic, @"group":[NSString stringWithFormat:@"%d", _group]}];
     
     //[self setImageForCell:cell atIndexPath:indexPath withURL:[NSURL URLWithString:article.imageUrl]];
     
@@ -422,9 +449,9 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         NSIndexPath *indexPath = self.tableView.indexPathForSelectedRow;
         ArticleDetailViewController *articleDetailViewController = segue.destinationViewController;
         
-        ArticleInList *article = self.articlesInList[indexPath.row];
-        [articleDetailViewController setArticleID:[article.articleID integerValue]
-                                        thumbnail:article.imageUrl
+        XYArticleList *article = self.articlesInList[indexPath.row];
+        [articleDetailViewController setArticleID:[article.id integerValue]
+                                        thumbnail:article.pic
                                       isFirstPage:YES];
     }
 }

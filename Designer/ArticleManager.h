@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "ArticleInList.h"
+//#import "ArticleInList.h"
+#import "XYArticleList.h"
 
 @interface ArticleManager : NSObject
 
 - (NSArray *)getArticles;
 - (void)removeAllArticles;
-- (void)addArticle:(ArticleInList *)articleInList;
+- (void)addArticle:(XYArticleList *)articleInList;
 
 - (void)saveImage:(UIImage*)image filename:(NSString*)filename;
 - (UIImage*)getImage:(NSString*)filename;

@@ -9,6 +9,7 @@
 #import "PageViewController.h"
 #import "LibraryAPI.h"
 #import "ArticleImageCell.h"
+#import "XYArticleList.h"
 #import <AFNetworking/UIKit+AFNetworking.h>
 
 #define TOP_BG_HIDE 120.0f
@@ -114,6 +115,14 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     [self endUpdating];
 }
 
+- (void)reloadTableViewWithArray:(NSArray *)articlesInList
+{
+    self.articlesInList = articlesInList;
+    _tableViewCellCount = (int)[self.articlesInList count];
+    
+    [self.tableView reloadData];
+}
+
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -149,7 +158,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
 
 - (void)configureImageCell:(ArticleImageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    ArticleInList *article = self.articlesInList[indexPath.row];
+    XYArticleList *article = self.articlesInList[indexPath.row];
     
     [cell.titleLabel setText:article.title];
 //    [cell.customImageView.layer setBorderColor:[[UIColor blackColor] CGColor]];
@@ -157,7 +166,7 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DownloadImageNotification"
                                                         object:self
-                                                      userInfo:@{@"imageView":cell.customImageView, @"url":article.imageUrl, @"group":[NSString stringWithFormat:@"%ld", (long)self.group]}];
+                                                      userInfo:@{@"imageView":cell.customImageView, @"url":article.pic, @"group":[NSString stringWithFormat:@"%ld", (long)self.group]}];
     
     //[self setImageForCell:cell atIndexPath:indexPath withURL:[NSURL URLWithString:article.imageUrl]];
     
@@ -266,9 +275,9 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
         NSIndexPath *indexPath = self.tableView.indexPathForSelectedRow;
         ArticleDetailViewController *articleDetailViewController = segue.destinationViewController;
         
-        ArticleInList *article = self.articlesInList[indexPath.row];
-        [articleDetailViewController setArticleID:[article.articleID integerValue]
-                                        thumbnail:article.imageUrl
+        XYArticleList *article = self.articlesInList[indexPath.row];
+        [articleDetailViewController setArticleID:[article.id integerValue]
+                                        thumbnail:article.pic
                                       isFirstPage:NO];
     }
 }

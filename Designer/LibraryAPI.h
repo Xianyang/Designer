@@ -8,20 +8,19 @@
 
 #import <Foundation/Foundation.h>
 #import "Article.h"
-#import "ArticleInList.h"
 
 @interface LibraryAPI : NSObject
 
 + (LibraryAPI*)sharedInstance;
 
 - (NSArray *)getArticlesInGroup:(int)group;
-- (void)addArticleToGroup:(ArticleInList *)articleInList atIndex:(int)index inGroup:(int)group;
+//- (void)addArticleToGroup:(ArticleInList *)articleInList atIndex:(int)index inGroup:(int)group;
 
 - (NSArray *)getTopImages;
 - (void)downloadTopImage;
 
 - (void)downloadArticleInGroup:(int)group withLoadCount:(int)loadCount;
-- (void)downloadTenMoreArticles;
 
+- (void)downloadArticleInGroup:(int)group withLoadCount:(int)loadCount success:(void (^)(NSArray *articlesInList))successBlock fail:(void (^)(NSError *error))failBlock;
 
 @end

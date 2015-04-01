@@ -27,7 +27,7 @@
     [self.articles removeAllObjects];
 }
 
-- (void)addArticle:(ArticleInList *)articleInList
+- (void)addArticle:(XYArticleList *)articleInList
 {
     [self.articles addObject:articleInList];
 }
