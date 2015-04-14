@@ -19,6 +19,9 @@
 // ask the delegate to return the  view that should appear at <index>
 - (UIView *)topScroller:(TopScroller *)scroller viewAtIndex:(int)index;
 
+// ask the delegate to return the first or the last view
+- (UIView *)topScroller:(TopScroller *)scroller viewAtFirstOfLast:(BOOL)isFirst;
+
 // inform the delegate what the view at <index> has been clicked
 - (void)topScroller:(TopScroller *)scroller clickedViewAtIndex:(int)index;
 
@@ -27,6 +30,9 @@
 @interface TopScroller : UIView
 
 @property (weak) id <TopScrollerDelegate> delegate;
+
+@property (weak, nonatomic) UIScrollView *scroller;
+@property (weak, nonatomic) UIPageControl *pageControl;
 
 - (void)setupScroller;
 - (void)reload;

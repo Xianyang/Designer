@@ -19,7 +19,6 @@
 		80611AF01A9B5BC100935CAA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80611AEF1A9B5BC100935CAA /* Main.storyboard */; };
 		8077246E1A53E12600B6E2F5 /* ArticleImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 807724671A53E12600B6E2F5 /* ArticleImageCell.m */; };
 		8077246F1A53E12600B6E2F5 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 807724691A53E12600B6E2F5 /* CommentCell.m */; };
-		807724701A53E12600B6E2F5 /* TopScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 8077246B1A53E12600B6E2F5 /* TopScroller.m */; };
 		807724711A53E12600B6E2F5 /* TopImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8077246D1A53E12600B6E2F5 /* TopImageView.m */; };
 		8077247B1A53E13600B6E2F5 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 807724741A53E13600B6E2F5 /* CommentModel.m */; };
 		8077247C1A53E13600B6E2F5 /* Article.m in Sources */ = {isa = PBXBuildFile; fileRef = 807724761A53E13600B6E2F5 /* Article.m */; };
@@ -74,6 +73,7 @@
 		807DE2E51A88B1260090735E /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 807DE2E41A88B1260090735E /* libstdc++.dylib */; };
 		807DE2E71A88B12C0090735E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 807DE2E61A88B12C0090735E /* libsqlite3.dylib */; };
 		807DE2E91A88B2B80090735E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 807DE2E81A88B2B80090735E /* MessageUI.framework */; };
+		80A1EDB21ADA8729002AEFB6 /* TopScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 80A1EDB11ADA8729002AEFB6 /* TopScroller.m */; };
 		80D157DB1A27520500DF56F5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D157DA1A27520500DF56F5 /* main.m */; };
 		80D157DE1A27520500DF56F5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D157DD1A27520500DF56F5 /* AppDelegate.m */; };
 		80D157E61A27520500DF56F5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80D157E51A27520500DF56F5 /* Images.xcassets */; };
@@ -110,8 +110,6 @@
 		807724671A53E12600B6E2F5 /* ArticleImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArticleImageCell.m; sourceTree = "<group>"; };
 		807724681A53E12600B6E2F5 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
 		807724691A53E12600B6E2F5 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
-		8077246A1A53E12600B6E2F5 /* TopScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopScroller.h; sourceTree = "<group>"; };
-		8077246B1A53E12600B6E2F5 /* TopScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopScroller.m; sourceTree = "<group>"; };
 		8077246C1A53E12600B6E2F5 /* TopImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopImageView.h; sourceTree = "<group>"; };
 		8077246D1A53E12600B6E2F5 /* TopImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopImageView.m; sourceTree = "<group>"; };
 		807724731A53E13600B6E2F5 /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
@@ -190,6 +188,8 @@
 		807DE2E41A88B1260090735E /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		807DE2E61A88B12C0090735E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		807DE2E81A88B2B80090735E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		80A1EDB01ADA8729002AEFB6 /* TopScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopScroller.h; sourceTree = "<group>"; };
+		80A1EDB11ADA8729002AEFB6 /* TopScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopScroller.m; sourceTree = "<group>"; };
 		80D157D51A27520500DF56F5 /* Designer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Designer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80D157D91A27520500DF56F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80D157DA1A27520500DF56F5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -277,10 +277,10 @@
 			children = (
 				807724661A53E12600B6E2F5 /* ArticleImageCell.h */,
 				807724671A53E12600B6E2F5 /* ArticleImageCell.m */,
+				80A1EDB01ADA8729002AEFB6 /* TopScroller.h */,
+				80A1EDB11ADA8729002AEFB6 /* TopScroller.m */,
 				807724681A53E12600B6E2F5 /* CommentCell.h */,
 				807724691A53E12600B6E2F5 /* CommentCell.m */,
-				8077246A1A53E12600B6E2F5 /* TopScroller.h */,
-				8077246B1A53E12600B6E2F5 /* TopScroller.m */,
 				8077246C1A53E12600B6E2F5 /* TopImageView.h */,
 				8077246D1A53E12600B6E2F5 /* TopImageView.m */,
 				80611A3C1A8E631D00935CAA /* InstructionView.h */,
@@ -694,6 +694,7 @@
 				807724711A53E12600B6E2F5 /* TopImageView.m in Sources */,
 				8077249F1A53E14800B6E2F5 /* CommentViewController.m in Sources */,
 				807724AE1A53E16F00B6E2F5 /* GetArticleData.m in Sources */,
+				80A1EDB21ADA8729002AEFB6 /* TopScroller.m in Sources */,
 				80D157DE1A27520500DF56F5 /* AppDelegate.m in Sources */,
 				80352B7B1ACC31E200B61547 /* XYArticleList.m in Sources */,
 				8077249C1A53E14800B6E2F5 /* FourthViewController.m in Sources */,
@@ -703,7 +704,6 @@
 				8077246E1A53E12600B6E2F5 /* ArticleImageCell.m in Sources */,
 				80352B841ACC415700B61547 /* XYTopImageManager.m in Sources */,
 				807724B11A53E16F00B6E2F5 /* TopImageManager.m in Sources */,
-				807724701A53E12600B6E2F5 /* TopScroller.m in Sources */,
 				8077249E1A53E14800B6E2F5 /* ArticleDetailViewController.m in Sources */,
 				80352B781ACC31CC00B61547 /* XYHttpClient.m in Sources */,
 				80D157DB1A27520500DF56F5 /* main.m in Sources */,

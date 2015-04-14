@@ -251,6 +251,19 @@ static NSString * const ArticleImageCellIdentifier = @"ArticleImageCell";
     return topImageView;
 }
 
+- (UIView *)topScroller:(TopScroller *)scroller viewAtFirstOfLast:(BOOL)isFirst
+{
+    if (isFirst) {
+        XYTopImage *topImage = self.topImages[0];
+        TopImageView *topImageView = [[TopImageView alloc] initWithImageUrl:topImage.pic title:topImage.title articleID:topImage.id];
+        return topImageView;
+    } else {
+        XYTopImage *topImage = self.topImages[[self.topImages count] - 1];
+        TopImageView *topImageView = [[TopImageView alloc] initWithImageUrl:topImage.pic title:topImage.title articleID:topImage.id];
+        return topImageView;
+    }
+}
+
 - (void)topScroller:(TopScroller *)scroller clickedViewAtIndex:(int)index
 {
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];

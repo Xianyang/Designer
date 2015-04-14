@@ -12,9 +12,11 @@
 #define TOPIMAGE_HEIGHT 213.0f
 
 @interface TopScroller() <UIScrollViewDelegate>
+{
+    NSInteger _numberOfViews;
+}
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scroller;
-@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+
 @property (strong, nonatomic) NSTimer *timer;
 
 @end
@@ -43,6 +45,9 @@
 
 - (void)reload
 {
+    // 0
+    _numberOfViews = [self.delegate numberOfViewsForTopScroller:self];
+    
     // 1
     if (self.delegate == nil) return;
     
@@ -52,18 +57,28 @@
     }];
     
     // 3 - add subviews to scrollview
-    for (unsigned int i = 0; i < [self.delegate numberOfViewsForTopScroller:self]; i++) {
-        UIView *view = [self.delegate topScroller:self viewAtIndex:i];
+    for (unsigned int i = 0; i < _numberOfViews + 2; i++) {
+        UIView *view = [[UIView alloc] init];
+        // 添加最后一张图片，来循环
+        if (i == 0) {
+            view = [self.delegate topScroller:self viewAtFirstOfLast:NO];
+        } else if (i == _numberOfViews + 1) {
+            view = [self.delegate topScroller:self viewAtFirstOfLast:YES];
+        } else {
+            view = [self.delegate topScroller:self viewAtIndex:i - 1];
+        }
+        
         view.frame = CGRectMake(i * DEVICE_FRAME.width, 0.0f, DEVICE_FRAME.width, TOPIMAGE_HEIGHT);
         
         [self.scroller addSubview:view];
     }
     
     // 4
-    [self.scroller setContentSize:CGSizeMake(DEVICE_FRAME.width * [self.delegate numberOfViewsForTopScroller:self], TOPIMAGE_HEIGHT)];
+    [self.scroller setContentSize:CGSizeMake(DEVICE_FRAME.width * (_numberOfViews + 2), TOPIMAGE_HEIGHT)];
+    [self.scroller setContentOffset:CGPointMake(DEVICE_FRAME.width, 0) animated:NO];
     
     // 5
-    [self.pageControl setNumberOfPages:[self.delegate numberOfViewsForTopScroller:self]];
+    [self.pageControl setNumberOfPages:_numberOfViews];
     [self.pageControl setCurrentPage:0];
     
     // 6 - start timer
@@ -77,13 +92,13 @@
     CGRect frame = self.scroller.frame;
     frame.size.width = [UIScreen mainScreen].bounds.size.width;
     frame.origin.y = 0.0f;
-    frame.origin.x = frame.size.width * (pageNum + 1);
-    [self.scroller scrollRectToVisible:frame animated:YES];
-    pageNum++;
+    frame.origin.x = frame.size.width * (pageNum + 2);
+//    [self.scroller scrollRectToVisible:frame animated:YES];
+//    pageNum++;
     
-    if (pageNum == [self.delegate numberOfViewsForTopScroller:self]) {
-        frame.origin.x = 0.0f;
-    }
+//    if (pageNum == [self.delegate numberOfViewsForTopScroller:self]) {
+//        frame.origin.x = 0.0f;
+//    }
     [self.scroller scrollRectToVisible:frame animated:YES];
 }
 
@@ -92,10 +107,10 @@
 {
     CGPoint location = [gesture locationInView:gesture.view];
     
-    for (int index = 0; index < [self.delegate numberOfViewsForTopScroller:self]; index++) {
+    for (int index = 1; index < _numberOfViews + 1; index++) {
         UIView *view = self.scroller.subviews[index];
         if (CGRectContainsPoint(view.frame, location)) {
-            [self.delegate topScroller:self clickedViewAtIndex:index];
+            [self.delegate topScroller:self clickedViewAtIndex:index - 1];
             break;
         }
     }
@@ -106,9 +121,22 @@
 - (void)scrollViewDidScroll:(UIScrollView *)sender
 {
     if ([sender isEqual:self.scroller]) {
+        if (_numberOfViews >= 1) {
+            float targetX = sender.contentOffset.x;
+            if (targetX <= 0) {
+                targetX = _numberOfViews * DEVICE_FRAME.width;
+                [sender setContentOffset:CGPointMake(targetX, 0) animated:NO];
+            } else if (targetX >= (_numberOfViews + 1) * DEVICE_FRAME.width){
+                targetX = DEVICE_FRAME.width;
+                [sender setContentOffset:CGPointMake(targetX, 0) animated:NO];
+            }
+        }
+        
         CGFloat pageWidth = self.scroller.frame.size.width;
-        int page = floor((self.scroller.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-        self.pageControl.currentPage = page;
+        int page = floor((self.scroller.contentOffset.x - pageWidth / 2) / pageWidth);
+        if (page != self.pageControl.currentPage) {
+            self.pageControl.currentPage = page;
+        }
     }
 }
 
