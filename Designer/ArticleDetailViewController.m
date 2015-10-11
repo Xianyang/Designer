@@ -32,6 +32,8 @@
     
     NJKWebViewProgressView *_progressView;
     NJKWebViewProgress *_progressProxy;
+    
+    BOOL _isStatusBarZheZhaoViewAppear;
 }
 
 //@property (weak, nonatomic) IBOutlet UIScrollView *scroller;
@@ -59,24 +61,27 @@
     
     _commentCount = 0;
     
-    self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    self.statusBarZheZhaoView.alpha = 0.0;
+    _isStatusBarZheZhaoViewAppear = NO;
     
-//    [self.scroller addSubview:self.webView];
-//    [self clearWebViewBackground:self.webView];
+    [self.webView.scrollView setDelegate:self];
     
     [self setProgressView];
     
-    self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
-    
-    //    加载文章数据, 文章加载完后才会加载评论数据
-    
+//    加载文章数据, 文章加载完后才会加载评论数据
     [self performSelectorInBackground:@selector(loadArticleData) withObject:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:YES];
+    if (_isStatusBarZheZhaoViewAppear) {
+        self.statusBarZheZhaoView.alpha = 1.0;
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    } else {
+        self.statusBarZheZhaoView.alpha = 0.0;
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
     
     if (_isFirstPage) {
         [self.view addSubview:_progressView];
@@ -87,21 +92,11 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    
-    
-    
     [self.navigationController setNavigationBarHidden:NO];
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    
-    self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
+    self.statusBarZheZhaoView.alpha = 0.0;
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    [super viewWillDisappear:animated];
 }
 
 - (void)setProgressView
@@ -131,32 +126,9 @@
     return YES;
 }
 
-//- (void)webViewDidFinishLoad:(UIWebView *)webView
-//{
-//    if ([self.webView isEqual:webView]) {
-//        NSArray *arr = [self.webView subviews];
-//        UIScrollView *ascollView = [arr objectAtIndex:0];
-//        
-//        CGFloat actualHeight = 0.0f;
-//        actualHeight = ascollView.contentSize.height;
-//        //        if (DEVICE_FRAME.width == 320.0f) {
-//        //            actualHeight = ascollView.contentSize.height + _imageCount * 180.0f;
-//        //        } else if (DEVICE_FRAME.width == 375.0f) {
-//        //            actualHeight = ascollView.contentSize.height + _imageCount * 210.0f;
-//        //        } else if (DEVICE_FRAME.width == 414.0f) {
-//        //            actualHeight = ascollView.contentSize.height + _imageCount * 230.0f;
-//        //        }
-//        //
-//        //        NSLog(@"The no image webview hight is %f", actualHeight);
-//        [self.webView setFrame:CGRectMake(0.0f, TOPIMAGE_HEIGHT, DEVICE_FRAME.width, actualHeight)];
-//        [self.scroller setContentSize:CGSizeMake(TOPIMAGE_HEIGHT, TOPIMAGE_HEIGHT + self.webView.frame.size.height)];
-//    }
-//}
-
 - (void)popViewController
 {
-    self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self.statusBarZheZhaoView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -348,14 +320,22 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    CGPoint point = scrollView.contentOffset;
-    
-    if (point.y > TOPIMAGE_HEIGHT - 20.0f) {
-        self.statusBarZheZhaoView.backgroundColor = [UIColor whiteColor];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-    } else {
-        self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    if ([self.webView.scrollView isEqual:scrollView]) {
+        if (scrollView.contentOffset.y > TOPIMAGE_HEIGHT + 20.0f) {
+            [UIView animateWithDuration:0.2
+                             animations:^{
+                                 self.statusBarZheZhaoView.alpha = 1.0;
+                             }];
+            _isStatusBarZheZhaoViewAppear = YES;
+          [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+        } else {
+            [UIView animateWithDuration:0.2
+                             animations:^{
+                                 self.statusBarZheZhaoView.alpha = 0.0;
+                             }];
+            _isStatusBarZheZhaoViewAppear = NO;
+          [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        }
     }
 }
 
@@ -398,7 +378,7 @@
 {
     if (!_statusBarZheZhaoView) {
         _statusBarZheZhaoView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, DEVICE_FRAME.width, 20.0f)];
-        _statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
+        _statusBarZheZhaoView.backgroundColor = [UIColor whiteColor];
         [self.navigationController.view addSubview:self.statusBarZheZhaoView];
     }
     
@@ -425,8 +405,6 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"PushToCommentViewSegue"]) {
-        self.statusBarZheZhaoView.backgroundColor = [UIColor clearColor];
-        
         CommentViewController *commentViewController = segue.destinationViewController;
         [commentViewController setArticleID:_articleID];
     }

@@ -58,6 +58,8 @@
 //        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLogin"];
 //    }
     
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
     NSBundle * bundle = [NSBundle mainBundle];
     NSString * path = [bundle pathForResource:@"channelid" ofType:nil];
     NSString * channelname = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
