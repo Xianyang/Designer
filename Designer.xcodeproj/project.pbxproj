@@ -854,7 +854,7 @@
 					"$(PROJECT_DIR)/Designer/ShareSDK/Extend/WeChatSDK",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2155b53a-ba0b-4680-9830-8bac5a626871";
 			};
 			name = Debug;
 		};
@@ -884,7 +884,7 @@
 					"$(PROJECT_DIR)/Designer/ShareSDK/Extend/WeChatSDK",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2155b53a-ba0b-4680-9830-8bac5a626871";
 			};
 			name = Release;
 		};
